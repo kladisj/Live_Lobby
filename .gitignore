@@ -2,3 +2,5 @@
 .venv/
 __pycache__/
 *.jsonl
+game_sample.jsonl
+
