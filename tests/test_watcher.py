@@ -70,7 +70,7 @@ def game_ev(i, game_id, finished):
     return {
         "id": i, "detail": {"type": "other"}, "timestamp": T, "user_id": None,
         "game": {
-            "id": game_id, "match_id": 1, "beatmap": None, "start_time": T,
+            "id": game_id, "match_id": 1, "beatmap": None, "start_time": "2999-01-01T00:00:00Z",
             "end_time": T if finished else None, "mode": "osu",
             "scoring_type": "scorev2", "team_type": "team-vs", "mods": [], "scores": [],
         },
@@ -150,3 +150,28 @@ def test_error_en_un_handler_no_mata_al_watcher():
     w.backfill(pause=0)
     w.poll_once()
     assert ok == [2, 3]
+
+
+def test_mapa_abandonado_no_traba_el_cursor():
+    viejo = game_ev(2, 100, False)
+    viejo["game"]["start_time"] = "2020-01-01T00:00:00Z"
+    client = ScriptedClient([
+        raw_of([ev(1, "match-created")]),
+        raw_of([viejo, ev(3)]),
+    ])
+    w = MatchWatcher(client, 1)
+    w.backfill(pause=0)
+    w.poll_once()
+    assert w.cursor == 3  # avanzó: no se quedó esperando al abandonado
+
+
+def test_mapa_actual_traba_el_cursor_aunque_sea_viejo():
+    viejo = game_ev(2, 100, False)
+    viejo["game"]["start_time"] = "2020-01-01T00:00:00Z"
+    resp = raw_of([viejo, ev(3)])
+    resp["current_game_id"] = 100
+    client = ScriptedClient([raw_of([ev(1, "match-created")]), resp])
+    w = MatchWatcher(client, 1)
+    w.backfill(pause=0)
+    w.poll_once()
+    assert w.cursor == 1  # lo retiene porque current_game_id lo señala
