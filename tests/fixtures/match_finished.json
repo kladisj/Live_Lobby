@@ -1,0 +1,2877 @@
+{
+  "match": {
+    "id": 122095688,
+    "start_time": "2026-10-31T13:04:56Z",
+    "end_time": "2026-10-31T13:53:19Z",
+    "name": "OWC2026: (China) VS (France)"
+  },
+  "events": [
+    {
+      "id": 2519423257,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:18:41Z",
+      "user_id": 17104779
+    },
+    {
+      "id": 2519423260,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:18:43Z",
+      "user_id": 1355695
+    },
+    {
+      "id": 2519423276,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:18:49Z",
+      "user_id": 4301976
+    },
+    {
+      "id": 2519423284,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:18:52Z",
+      "user_id": 12215507
+    },
+    {
+      "id": 2519423297,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:18:57Z",
+      "user_id": 10325072
+    },
+    {
+      "id": 2519423316,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:19:04Z",
+      "user_id": 11375105
+    },
+    {
+      "id": 2519423335,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:19:16Z",
+      "user_id": 15816872
+    },
+    {
+      "id": 2519423341,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:19:19Z",
+      "user_id": 6090175
+    },
+    {
+      "id": 2519423385,
+      "detail": {
+        "type": "other",
+        "text": "OWC2026: (China) VS (France)"
+      },
+      "timestamp": "2026-10-31T13:19:40Z",
+      "user_id": null,
+      "game": {
+        "beatmap_id": 5963901,
+        "id": 643546482,
+        "start_time": "2026-10-31T13:19:40Z",
+        "end_time": "2026-10-31T13:23:26Z",
+        "match_id": 122095688,
+        "mode": "osu",
+        "mode_int": 0,
+        "scoring_type": "scorev2",
+        "team_type": "team-vs",
+        "mods": [
+          "NF"
+        ],
+        "beatmap": {
+          "beatmapset_id": 2643224,
+          "difficulty_rating": 7.50917,
+          "id": 5963901,
+          "lazer_only": false,
+          "mode": "osu",
+          "status": "wip",
+          "total_length": 215,
+          "user_id": 8953955,
+          "version": "Plague",
+          "beatmapset": {
+            "anime_cover": false,
+            "artist": "The Black Dahlia Murder",
+            "artist_unicode": "The Black Dahlia Murder",
+            "covers": {
+              "cover": "https://assets.ppy.sh/beatmaps/2643224/covers/cover.jpg?1792969719",
+              "cover@2x": "https://assets.ppy.sh/beatmaps/2643224/covers/cover@2x.jpg?1792969719",
+              "card": "https://assets.ppy.sh/beatmaps/2643224/covers/card.jpg?1792969719",
+              "card@2x": "https://assets.ppy.sh/beatmaps/2643224/covers/card@2x.jpg?1792969719",
+              "list": "https://assets.ppy.sh/beatmaps/2643224/covers/list.jpg?1792969719",
+              "list@2x": "https://assets.ppy.sh/beatmaps/2643224/covers/list@2x.jpg?1792969719",
+              "slimcover": "https://assets.ppy.sh/beatmaps/2643224/covers/slimcover.jpg?1792969719",
+              "slimcover@2x": "https://assets.ppy.sh/beatmaps/2643224/covers/slimcover@2x.jpg?1792969719"
+            },
+            "creator": "Zelq",
+            "favourite_count": 5,
+            "genre_id": 11,
+            "hype": {
+              "current": 7,
+              "required": 5
+            },
+            "id": 2643224,
+            "language_id": 2,
+            "nsfw": false,
+            "offset": 0,
+            "play_count": 2665,
+            "preview_url": "https://b.ppy.sh/preview/2643224.mp3",
+            "source": "",
+            "spotlight": false,
+            "status": "wip",
+            "title": "Deathmask Divine",
+            "title_unicode": "Deathmask Divine",
+            "track_id": null,
+            "user_id": 8953955,
+            "video": false
+          }
+        },
+        "scores": [
+          {
+            "accuracy": 0.9964022306170175,
+            "best_id": null,
+            "created_at": "2026-10-31T13:19:40Z",
+            "id": null,
+            "max_combo": 1856,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 747544,
+            "statistics": {
+              "count_100": 3,
+              "count_300": 1845,
+              "count_50": 2,
+              "count_geki": 228,
+              "count_katu": 2,
+              "count_miss": 3
+            },
+            "type": "legacy_match_score",
+            "user_id": 11375105,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 0,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9766144990106134,
+            "best_id": null,
+            "created_at": "2026-10-31T13:19:40Z",
+            "id": null,
+            "max_combo": 2383,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 920983,
+            "statistics": {
+              "count_100": 65,
+              "count_300": 1788,
+              "count_50": 0,
+              "count_geki": 195,
+              "count_katu": 37,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 15816872,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 1,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9895664687893506,
+            "best_id": null,
+            "created_at": "2026-10-31T13:19:40Z",
+            "id": null,
+            "max_combo": 1022,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 510079,
+            "statistics": {
+              "count_100": 24,
+              "count_300": 1825,
+              "count_50": 4,
+              "count_geki": 220,
+              "count_katu": 8,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 12215507,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 2,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9791329375787012,
+            "best_id": null,
+            "created_at": "2026-10-31T13:19:40Z",
+            "id": null,
+            "max_combo": 1755,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 677883,
+            "statistics": {
+              "count_100": 58,
+              "count_300": 1795,
+              "count_50": 0,
+              "count_geki": 201,
+              "count_katu": 31,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 1355695,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 3,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9892966360856269,
+            "best_id": null,
+            "created_at": "2026-10-31T13:19:40Z",
+            "id": null,
+            "max_combo": 857,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 513005,
+            "statistics": {
+              "count_100": 23,
+              "count_300": 1825,
+              "count_50": 3,
+              "count_geki": 223,
+              "count_katu": 5,
+              "count_miss": 2
+            },
+            "type": "legacy_match_score",
+            "user_id": 7068158,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 4,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9850692570606224,
+            "best_id": null,
+            "created_at": "2026-10-31T13:19:40Z",
+            "id": null,
+            "max_combo": 1509,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 628744,
+            "statistics": {
+              "count_100": 37,
+              "count_300": 1813,
+              "count_50": 0,
+              "count_geki": 221,
+              "count_katu": 9,
+              "count_miss": 3
+            },
+            "type": "legacy_match_score",
+            "user_id": 3257847,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 5,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9874977513941356,
+            "best_id": null,
+            "created_at": "2026-10-31T13:19:40Z",
+            "id": null,
+            "max_combo": 1840,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 713391,
+            "statistics": {
+              "count_100": 31,
+              "count_300": 1819,
+              "count_50": 3,
+              "count_geki": 209,
+              "count_katu": 20,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 17104779,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 6,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9883971937398812,
+            "best_id": null,
+            "created_at": "2026-10-31T13:19:40Z",
+            "id": null,
+            "max_combo": 2386,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 957228,
+            "statistics": {
+              "count_100": 31,
+              "count_300": 1821,
+              "count_50": 1,
+              "count_geki": 214,
+              "count_katu": 17,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 4301976,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 7,
+              "team": "blue",
+              "pass": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": 2519423826,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:24:07Z",
+      "user_id": 17104779
+    },
+    {
+      "id": 2519423865,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:24:24Z",
+      "user_id": 10325072
+    },
+    {
+      "id": 2519423868,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:24:25Z",
+      "user_id": 15816872
+    },
+    {
+      "id": 2519423880,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:24:33Z",
+      "user_id": 251683
+    },
+    {
+      "id": 2519423913,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:24:51Z",
+      "user_id": 4301976
+    },
+    {
+      "id": 2519423968,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:25:16Z",
+      "user_id": 10325072
+    },
+    {
+      "id": 2519423985,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:25:23Z",
+      "user_id": 251683
+    },
+    {
+      "id": 2519424050,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:25:47Z",
+      "user_id": 12215507
+    },
+    {
+      "id": 2519424176,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:26:29Z",
+      "user_id": 3257847
+    },
+    {
+      "id": 2519424189,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:26:38Z",
+      "user_id": 1646397
+    },
+    {
+      "id": 2519424190,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:26:38Z",
+      "user_id": 4141918
+    },
+    {
+      "id": 2519424200,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:26:41Z",
+      "user_id": 251683
+    },
+    {
+      "id": 2519424225,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:26:51Z",
+      "user_id": 4301976
+    },
+    {
+      "id": 2519424226,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:26:51Z",
+      "user_id": 6090175
+    },
+    {
+      "id": 2519424247,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:27:00Z",
+      "user_id": 15816872
+    },
+    {
+      "id": 2519424255,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:27:03Z",
+      "user_id": 1355695
+    },
+    {
+      "id": 2519424259,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:27:05Z",
+      "user_id": 10325072
+    },
+    {
+      "id": 2519424271,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:27:12Z",
+      "user_id": 7068158
+    },
+    {
+      "id": 2519424344,
+      "detail": {
+        "type": "other",
+        "text": "OWC2026: (China) VS (France)"
+      },
+      "timestamp": "2026-10-31T13:27:34Z",
+      "user_id": null,
+      "game": {
+        "beatmap_id": 5964024,
+        "id": 643546796,
+        "start_time": "2026-10-31T13:27:34Z",
+        "end_time": "2026-10-31T13:31:45Z",
+        "match_id": 122095688,
+        "mode": "osu",
+        "mode_int": 0,
+        "scoring_type": "scorev2",
+        "team_type": "team-vs",
+        "mods": [],
+        "beatmap": {
+          "beatmapset_id": 2643265,
+          "difficulty_rating": 6.44733,
+          "id": 5964024,
+          "lazer_only": false,
+          "mode": "osu",
+          "status": "pending",
+          "total_length": 230,
+          "user_id": 1499997,
+          "version": "Beloved",
+          "beatmapset": {
+            "anime_cover": false,
+            "artist": "Kikuo",
+            "artist_unicode": "\u304d\u304f\u304a",
+            "covers": {
+              "cover": "https://assets.ppy.sh/beatmaps/2643265/covers/cover.jpg?1792973698",
+              "cover@2x": "https://assets.ppy.sh/beatmaps/2643265/covers/cover@2x.jpg?1792973698",
+              "card": "https://assets.ppy.sh/beatmaps/2643265/covers/card.jpg?1792973698",
+              "card@2x": "https://assets.ppy.sh/beatmaps/2643265/covers/card@2x.jpg?1792973698",
+              "list": "https://assets.ppy.sh/beatmaps/2643265/covers/list.jpg?1792973698",
+              "list@2x": "https://assets.ppy.sh/beatmaps/2643265/covers/list@2x.jpg?1792973698",
+              "slimcover": "https://assets.ppy.sh/beatmaps/2643265/covers/slimcover.jpg?1792973698",
+              "slimcover@2x": "https://assets.ppy.sh/beatmaps/2643265/covers/slimcover@2x.jpg?1792973698"
+            },
+            "creator": "9ami",
+            "favourite_count": 23,
+            "genre_id": 10,
+            "hype": {
+              "current": 19,
+              "required": 5
+            },
+            "id": 2643265,
+            "language_id": 3,
+            "nsfw": false,
+            "offset": 0,
+            "play_count": 2206,
+            "preview_url": "https://b.ppy.sh/preview/2643265.mp3",
+            "source": "",
+            "spotlight": false,
+            "status": "pending",
+            "title": "Hate you, hate, hate, but...",
+            "title_unicode": "\u304d\u3089\u3044\u304d\u3089\u3044\u304d\u3089\u3044\u3063\u3066",
+            "track_id": null,
+            "user_id": 1499997,
+            "video": false
+          }
+        },
+        "scores": [
+          {
+            "accuracy": 0.9828716115579387,
+            "best_id": null,
+            "created_at": "2026-10-31T13:27:34Z",
+            "id": null,
+            "max_combo": 1020,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "HR"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 649205,
+            "statistics": {
+              "count_100": 23,
+              "count_300": 1092,
+              "count_50": 1,
+              "count_geki": 449,
+              "count_katu": 23,
+              "count_miss": 3
+            },
+            "type": "legacy_match_score",
+            "user_id": 11375105,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 0,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9800417039022937,
+            "best_id": null,
+            "created_at": "2026-10-31T13:27:34Z",
+            "id": null,
+            "max_combo": 1163,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 649800,
+            "statistics": {
+              "count_100": 32,
+              "count_300": 1086,
+              "count_50": 0,
+              "count_geki": 449,
+              "count_katu": 26,
+              "count_miss": 1
+            },
+            "type": "legacy_match_score",
+            "user_id": 1646397,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 1,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9818290140005957,
+            "best_id": null,
+            "created_at": "2026-10-31T13:27:34Z",
+            "id": null,
+            "max_combo": 1557,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "HD"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 889967,
+            "statistics": {
+              "count_100": 29,
+              "count_300": 1089,
+              "count_50": 0,
+              "count_geki": 447,
+              "count_katu": 28,
+              "count_miss": 1
+            },
+            "type": "legacy_match_score",
+            "user_id": 15816872,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 2,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9789991063449508,
+            "best_id": null,
+            "created_at": "2026-10-31T13:27:34Z",
+            "id": null,
+            "max_combo": 1572,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 837516,
+            "statistics": {
+              "count_100": 34,
+              "count_300": 1084,
+              "count_50": 1,
+              "count_geki": 445,
+              "count_katu": 30,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 6090175,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 3,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9849568066726244,
+            "best_id": null,
+            "created_at": "2026-10-31T13:27:34Z",
+            "id": null,
+            "max_combo": 1158,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 661447,
+            "statistics": {
+              "count_100": 24,
+              "count_300": 1094,
+              "count_50": 1,
+              "count_geki": 453,
+              "count_katu": 22,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 251683,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 4,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9831694965743223,
+            "best_id": null,
+            "created_at": "2026-10-31T13:27:34Z",
+            "id": null,
+            "max_combo": 517,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "HD"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 484944,
+            "statistics": {
+              "count_100": 20,
+              "count_300": 1093,
+              "count_50": 3,
+              "count_geki": 452,
+              "count_katu": 18,
+              "count_miss": 3
+            },
+            "type": "legacy_match_score",
+            "user_id": 4141918,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 5,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9901697944593387,
+            "best_id": null,
+            "created_at": "2026-10-31T13:27:34Z",
+            "id": null,
+            "max_combo": 1537,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 844474,
+            "statistics": {
+              "count_100": 14,
+              "count_300": 1103,
+              "count_50": 2,
+              "count_geki": 461,
+              "count_katu": 13,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 10325072,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 6,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.964998510574918,
+            "best_id": null,
+            "created_at": "2026-10-31T13:27:34Z",
+            "id": null,
+            "max_combo": 1009,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "HR"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 637414,
+            "statistics": {
+              "count_100": 56,
+              "count_300": 1061,
+              "count_50": 1,
+              "count_geki": 429,
+              "count_katu": 45,
+              "count_miss": 1
+            },
+            "type": "legacy_match_score",
+            "user_id": 4301976,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 7,
+              "team": "blue",
+              "pass": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": 2519424871,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:31:53Z",
+      "user_id": 1355695
+    },
+    {
+      "id": 2519424887,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:31:59Z",
+      "user_id": 1646397
+    },
+    {
+      "id": 2519424898,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:32:03Z",
+      "user_id": 15816872
+    },
+    {
+      "id": 2519424919,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:32:11Z",
+      "user_id": 1355695
+    },
+    {
+      "id": 2519425045,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:33:14Z",
+      "user_id": 11375105
+    },
+    {
+      "id": 2519425050,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:33:18Z",
+      "user_id": 251683
+    },
+    {
+      "id": 2519425056,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:33:19Z",
+      "user_id": 1646397
+    },
+    {
+      "id": 2519425064,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:33:23Z",
+      "user_id": 10325072
+    },
+    {
+      "id": 2519425082,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:33:29Z",
+      "user_id": 4141918
+    },
+    {
+      "id": 2519425086,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:33:30Z",
+      "user_id": 4301976
+    },
+    {
+      "id": 2519425099,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:33:36Z",
+      "user_id": 7068158
+    },
+    {
+      "id": 2519425110,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:33:40Z",
+      "user_id": 15085098
+    },
+    {
+      "id": 2519425117,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:33:49Z",
+      "user_id": 1646397
+    },
+    {
+      "id": 2519425125,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:33:52Z",
+      "user_id": 15085098
+    },
+    {
+      "id": 2519425232,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:34:38Z",
+      "user_id": 15085098
+    },
+    {
+      "id": 2519425236,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:34:42Z",
+      "user_id": 1646397
+    },
+    {
+      "id": 2519425238,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:34:43Z",
+      "user_id": 11375105
+    },
+    {
+      "id": 2519425250,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:34:47Z",
+      "user_id": 4301976
+    },
+    {
+      "id": 2519425296,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:35:12Z",
+      "user_id": 251683
+    },
+    {
+      "id": 2519425297,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:35:13Z",
+      "user_id": 15816872
+    },
+    {
+      "id": 2519425300,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:35:14Z",
+      "user_id": 10325072
+    },
+    {
+      "id": 2519425302,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:35:15Z",
+      "user_id": 4141918
+    },
+    {
+      "id": 2519425331,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:35:29Z",
+      "user_id": 6090175
+    },
+    {
+      "id": 2519425334,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:35:32Z",
+      "user_id": 7068158
+    },
+    {
+      "id": 2519425384,
+      "detail": {
+        "type": "other",
+        "text": "OWC2026: (China) VS (France)"
+      },
+      "timestamp": "2026-10-31T13:35:58Z",
+      "user_id": null,
+      "game": {
+        "beatmap_id": 5964009,
+        "id": 643547136,
+        "start_time": "2026-10-31T13:35:58Z",
+        "end_time": "2026-10-31T13:39:00Z",
+        "match_id": 122095688,
+        "mode": "osu",
+        "mode_int": 0,
+        "scoring_type": "scorev2",
+        "team_type": "team-vs",
+        "mods": [
+          "NF",
+          "HR"
+        ],
+        "beatmap": {
+          "beatmapset_id": 2643254,
+          "difficulty_rating": 6.36006,
+          "id": 5964009,
+          "lazer_only": false,
+          "mode": "osu",
+          "status": "wip",
+          "total_length": 170,
+          "user_id": 266596,
+          "version": "</3",
+          "beatmapset": {
+            "anime_cover": false,
+            "artist": "JUNKY58%, Andrew One",
+            "artist_unicode": "JUNKY58%, Andrew One",
+            "covers": {
+              "cover": "https://assets.ppy.sh/beatmaps/2643254/covers/cover.jpg?1792972277",
+              "cover@2x": "https://assets.ppy.sh/beatmaps/2643254/covers/cover@2x.jpg?1792972277",
+              "card": "https://assets.ppy.sh/beatmaps/2643254/covers/card.jpg?1792972277",
+              "card@2x": "https://assets.ppy.sh/beatmaps/2643254/covers/card@2x.jpg?1792972277",
+              "list": "https://assets.ppy.sh/beatmaps/2643254/covers/list.jpg?1792972277",
+              "list@2x": "https://assets.ppy.sh/beatmaps/2643254/covers/list@2x.jpg?1792972277",
+              "slimcover": "https://assets.ppy.sh/beatmaps/2643254/covers/slimcover.jpg?1792972277",
+              "slimcover@2x": "https://assets.ppy.sh/beatmaps/2643254/covers/slimcover@2x.jpg?1792972277"
+            },
+            "creator": "-kevincela-",
+            "favourite_count": 13,
+            "genre_id": 1,
+            "hype": {
+              "current": 14,
+              "required": 5
+            },
+            "id": 2643254,
+            "language_id": 1,
+            "nsfw": false,
+            "offset": 0,
+            "play_count": 2458,
+            "preview_url": "https://b.ppy.sh/preview/2643254.mp3",
+            "source": "Denshattack!",
+            "spotlight": false,
+            "status": "wip",
+            "title": "HEARTBREAKER (Denshattack! Ver.)",
+            "title_unicode": "HEARTBREAKER (Denshattack! Ver.)",
+            "track_id": null,
+            "user_id": 266596,
+            "video": false
+          }
+        },
+        "scores": [
+          {
+            "accuracy": 0.9941520467836257,
+            "best_id": null,
+            "created_at": "2026-10-31T13:35:58Z",
+            "id": null,
+            "max_combo": 880,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "HR"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 771734,
+            "statistics": {
+              "count_100": 5,
+              "count_300": 848,
+              "count_50": 2,
+              "count_geki": 312,
+              "count_katu": 5,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 1646397,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 0,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9962962962962963,
+            "best_id": null,
+            "created_at": "2026-10-31T13:35:58Z",
+            "id": null,
+            "max_combo": 789,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "HR"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 737157,
+            "statistics": {
+              "count_100": 2,
+              "count_300": 851,
+              "count_50": 1,
+              "count_geki": 315,
+              "count_katu": 2,
+              "count_miss": 1
+            },
+            "type": "legacy_match_score",
+            "user_id": 11375105,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 1,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.989083820662768,
+            "best_id": null,
+            "created_at": "2026-10-31T13:35:58Z",
+            "id": null,
+            "max_combo": 1241,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "HR"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 1054627,
+            "statistics": {
+              "count_100": 14,
+              "count_300": 841,
+              "count_50": 0,
+              "count_geki": 306,
+              "count_katu": 13,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 15085098,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 2,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9849902534113061,
+            "best_id": null,
+            "created_at": "2026-10-31T13:35:58Z",
+            "id": null,
+            "max_combo": 867,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "HR"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 725212,
+            "statistics": {
+              "count_100": 18,
+              "count_300": 836,
+              "count_50": 1,
+              "count_geki": 302,
+              "count_katu": 16,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 15816872,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 3,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9902534113060428,
+            "best_id": null,
+            "created_at": "2026-10-31T13:35:58Z",
+            "id": null,
+            "max_combo": 399,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "HR"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 512451,
+            "statistics": {
+              "count_100": 6,
+              "count_300": 844,
+              "count_50": 4,
+              "count_geki": 308,
+              "count_katu": 6,
+              "count_miss": 1
+            },
+            "type": "legacy_match_score",
+            "user_id": 251683,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 4,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.97953216374269,
+            "best_id": null,
+            "created_at": "2026-10-31T13:35:58Z",
+            "id": null,
+            "max_combo": 591,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "HR"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 521809,
+            "statistics": {
+              "count_100": 11,
+              "count_300": 833,
+              "count_50": 5,
+              "count_geki": 300,
+              "count_katu": 9,
+              "count_miss": 6
+            },
+            "type": "legacy_match_score",
+            "user_id": 10325072,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 5,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9769980506822612,
+            "best_id": null,
+            "created_at": "2026-10-31T13:35:58Z",
+            "id": null,
+            "max_combo": 737,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "HR"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 584351,
+            "statistics": {
+              "count_100": 20,
+              "count_300": 828,
+              "count_50": 4,
+              "count_geki": 297,
+              "count_katu": 17,
+              "count_miss": 3
+            },
+            "type": "legacy_match_score",
+            "user_id": 4301976,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 6,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9754385964912281,
+            "best_id": null,
+            "created_at": "2026-10-31T13:35:58Z",
+            "id": null,
+            "max_combo": 456,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "HR"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 430197,
+            "statistics": {
+              "count_100": 16,
+              "count_300": 828,
+              "count_50": 4,
+              "count_geki": 298,
+              "count_katu": 13,
+              "count_miss": 7
+            },
+            "type": "legacy_match_score",
+            "user_id": 4141918,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 7,
+              "team": "blue",
+              "pass": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": 2519425799,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:39:18Z",
+      "user_id": 1355695
+    },
+    {
+      "id": 2519425918,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:40:27Z",
+      "user_id": 17104779
+    },
+    {
+      "id": 2519425928,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:40:32Z",
+      "user_id": 17104779
+    },
+    {
+      "id": 2519425940,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:40:35Z",
+      "user_id": 1646397
+    },
+    {
+      "id": 2519425945,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:40:36Z",
+      "user_id": 251683
+    },
+    {
+      "id": 2519425959,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:40:42Z",
+      "user_id": 4141918
+    },
+    {
+      "id": 2519425966,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:40:45Z",
+      "user_id": 7068158
+    },
+    {
+      "id": 2519425974,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:40:48Z",
+      "user_id": 15085098
+    },
+    {
+      "id": 2519425985,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:40:53Z",
+      "user_id": 15816872
+    },
+    {
+      "id": 2519426051,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:41:28Z",
+      "user_id": 11375105
+    },
+    {
+      "id": 2519426077,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:41:40Z",
+      "user_id": 17104779
+    },
+    {
+      "id": 2519426095,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:41:51Z",
+      "user_id": 7068158
+    },
+    {
+      "id": 2519426102,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:41:53Z",
+      "user_id": 251683
+    },
+    {
+      "id": 2519426120,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:41:59Z",
+      "user_id": 4141918
+    },
+    {
+      "id": 2519426135,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:42:06Z",
+      "user_id": 11375105
+    },
+    {
+      "id": 2519426136,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:42:06Z",
+      "user_id": 12215507
+    },
+    {
+      "id": 2519426147,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:42:09Z",
+      "user_id": 10325072
+    },
+    {
+      "id": 2519426148,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:42:10Z",
+      "user_id": 15816872
+    },
+    {
+      "id": 2519426168,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:42:16Z",
+      "user_id": 1646397
+    },
+    {
+      "id": 2519426170,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:42:17Z",
+      "user_id": 1355695
+    },
+    {
+      "id": 2519426253,
+      "detail": {
+        "type": "other",
+        "text": "OWC2026: (China) VS (France)"
+      },
+      "timestamp": "2026-10-31T13:42:48Z",
+      "user_id": null,
+      "game": {
+        "beatmap_id": 5515555,
+        "id": 643547416,
+        "start_time": "2026-10-31T13:42:48Z",
+        "end_time": "2026-10-31T13:46:47Z",
+        "match_id": 122095688,
+        "mode": "osu",
+        "mode_int": 0,
+        "scoring_type": "scorev2",
+        "team_type": "team-vs",
+        "mods": [
+          "NF"
+        ],
+        "beatmap": {
+          "beatmapset_id": 2403302,
+          "difficulty_rating": 7.28284,
+          "id": 5515555,
+          "lazer_only": false,
+          "mode": "osu",
+          "status": "pending",
+          "total_length": 223,
+          "user_id": 9119507,
+          "version": "Extravaganza",
+          "beatmapset": {
+            "anime_cover": false,
+            "artist": "Denkishiki Karen Ongaku Shuudan",
+            "artist_unicode": "Denkishiki Karen Ongaku Shuudan",
+            "covers": {
+              "cover": "https://assets.ppy.sh/beatmaps/2403302/covers/cover.jpg?1792631316",
+              "cover@2x": "https://assets.ppy.sh/beatmaps/2403302/covers/cover@2x.jpg?1792631316",
+              "card": "https://assets.ppy.sh/beatmaps/2403302/covers/card.jpg?1792631316",
+              "card@2x": "https://assets.ppy.sh/beatmaps/2403302/covers/card@2x.jpg?1792631316",
+              "list": "https://assets.ppy.sh/beatmaps/2403302/covers/list.jpg?1792631316",
+              "list@2x": "https://assets.ppy.sh/beatmaps/2403302/covers/list@2x.jpg?1792631316",
+              "slimcover": "https://assets.ppy.sh/beatmaps/2403302/covers/slimcover.jpg?1792631316",
+              "slimcover@2x": "https://assets.ppy.sh/beatmaps/2403302/covers/slimcover@2x.jpg?1792631316"
+            },
+            "creator": "Dada",
+            "favourite_count": 40,
+            "genre_id": 1,
+            "hype": {
+              "current": 11,
+              "required": 5
+            },
+            "id": 2403302,
+            "language_id": 1,
+            "nsfw": false,
+            "offset": 0,
+            "play_count": 14665,
+            "preview_url": "https://b.ppy.sh/preview/2403302.mp3",
+            "source": "EXTRAVAGANZA\uff5e\u672b\u8def\u306e\u679c\u3066\u306b\uff5e",
+            "spotlight": false,
+            "status": "pending",
+            "title": "Sudden Death R99",
+            "title_unicode": "Sudden Death R99",
+            "track_id": null,
+            "user_id": 9119507,
+            "video": false
+          }
+        },
+        "scores": [
+          {
+            "accuracy": 0.9942441171491451,
+            "best_id": null,
+            "created_at": "2026-10-31T13:42:48Z",
+            "id": null,
+            "max_combo": 2127,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 988871,
+            "statistics": {
+              "count_100": 17,
+              "count_300": 1952,
+              "count_50": 0,
+              "count_geki": 312,
+              "count_katu": 12,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 11375105,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 0,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9885728796343322,
+            "best_id": null,
+            "created_at": "2026-10-31T13:42:48Z",
+            "id": null,
+            "max_combo": 1481,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 681847,
+            "statistics": {
+              "count_100": 31,
+              "count_300": 1936,
+              "count_50": 1,
+              "count_geki": 305,
+              "count_katu": 17,
+              "count_miss": 1
+            },
+            "type": "legacy_match_score",
+            "user_id": 12215507,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 1,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9699509057050957,
+            "best_id": null,
+            "created_at": "2026-10-31T13:42:48Z",
+            "id": null,
+            "max_combo": 1457,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 615815,
+            "statistics": {
+              "count_100": 71,
+              "count_300": 1886,
+              "count_50": 1,
+              "count_geki": 283,
+              "count_katu": 36,
+              "count_miss": 11
+            },
+            "type": "legacy_match_score",
+            "user_id": 15816872,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 2,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9603013373963095,
+            "best_id": null,
+            "created_at": "2026-10-31T13:42:48Z",
+            "id": null,
+            "max_combo": 1418,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 585065,
+            "statistics": {
+              "count_100": 102,
+              "count_300": 1856,
+              "count_50": 5,
+              "count_geki": 269,
+              "count_katu": 49,
+              "count_miss": 6
+            },
+            "type": "legacy_match_score",
+            "user_id": 1646397,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 3,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9750296258676147,
+            "best_id": null,
+            "created_at": "2026-10-31T13:42:48Z",
+            "id": null,
+            "max_combo": 2032,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 880446,
+            "statistics": {
+              "count_100": 24,
+              "count_300": 1909,
+              "count_50": 17,
+              "count_geki": 307,
+              "count_katu": 8,
+              "count_miss": 19
+            },
+            "type": "legacy_match_score",
+            "user_id": 251683,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 4,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.984002031488065,
+            "best_id": null,
+            "created_at": "2026-10-31T13:42:48Z",
+            "id": null,
+            "max_combo": 1118,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 600221,
+            "statistics": {
+              "count_100": 28,
+              "count_300": 1927,
+              "count_50": 7,
+              "count_geki": 301,
+              "count_katu": 16,
+              "count_miss": 7
+            },
+            "type": "legacy_match_score",
+            "user_id": 17104779,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 5,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9879803622820382,
+            "best_id": null,
+            "created_at": "2026-10-31T13:42:48Z",
+            "id": null,
+            "max_combo": 1222,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 639242,
+            "statistics": {
+              "count_100": 34,
+              "count_300": 1934,
+              "count_50": 0,
+              "count_geki": 300,
+              "count_katu": 23,
+              "count_miss": 1
+            },
+            "type": "legacy_match_score",
+            "user_id": 4301976,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 6,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.984086676824107,
+            "best_id": null,
+            "created_at": "2026-10-31T13:42:48Z",
+            "id": null,
+            "max_combo": 2127,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 951700,
+            "statistics": {
+              "count_100": 47,
+              "count_300": 1922,
+              "count_50": 0,
+              "count_geki": 291,
+              "count_katu": 33,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 4141918,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 7,
+              "team": "blue",
+              "pass": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": 2519426861,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:47:18Z",
+      "user_id": 1355695
+    },
+    {
+      "id": 2519426862,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:47:18Z",
+      "user_id": 11375105
+    },
+    {
+      "id": 2519426866,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:47:20Z",
+      "user_id": 17104779
+    },
+    {
+      "id": 2519426870,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:47:22Z",
+      "user_id": 4301976
+    },
+    {
+      "id": 2519426871,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:47:22Z",
+      "user_id": 1646397
+    },
+    {
+      "id": 2519426882,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:47:28Z",
+      "user_id": 15816872
+    },
+    {
+      "id": 2519426899,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:47:36Z",
+      "user_id": 12215507
+    },
+    {
+      "id": 2519426957,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:48:13Z",
+      "user_id": 4141918
+    },
+    {
+      "id": 2519427053,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:49:17Z",
+      "user_id": 12215507
+    },
+    {
+      "id": 2519427094,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:49:37Z",
+      "user_id": 11375105
+    },
+    {
+      "id": 2519427099,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:49:40Z",
+      "user_id": 1646397
+    },
+    {
+      "id": 2519427101,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:49:40Z",
+      "user_id": 4301976
+    },
+    {
+      "id": 2519427112,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:49:46Z",
+      "user_id": 6090175
+    },
+    {
+      "id": 2519427114,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:49:47Z",
+      "user_id": 3257847
+    },
+    {
+      "id": 2519427116,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:49:47Z",
+      "user_id": 25626082
+    },
+    {
+      "id": 2519427117,
+      "detail": {
+        "type": "player-joined"
+      },
+      "timestamp": "2026-10-31T13:49:47Z",
+      "user_id": 10325072
+    },
+    {
+      "id": 2519427118,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:49:48Z",
+      "user_id": 1355695
+    },
+    {
+      "id": 2519427130,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:49:53Z",
+      "user_id": 251683
+    },
+    {
+      "id": 2519427173,
+      "detail": {
+        "type": "other",
+        "text": "OWC2026: (China) VS (France)"
+      },
+      "timestamp": "2026-10-31T13:50:11Z",
+      "user_id": null,
+      "game": {
+        "beatmap_id": 5550729,
+        "id": 643547707,
+        "start_time": "2026-10-31T13:50:11Z",
+        "end_time": "2026-10-31T13:52:26Z",
+        "match_id": 122095688,
+        "mode": "osu",
+        "mode_int": 0,
+        "scoring_type": "scorev2",
+        "team_type": "team-vs",
+        "mods": [
+          "NF",
+          "DT"
+        ],
+        "beatmap": {
+          "beatmapset_id": 1577608,
+          "difficulty_rating": 4.91234,
+          "id": 5550729,
+          "lazer_only": false,
+          "mode": "osu",
+          "status": "ranked",
+          "total_length": 185,
+          "user_id": 8688812,
+          "version": "INSANE",
+          "beatmapset": {
+            "anime_cover": true,
+            "artist": "Moe Shop",
+            "artist_unicode": "Moe Shop",
+            "covers": {
+              "cover": "https://assets.ppy.sh/beatmaps/1577608/covers/cover.jpg?1779646540",
+              "cover@2x": "https://assets.ppy.sh/beatmaps/1577608/covers/cover@2x.jpg?1779646540",
+              "card": "https://assets.ppy.sh/beatmaps/1577608/covers/card.jpg?1779646540",
+              "card@2x": "https://assets.ppy.sh/beatmaps/1577608/covers/card@2x.jpg?1779646540",
+              "list": "https://assets.ppy.sh/beatmaps/1577608/covers/list.jpg?1779646540",
+              "list@2x": "https://assets.ppy.sh/beatmaps/1577608/covers/list@2x.jpg?1779646540",
+              "slimcover": "https://assets.ppy.sh/beatmaps/1577608/covers/slimcover.jpg?1779646540",
+              "slimcover@2x": "https://assets.ppy.sh/beatmaps/1577608/covers/slimcover@2x.jpg?1779646540"
+            },
+            "creator": "Mir",
+            "favourite_count": 133,
+            "genre_id": 10,
+            "hype": null,
+            "id": 1577608,
+            "language_id": 3,
+            "nsfw": false,
+            "offset": 0,
+            "play_count": 42314,
+            "preview_url": "https://b.ppy.sh/preview/1577608.mp3",
+            "source": "",
+            "spotlight": false,
+            "status": "ranked",
+            "title": "GHOST FOOD (feat. TORIENA)",
+            "title_unicode": "GHOST FOOD (feat. TORIENA)",
+            "track_id": null,
+            "user_id": 8688812,
+            "video": false
+          }
+        },
+        "scores": [
+          {
+            "accuracy": 0.9832721338229294,
+            "best_id": null,
+            "created_at": "2026-10-31T13:50:11Z",
+            "id": null,
+            "max_combo": 622,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "DT"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 739223,
+            "statistics": {
+              "count_100": 14,
+              "count_300": 798,
+              "count_50": 4,
+              "count_geki": 224,
+              "count_katu": 10,
+              "count_miss": 1
+            },
+            "type": "legacy_match_score",
+            "user_id": 12215507,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 0,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9916360669114647,
+            "best_id": null,
+            "created_at": "2026-10-31T13:50:11Z",
+            "id": null,
+            "max_combo": 831,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "DT"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 841262,
+            "statistics": {
+              "count_100": 9,
+              "count_300": 807,
+              "count_50": 1,
+              "count_geki": 228,
+              "count_katu": 8,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 11375105,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 1,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9812321501427989,
+            "best_id": null,
+            "created_at": "2026-10-31T13:50:11Z",
+            "id": null,
+            "max_combo": 1152,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "DT"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 1132289,
+            "statistics": {
+              "count_100": 23,
+              "count_300": 794,
+              "count_50": 0,
+              "count_geki": 220,
+              "count_katu": 17,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 1646397,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 2,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9681762545899633,
+            "best_id": null,
+            "created_at": "2026-10-31T13:50:11Z",
+            "id": null,
+            "max_combo": 477,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "DT"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 565357,
+            "statistics": {
+              "count_100": 28,
+              "count_300": 781,
+              "count_50": 4,
+              "count_geki": 212,
+              "count_katu": 21,
+              "count_miss": 4
+            },
+            "type": "legacy_match_score",
+            "user_id": 6090175,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 3,
+              "team": "red",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9922480620155039,
+            "best_id": null,
+            "created_at": "2026-10-31T13:50:11Z",
+            "id": null,
+            "max_combo": 773,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "DT"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "S",
+            "replay": false,
+            "score": 806255,
+            "statistics": {
+              "count_100": 7,
+              "count_300": 808,
+              "count_50": 2,
+              "count_geki": 230,
+              "count_katu": 6,
+              "count_miss": 0
+            },
+            "type": "legacy_match_score",
+            "user_id": 3257847,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 4,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9728682170542635,
+            "best_id": null,
+            "created_at": "2026-10-31T13:50:11Z",
+            "id": null,
+            "max_combo": 766,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "DT"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 677909,
+            "statistics": {
+              "count_100": 14,
+              "count_300": 789,
+              "count_50": 7,
+              "count_geki": 215,
+              "count_katu": 14,
+              "count_miss": 7
+            },
+            "type": "legacy_match_score",
+            "user_id": 25626082,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 5,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.9777641778865769,
+            "best_id": null,
+            "created_at": "2026-10-31T13:50:11Z",
+            "id": null,
+            "max_combo": 723,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "DT"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 698892,
+            "statistics": {
+              "count_100": 16,
+              "count_300": 793,
+              "count_50": 3,
+              "count_geki": 219,
+              "count_katu": 14,
+              "count_miss": 5
+            },
+            "type": "legacy_match_score",
+            "user_id": 4301976,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 6,
+              "team": "blue",
+              "pass": true
+            }
+          },
+          {
+            "accuracy": 0.985516115871073,
+            "best_id": null,
+            "created_at": "2026-10-31T13:50:11Z",
+            "id": null,
+            "max_combo": 928,
+            "mode": "osu",
+            "mode_int": 0,
+            "mods": [
+              "NF",
+              "DT"
+            ],
+            "passed": true,
+            "perfect": false,
+            "pp": null,
+            "rank": "A",
+            "replay": false,
+            "score": 891118,
+            "statistics": {
+              "count_100": 15,
+              "count_300": 800,
+              "count_50": 1,
+              "count_geki": 222,
+              "count_katu": 14,
+              "count_miss": 1
+            },
+            "type": "legacy_match_score",
+            "user_id": 10325072,
+            "current_user_attributes": {
+              "pin": null
+            },
+            "match": {
+              "slot": 7,
+              "team": "blue",
+              "pass": true
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": 2519427566,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:52:48Z",
+      "user_id": 10325072
+    },
+    {
+      "id": 2519427572,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:52:52Z",
+      "user_id": 25626082
+    },
+    {
+      "id": 2519427581,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:52:58Z",
+      "user_id": 1646397
+    },
+    {
+      "id": 2519427583,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:52:59Z",
+      "user_id": 6090175
+    },
+    {
+      "id": 2519427589,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:53:02Z",
+      "user_id": 12215507
+    },
+    {
+      "id": 2519427605,
+      "detail": {
+        "type": "player-left"
+      },
+      "timestamp": "2026-10-31T13:53:08Z",
+      "user_id": 11375105
+    },
+    {
+      "id": 2519427633,
+      "detail": {
+        "type": "match-disbanded"
+      },
+      "timestamp": "2026-10-31T13:53:19Z",
+      "user_id": null
+    }
+  ],
+  "users": [
+    {
+      "avatar_url": "https://a.ppy.sh/251683?1793441840.png",
+      "country_code": "FR",
+      "default_group": "default",
+      "id": 251683,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": true,
+      "last_visit": "2026-11-05T22:41:27Z",
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "Musty",
+      "country": {
+        "code": "FR",
+        "name": "France"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/1355695?1718423699.png",
+      "country_code": "CN",
+      "default_group": "default",
+      "id": 1355695,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": true,
+      "last_visit": "2026-11-05T13:10:39Z",
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "z980838928",
+      "country": {
+        "code": "CN",
+        "name": "China"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/1646397?1791377425.gif",
+      "country_code": "CN",
+      "default_group": "default",
+      "id": 1646397,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": true,
+      "last_visit": "2026-11-06T00:39:07Z",
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "Crystal",
+      "country": {
+        "code": "CN",
+        "name": "China"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/3257847?1793454934.jpeg",
+      "country_code": "FR",
+      "default_group": "default",
+      "id": 3257847,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": true,
+      "last_visit": "2026-11-05T23:04:40Z",
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "MyzeJD",
+      "country": {
+        "code": "FR",
+        "name": "France"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/4141918?1793391464.png",
+      "country_code": "FR",
+      "default_group": "default",
+      "id": 4141918,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": false,
+      "last_visit": null,
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "Thundur",
+      "country": {
+        "code": "FR",
+        "name": "France"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/4301976?1791577716.jpeg",
+      "country_code": "FR",
+      "default_group": "default",
+      "id": 4301976,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": true,
+      "last_visit": "2026-11-05T23:27:53Z",
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "Hifkil",
+      "country": {
+        "code": "FR",
+        "name": "France"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/6090175?1718568743.jpeg",
+      "country_code": "CN",
+      "default_group": "default",
+      "id": 6090175,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": false,
+      "last_visit": "2026-11-05T21:10:22Z",
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "lolol235",
+      "country": {
+        "code": "CN",
+        "name": "China"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/7068158?1793391485.png",
+      "country_code": "FR",
+      "default_group": "default",
+      "id": 7068158,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": true,
+      "last_visit": "2026-11-05T23:17:37Z",
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "JapWhite",
+      "country": {
+        "code": "FR",
+        "name": "France"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/10325072?1793391309.png",
+      "country_code": "FR",
+      "default_group": "default",
+      "id": 10325072,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": false,
+      "last_visit": null,
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "fiaee",
+      "country": {
+        "code": "FR",
+        "name": "France"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/11375105?1778654881.jpeg",
+      "country_code": "CN",
+      "default_group": "default",
+      "id": 11375105,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": true,
+      "last_visit": "2026-11-05T18:03:19Z",
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "4k110sh1",
+      "country": {
+        "code": "CN",
+        "name": "China"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/12215507?1793527670.jpeg",
+      "country_code": "CN",
+      "default_group": "default",
+      "id": 12215507,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": true,
+      "last_visit": "2026-11-06T04:07:12Z",
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "Moonlit111",
+      "country": {
+        "code": "CN",
+        "name": "China"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/15085098?1792221085.png",
+      "country_code": "CN",
+      "default_group": "default",
+      "id": 15085098,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": true,
+      "is_supporter": true,
+      "last_visit": "2026-11-06T04:54:37Z",
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "Finloge",
+      "country": {
+        "code": "CN",
+        "name": "China"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/15816872?1774640635.png",
+      "country_code": "CN",
+      "default_group": "default",
+      "id": 15816872,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": false,
+      "last_visit": "2026-11-05T16:31:17Z",
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "Ledeau_Fox",
+      "country": {
+        "code": "CN",
+        "name": "China"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/17104779?1793446289.jpeg",
+      "country_code": "FR",
+      "default_group": "default",
+      "id": 17104779,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": true,
+      "last_visit": "2026-11-05T23:11:50Z",
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "-bouingue",
+      "country": {
+        "code": "FR",
+        "name": "France"
+      }
+    },
+    {
+      "avatar_url": "https://a.ppy.sh/25626082?1793392341.png",
+      "country_code": "FR",
+      "default_group": "default",
+      "id": 25626082,
+      "is_active": true,
+      "is_bot": false,
+      "is_deleted": false,
+      "is_online": false,
+      "is_supporter": false,
+      "last_visit": "2026-11-05T22:56:09Z",
+      "pm_friends_only": false,
+      "profile_colour": null,
+      "username": "Satsukiiii",
+      "country": {
+        "code": "FR",
+        "name": "France"
+      }
+    }
+  ],
+  "first_event_id": 2519421583,
+  "latest_event_id": 2519427633,
+  "current_game_id": null
+}

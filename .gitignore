@@ -4,3 +4,4 @@ __pycache__/
 *.jsonl
 game_sample.jsonl
 
+.pytest_cache/
