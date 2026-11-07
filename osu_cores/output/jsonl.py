@@ -12,9 +12,15 @@ SCHEMA_VERSION = 1
 class JsonlWriter:
     """Escribe en un archivo JSONL lo que detecta un MatchWatcher.
 
-    Una línea por registro, de dos clases:
+    Una línea por registro, de tres clases:
+      {"schema_version": 1, "match_id": ..., "kind": "match",  "match":  {...}}
       {"schema_version": 1, "match_id": ..., "kind": "player", "player": {...}}
       {"schema_version": 1, "match_id": ..., "kind": "event",  "event":  {...}}
+
+    - El registro "match" (nombre, hora de inicio y de cierre de la partida) se
+      escribe una sola vez. Si el archivo es viejo y no lo tiene, se agrega la
+      próxima vez que se siga la misma partida con ese archivo. "end_time" puede
+      ser null: para saber si la sala cerró, buscá el evento "match-disbanded".
 
     - El archivo es un registro completo de la partida: la primera vez incluye
       el historial; si se reanuda, agrega solo lo que falte.
@@ -29,6 +35,7 @@ class JsonlWriter:
         self.match_id = watcher.match_id
         self._event_ids: set[int] = set()
         self._player_ids: set[int] = set()
+        self._has_match_info = False
         self._load_existing()
         watcher.on("backfill", self._on_backfill)
         watcher.on("event", self._on_event)
@@ -65,12 +72,24 @@ class JsonlWriter:
                 self._event_ids.add(rec["event"]["id"])
             elif rec.get("kind") == "player":
                 self._player_ids.add(rec["player"]["id"])
+            elif rec.get("kind") == "match":
+                self._has_match_info = True
 
     # --- escritura -----------------------------------------------------
     def _write(self, record: dict):
         record = {"schema_version": SCHEMA_VERSION, "match_id": self.match_id, **record}
         with open(self.path, "a", encoding="utf-8") as f:
             f.write(json.dumps(record, ensure_ascii=False) + "\n")
+
+    def _write_match_info(self, match):
+        if self._has_match_info:
+            return
+        self._has_match_info = True
+        self._write({"kind": "match", "match": {
+            "name": match.name,
+            "start_time": match.start_time,
+            "end_time": match.end_time,
+        }})
 
     def _write_new_players(self):
         for p in self.watcher.players.values():
@@ -91,6 +110,7 @@ class JsonlWriter:
 
     # --- callbacks del watcher ----------------------------------------
     def _on_backfill(self, match):
+        self._write_match_info(match)
         for e in sorted(match.events, key=lambda e: e.id):
             self._write_event(e)
 

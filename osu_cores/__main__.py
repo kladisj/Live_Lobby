@@ -30,6 +30,76 @@ def title_of(game) -> str:
     return f"mapa {game.id}"
 
 
+TEAM_LABEL = {"red": "rojo", "blue": "azul"}
+TEAM_TYPES = ("team-vs", "tag-team-vs")
+
+
+def _score_line(rank, name, s) -> str:
+    mark = "" if s.passed else "  (falló)"
+    return f"    {rank}. {name:<16} {s.score:>12,}  {s.accuracy * 100:6.2f}%{mark}"
+
+
+def _team_totals(teams, only_passed):
+    return {
+        t: sum(s.score for s in ss if s.passed or not only_passed)
+        for t, ss in teams.items()
+    }
+
+
+def _winner(totals):
+    """Equipo con más score, o None si hay empate o falta un equipo."""
+    ranked = sorted(totals.items(), key=lambda kv: kv[1], reverse=True)
+    if len(ranked) < 2 or ranked[0][1] == ranked[1][1]:
+        return None
+    return ranked[0][0]
+
+
+def format_result(game, name_of) -> list[str]:
+    """Líneas con el resultado de un mapa terminado: quién ganó y el score y la
+    accuracy de cada jugador.
+
+    En partidas por equipos, el total de cada equipo suma solo a quienes
+    pasaron el mapa; si contar a los que fallaron cambia el resultado, avisa.
+    """
+    scores = sorted(game.scores, key=lambda s: s.score, reverse=True)
+    if not scores:
+        return ["  sin scores"]
+
+    lines = []
+    if game.team_type in TEAM_TYPES and all(s.team in TEAM_LABEL for s in scores):
+        teams = {}
+        for s in scores:
+            teams.setdefault(s.team, []).append(s)
+
+        totals = _team_totals(teams, only_passed=True)
+        winner = _winner(totals)
+        if winner:
+            other = next(t for t in totals if t != winner)
+            diff = totals[winner] - totals[other]
+            lines.append(
+                f"  GANÓ {TEAM_LABEL[winner].upper()}: "
+                f"{totals[winner]:,} vs {totals[other]:,} (+{diff:,})"
+            )
+        else:
+            lines.append("  EMPATE (o falta un equipo)")
+
+        winner_all = _winner(_team_totals(teams, only_passed=False))
+        if winner_all != winner:
+            alt = f"ganaría {TEAM_LABEL[winner_all]}" if winner_all else "empatarían"
+            lines.append(f"  (ojo: si contaran los que fallaron, {alt})")
+
+        for team in sorted(totals, key=lambda t: totals[t], reverse=True):
+            lines.append(f"  {TEAM_LABEL[team]} ({totals[team]:,})")
+            for i, s in enumerate(teams[team], 1):
+                lines.append(_score_line(i, name_of(s.user_id), s))
+    else:
+        top = scores[0]
+        lines.append(f"  GANÓ {name_of(top.user_id)}: {top.score:,}")
+        for i, s in enumerate(scores, 1):
+            lines.append(_score_line(i, name_of(s.user_id), s))
+    return lines
+
+
 EPILOG = """\
 ejemplos:
   python -m osu_cores 122095688
@@ -45,7 +115,8 @@ cómo funciona:
   - al empezar baja todo el historial de la partida; en salas muy viejas
     puede tardar un minuto
   - después consulta cada --interval segundos y avisa cuando un mapa
-    empieza o termina
+    empieza; cuando termina, muestra quién ganó y el score y la
+    accuracy de cada jugador
   - se detiene sola cuando la partida se cierra, o con Ctrl+C
   - con --out, cada mapa se guarda al terminar, con sus scores; volver a
     correr el mismo comando con el mismo archivo no repite lo ya guardado
@@ -118,9 +189,9 @@ def main(argv=None) -> int:
         say(f"empezó {title_of(game)}")
 
     def on_finished(game):
-        best = max(game.scores, key=lambda s: s.score, default=None)
-        extra = f" | mejor: {name_of(best.user_id)} ({best.score:,})" if best else ""
-        say(f"terminó {title_of(game)} | {len(game.scores)} scores{extra}")
+        say(f"terminó {title_of(game)} | {len(game.scores)} scores")
+        for line in format_result(game, name_of):
+            print(line, flush=True)
 
     w.on("backfill", on_backfill)
     w.on("game_started", on_started)

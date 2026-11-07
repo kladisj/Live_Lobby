@@ -24,8 +24,11 @@ class FakeWatcher:
 
 
 class FakeMatch:
-    def __init__(self, events):
+    def __init__(self, events, name="partida de prueba"):
         self.events = events
+        self.name = name
+        self.start_time = T
+        self.end_time = None
 
 
 def event(i, type_="player-joined"):
@@ -166,3 +169,47 @@ def test_acentos_se_guardan_tal_cual(tmp_path):
     w.emit("event", event(1))
 
     assert "Julián" in path.read_text(encoding="utf-8")
+
+
+def test_escribe_el_nombre_de_la_partida(tmp_path):
+    path = tmp_path / "p.jsonl"
+    w = FakeWatcher()
+    JsonlWriter(path, w)
+
+    w.emit("backfill", FakeMatch([event(1)], name="OWC2026: (China) VS (France)"))
+
+    first = read(path)[0]
+    assert first["kind"] == "match"
+    assert first["match"]["name"] == "OWC2026: (China) VS (France)"
+    assert first["match"]["start_time"] == T
+
+
+def test_el_nombre_no_se_repite_al_reanudar(tmp_path):
+    path = tmp_path / "p.jsonl"
+    w1 = FakeWatcher()
+    JsonlWriter(path, w1)
+    w1.emit("backfill", FakeMatch([event(1)]))
+
+    w2 = FakeWatcher()
+    JsonlWriter(path, w2)
+    w2.emit("backfill", FakeMatch([event(1), event(2)]))
+
+    kinds = [r["kind"] for r in read(path)]
+    assert kinds.count("match") == 1
+
+
+def test_un_archivo_viejo_sin_nombre_se_completa(tmp_path):
+    path = tmp_path / "p.jsonl"
+    w1 = FakeWatcher()
+    JsonlWriter(path, w1)
+    w1.emit("event", event(1))  # archivo viejo: sin registro de partida
+    assert [r["kind"] for r in read(path)] == ["event"]
+
+    w2 = FakeWatcher()
+    JsonlWriter(path, w2)
+    w2.emit("backfill", FakeMatch([event(1)], name="sala vieja"))
+
+    matches = [r for r in read(path) if r["kind"] == "match"]
+    assert len(matches) == 1
+    assert matches[0]["match"]["name"] == "sala vieja"
+    assert events_in(path) == [1]  # el evento no se repitió
