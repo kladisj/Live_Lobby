@@ -5,3 +5,4 @@ __pycache__/
 game_sample.jsonl
 
 .pytest_cache/
+*.egg-info/

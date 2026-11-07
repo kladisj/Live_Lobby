@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "livelobby"
+version = "0.1.0"
+description = "Sigue partidas multijugador de osu! y entrega los datos para otras apps"
+requires-python = ">=3.10"
+dependencies = ["requests", "python-dotenv"]
+
+[project.scripts]
+livelobby = "osu_cores.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["osu_cores*"]
