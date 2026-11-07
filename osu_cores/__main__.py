@@ -30,15 +30,61 @@ def title_of(game) -> str:
     return f"mapa {game.id}"
 
 
+EPILOG = """\
+ejemplos:
+  python -m osu_cores 122095688
+      muestra el historial de la partida y la sigue en vivo
+  python -m osu_cores 122095688 --out partida.jsonl
+      además guarda los datos en un archivo JSONL
+  python -m osu_cores https://osu.ppy.sh/community/matches/122095688
+      también acepta el mp link completo
+  python -m osu_cores 122095688 --out partida.jsonl --interval 10
+      consulta cada 10 segundos en lugar de cada 5
+
+cómo funciona:
+  - al empezar baja todo el historial de la partida; en salas muy viejas
+    puede tardar un minuto
+  - después consulta cada --interval segundos y avisa cuando un mapa
+    empieza o termina
+  - se detiene sola cuando la partida se cierra, o con Ctrl+C
+  - con --out, cada mapa se guarda al terminar, con sus scores; volver a
+    correr el mismo comando con el mismo archivo no repite lo ya guardado
+
+requisitos:
+  un archivo .env con OSU_CLIENT_ID y OSU_CLIENT_SECRET
+
+códigos de salida:
+  0 todo bien | 1 error de la API | 2 uso o configuración inválidos
+  130 cortado con Ctrl+C
+"""
+
+
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(
         prog="osu_cores",
-        description="Sigue una partida multijugador de osu! y, si querés, la guarda en JSONL.",
+        usage="python -m osu_cores ID_O_LINK [--out ARCHIVO] [--interval SEGUNDOS]",
+        description="Sigue una partida multijugador de osu! (mp link) y, si querés, "
+                    "la guarda en un archivo JSONL.",
+        epilog=EPILOG,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        add_help=False,
     )
-    p.add_argument("match", type=parse_match, help="ID o link (mp link) de la partida")
-    p.add_argument("--out", help="archivo JSONL donde guardar los datos (opcional)")
-    p.add_argument("--interval", type=float, default=5.0,
-                   help="segundos entre consultas (por defecto 5)")
+    args_group = p.add_argument_group("argumentos")
+    args_group.add_argument("match", metavar="ID_O_LINK", type=parse_match,
+                            help="ID o link (mp link) de la partida")
+    opts = p.add_argument_group("opciones")
+    opts.add_argument("--out", metavar="ARCHIVO",
+                      help="archivo JSONL donde guardar los datos (opcional)")
+    opts.add_argument("--interval", metavar="SEGUNDOS", type=float, default=5.0,
+                      help="segundos entre consultas (por defecto 5, mínimo 1)")
+    opts.add_argument("-h", "--help", action="help", help="muestra esta ayuda y sale")
+
+    if argv is None:
+        argv = sys.argv[1:]
+    if not argv:
+        p.print_help()  # sin argumentos: mostrar la ayuda en vez de un error
+        return 0
+
     args = p.parse_args(argv)
     if args.interval < 1:
         p.error("--interval tiene que ser de al menos 1 segundo")
