@@ -13,7 +13,6 @@ nav button:hover{background:var(--cd)}nav button.on{background:linear-gradient(9
 main{flex:1;min-width:0;padding:16px 22px 28px}
 .top{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
 input,select,textarea{background:#120a2c;color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;font:inherit}
-.top input#src{flex:1;min-width:220px}#skip{width:60px}
 button.k{background:var(--cd2);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer}
 button.k:hover{border-color:var(--ac)}button.pri{background:linear-gradient(90deg,#7c3aed,#c026d3);border-color:transparent;font-weight:600}
 button:disabled{opacity:.45;cursor:default}label.c{display:flex;gap:6px;align-items:center;color:var(--mu)}
@@ -25,7 +24,6 @@ background:linear-gradient(110deg,rgba(240,83,155,.28),rgba(26,18,54,.9) 38%,rgb
 .tm{display:flex;align-items:center;gap:14px;flex:1}.tm.blue{flex-direction:row-reverse;text-align:right}
 .tm img{width:76px;height:50px;object-fit:cover;border-radius:6px;box-shadow:0 2px 14px #0008}.tm b{font-size:24px;display:block}.tm small{color:var(--mu)}
 .sc{text-align:center}.sc big{font-size:44px;font-weight:700;letter-spacing:2px}.sc small{display:block;color:var(--mu)}
-.sub{display:flex;justify-content:space-between;align-items:center;margin:10px 2px 14px;color:var(--mu)}
 .g{display:grid;gap:14px;margin-bottom:14px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1.1fr 1.1fr 1fr}
 @media(max-width:1000px){.g2,.g3{grid-template-columns:1fr}aside{width:150px}}
 .cd{background:rgba(26,18,54,.85);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;min-width:0}
@@ -49,15 +47,72 @@ iframe{width:100%;height:480px;border:1px solid var(--bd);border-radius:8px;back
 .box{background:var(--cd);border:1px solid var(--bd);border-radius:14px;width:min(640px,94vw);max-height:84vh;display:flex;flex-direction:column;padding:14px;gap:10px}
 .mh,.mf{display:flex;gap:8px}.mh input{flex:1}#mlist{list-style:none;margin:0;padding:0;overflow:auto;flex:1;min-height:200px}
 #mlist li{padding:7px 10px;border-radius:7px;cursor:pointer}#mlist li:hover{background:var(--cd2)}.mf{justify-content:flex-end}
+
+/* --- cabecera --- */
+[hidden]{display:none!important}
+.hdr{position:relative;display:flex;flex-direction:column;gap:10px;padding:14px;margin-bottom:16px;border-radius:22px;border:1px solid #3d2c78;
+background:radial-gradient(640px 230px at 100% 0,rgba(168,85,247,.34),transparent 70%),radial-gradient(420px 200px at 0 100%,rgba(240,83,155,.13),transparent 70%),linear-gradient(135deg,#1d1049,#130a30 60%,#1a0d3a);
+box-shadow:0 12px 36px rgba(8,3,24,.55),inset 0 1px 0 rgba(255,255,255,.06)}
+.hdr-bg{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none}
+.hdr-bg svg{position:absolute;right:0;top:0;height:100%;width:64%;opacity:.55;-webkit-mask-image:linear-gradient(to left,#000 28%,transparent);mask-image:linear-gradient(to left,#000 28%,transparent)}
+.hrow{position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:center;gap:10px}.grow{flex:1}
+.cap{position:relative;display:flex;align-items:center;gap:10px;height:42px;padding:0 16px;border-radius:999px;color:var(--tx);
+background:linear-gradient(180deg,rgba(28,15,66,.9),rgba(13,6,34,.94));border:1.5px solid #5b3fb5;
+box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 0 0 4px rgba(124,58,237,.08);transition:border-color .15s,box-shadow .15s}
+.cap:hover{border-color:#8b5cf6}.cap:focus-within{border-color:#a78bfa;box-shadow:0 0 0 3px rgba(168,85,247,.34)}
+.cap .ic{width:20px;height:20px;flex:none;color:#d6c7ff}
+.cap input,.cap select{background:transparent;border:0;border-radius:0;padding:0;color:inherit;font:inherit;outline:0;min-width:0}
+.cap input::placeholder{color:#8f84b8}.cap option{background:#150b36;color:#ece8fa}.cap select{color-scheme:dark}
+.cap-file{flex:1 1 340px;padding-right:8px}.cap-file input{flex:1;font-size:15px}
+.cap-num{gap:8px;color:var(--mu)}.cap-num input{width:46px;text-align:center;color:var(--tx);font-weight:600}
+.cap select{-webkit-appearance:none;appearance:none;cursor:pointer;font-weight:500;padding-right:26px}
+.chev{width:16px;height:16px;flex:none;margin-left:-28px;color:#bfaef5;pointer-events:none}
+.cap-auto.on{border-color:#a78bfa}.cap-auto.on .ic{color:#f58bbd}
+.cap-match{max-width:100%}.cap-match select{max-width:min(52ch,66vw);text-overflow:ellipsis}
+.chip{border:0;border-radius:999px;padding:6px 14px;background:rgba(168,85,247,.2);color:#eadfff;font:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s}
+.chip:hover{background:rgba(168,85,247,.38)}
+.go{height:42px;padding:0 26px;border:0;border-radius:999px;color:#fff;font:inherit;font-weight:700;cursor:pointer;
+background:linear-gradient(90deg,#7c3aed,#c026d3);box-shadow:0 6px 20px rgba(168,85,247,.38);transition:filter .15s,transform .1s}
+.go:hover{filter:brightness(1.12)}.go:active{transform:translateY(1px)}
+.chip:focus-visible,.go:focus-visible,.help:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.hdr #msg{font-size:13px;padding-left:6px}
+.stat{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mu)}
+.stat i{width:10px;height:10px;border-radius:50%;background:#8a7bc4;box-shadow:0 0 0 3px rgba(138,123,196,.22)}
+.stat.closed{color:#8be3b6}.stat.closed i{background:var(--ok);box-shadow:0 0 0 3px rgba(76,195,138,.22)}
+.help{width:40px;height:40px;flex:none;border:0;border-radius:50%;color:#fff;font:700 18px/1 system-ui,sans-serif;cursor:pointer;
+background:linear-gradient(135deg,#7c3aed,#9333ea);box-shadow:0 4px 14px rgba(124,58,237,.5)}
+.help[aria-expanded=true]{background:linear-gradient(135deg,#c026d3,#9333ea)}
+.pop{position:absolute;right:14px;top:calc(100% + 10px);z-index:20;width:min(390px,calc(100vw - 48px));padding:16px 18px;background:#1a1236;border:1px solid #4a3792;border-radius:16px;box-shadow:0 18px 44px rgba(0,0,0,.6);font-size:13px;line-height:1.5}
+.pop h4{margin:0 0 10px;font-size:14px;color:#e6dcff}.pop dl{margin:0;display:grid;gap:12px}.pop dt{font-weight:600;color:#d9ccff}.pop dd{margin:3px 0 0;color:var(--mu)}
+@media(max-width:760px){.hdr{padding:12px;border-radius:18px}.cap-file{flex-basis:100%}.go,.cap-auto{flex:1}.cap-auto select{flex:1}}
+@media(prefers-reduced-motion:reduce){.cap,.go,.chip{transition:none}}
 </style></head><body>
 <aside><div class="logo">osu! <span>Lobby Tools</span></div>
 <nav><button data-v="match" class="on">Partida</button><button data-v="torneo">Torneo</button><button data-v="live">En vivo</button><button data-v="chart">Gráfico OBS</button></nav>
 <div class="pill" id="pill">Detenido</div></aside>
 <main>
 <div id="warn"></div>
-<div class="top"><input id="src" placeholder="Carpeta o archivos .jsonl (varios, separados por ;)"><button class="k" id="bro">📂 Examinar</button>
-<label class="c">Warmups <input id="skip" type="number" min="0" value="0"></label><button class="k pri" id="load">Cargar</button>
-<label class="c"><input type="checkbox" id="auto">Auto 5 s</label><span id="msg"></span></div>
+<header class="hdr">
+<div class="hdr-bg" aria-hidden="true"><svg viewBox="0 0 640 220" preserveAspectRatio="xMaxYMid slice" fill="none"><g stroke="#c4a8ff"><circle cx="600" cy="110" r="46" opacity=".5"/><circle cx="600" cy="110" r="90" opacity=".38"/><circle cx="600" cy="110" r="134" opacity=".28"/><circle cx="600" cy="110" r="178" opacity=".2"/><circle cx="600" cy="110" r="222" opacity=".14"/></g><path d="M270 176C340 70 420 200 500 86" stroke="#c4a8ff" stroke-width="34" stroke-linecap="round" opacity=".16"/><path d="M270 176C340 70 420 200 500 86" stroke="#150a36" stroke-width="28" stroke-linecap="round"/><circle cx="500" cy="86" r="24" stroke="#f0539b" stroke-width="3" opacity=".6"/><circle cx="500" cy="86" r="40" stroke="#f0539b" stroke-width="1.5" opacity=".4"/><circle cx="270" cy="176" r="20" stroke="#4da3ff" stroke-width="3" opacity=".55"/><circle cx="270" cy="176" r="34" stroke="#4da3ff" stroke-width="1.5" opacity=".35"/></svg></div>
+<div class="hrow">
+<div class="cap cap-file"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></svg><input id="src" placeholder="Carpeta o archivos .jsonl (varios, separados por ;)" aria-label="Carpeta o archivos .jsonl"><button class="chip" id="bro" type="button">Examinar</button></div>
+<label class="cap cap-num" title="Mapas de calentamiento que no cuentan, al comienzo de cada partida"><span>Warmups</span><input id="skip" type="number" min="0" value="0"></label>
+<button class="go" id="load" type="button">Cargar</button>
+<div class="cap cap-auto" id="autocap"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg><select id="auto" aria-label="Recarga automática"><option value="0">Manual</option><option value="2">Auto 2 s</option><option value="5">Auto 5 s</option><option value="10">Auto 10 s</option><option value="30">Auto 30 s</option></select><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+</div>
+<div class="hrow">
+<div class="cap cap-match" id="matchcap" hidden><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg><select id="msel" aria-label="Partida"></select><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+<span id="msg" role="status"></span><span class="grow"></span>
+<span class="stat" id="stat" hidden><i></i><span></span></span>
+<button class="help" id="help" type="button" aria-label="Ayuda" aria-expanded="false" aria-controls="pop">?</button>
+</div>
+<div class="pop" id="pop" role="dialog" aria-label="Ayuda" hidden><h4>Cómo se usa</h4><dl>
+<div><dt>Carpeta o archivos</dt><dd>Escribí la ruta de una carpeta con tus .jsonl, o de varios archivos separados por punto y coma. Con Examinar la elegís desde una lista.</dd></div>
+<div><dt>Warmups</dt><dd>Cantidad de mapas del comienzo de cada partida que no se cuentan.</dd></div>
+<div><dt>Cargar y Auto</dt><dd>Cargar vuelve a leer los archivos. Auto lo hace solo cada pocos segundos, útil mientras la partida sigue en juego.</dd></div>
+<div><dt>Partida cerrada</dt><dd>El archivo registró que la sala se cerró. Si dice “Sin cierre registrado”, la partida sigue en juego o no se grabó el final.</dd></div>
+</dl></div>
+</header>
 
 <section id="v-match" class="view on"></section>
 <section id="v-torneo" class="view"></section>
@@ -97,12 +152,12 @@ const fl=c=>isCC(c)?`<img class="fl" src="https://flagcdn.com/w40/${c.toLowerCas
 const av=u=>`<img class="av" src="https://a.ppy.sh/${u}" alt="" onerror="this.style.visibility='hidden'">`;
 const fmt=n=>Math.round(n).toLocaleString('es'),pct=x=>x==null?'-':(x*100).toFixed(2)+'%',f1=x=>x==null?'-':x.toFixed(1),f2=x=>x==null?'-':x.toFixed(2);
 const mean=a=>{a=a.filter(x=>x!=null);return a.length?a.reduce((s,x)=>s+x,0)/a.length:null};
-const S={d:null,mi:0};let timer=null;
+const S={d:null,mi:0,v:'match'};let timer=null;
 const say=(t,c='')=>{$('#msg').className=c;$('#msg').textContent=t};
-const empty=()=>`<div class="cd empty">Elegí una carpeta con tus .jsonl (📂 Examinar) y pulsá <b>Cargar</b>.</div>`;
+const empty=()=>`<div class="cd empty">Elegí una carpeta con tus .jsonl (Examinar) y pulsá <b>Cargar</b>.</div>`;
 const miss=__MISSING__;if(miss.length){$('#warn').style.display='block';$('#warn').textContent='Faltan módulos: '+miss.join(' | ')}
 
-function go(v){$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));if(v==='match'||v==='torneo')draw()}
+function go(v){$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));S.v=v;if(v==='match'||v==='torneo')draw();updHdr()}
 $$('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
 async function load(){
@@ -117,7 +172,7 @@ async function load(){
   try{localStorage.osuSrc=$('#src').value;localStorage.osuSkip=$('#skip').value}catch{}
   draw();
 }
-const draw=()=>{vMatch();vTorneo()};
+const draw=()=>{vMatch();vTorneo();updHdr()};
 
 function lineChart(ms){
   const W=520,H=190,P=46,n=ms.length;if(!n)return '<span class="mu">Sin mapas por equipos.</span>';
@@ -139,8 +194,6 @@ function vMatch(){
   const kt=(t,l,v)=>`<div class="tile"><b class="${t=='red'?'r':'b'}">${v}</b><small>${l}</small></div>`;
   const h=m.hard,ms=m.maps;
   el.innerHTML=`
-  <div class="sub"><select id="msel">${D.matches.map((x,i)=>`<option value="${i}"${i==S.mi?' selected':''}>${esc(x.name)}</option>`).join('')}</select>
-   <span>${m.closed?'✔ Partida cerrada':'● Sin cierre registrado (¿en juego?)'}</span></div>
   <div class="banner">${team('red')}<div class="sc"><big><span class="r">${m.rm}</span> - <span class="b">${m.bm}</span></big><small>${ms.length} mapa(s) por equipos</small></div>${team('blue')}</div>
   <div class="g g3" style="margin-top:14px">
    <div class="cd"><h3>⭐ MVP (match cost)<span class="mu">${m.closed?'Final':'Actual'}</span></h3>${best?`<div class="mvp">${av(best.uid)}<div><b>${esc(best.name)} ${fl(best.cc)}</b>
@@ -153,7 +206,6 @@ function vMatch(){
    <div class="cd"><h3>Línea de tiempo</h3><ul class="tl">${ms.map((x,i)=>`<li><i class="dot"></i><div><b>Mapa ${i+1} · ${esc(x.title)}</b><small>${esc(x.version||'')}</small></div>
     <span class="w ${x.winner=='red'?'r':x.winner=='blue'?'b':'mu'}">${x.winner?nm(x.winner)+' gana':'Empate'}</span><span class="sc2"><b class="r">${fmt(x.red)}</b> - <b class="b">${fmt(x.blue)}</b></span></li>`).join('')||'<li class="mu">Sin mapas por equipos</li>'}</ul></div></div>
   <div class="g g2">${tbl('red')}${tbl('blue')}</div>`;
-  $('#msel').onchange=e=>{S.mi=+e.target.value;vMatch()};
 }
 
 function vTorneo(){
@@ -182,7 +234,7 @@ $('#go').onclick=async()=>{nxt=0;$('#log').textContent='';
   const r=await api('/api/watch/start',{match:$('#lmatch').value,out:$('#lout').value,interval:$('#lint').value,cid:$('#lcid').value,secret:$('#lsec').value});
   if(r.error)$('#log').textContent='ERROR: '+r.error;tick()};
 $('#stop').onclick=async()=>{await api('/api/watch/stop',{});tick()};$('#lclr').onclick=()=>{$('#log').textContent=''};
-$('#lview').onclick=()=>{$('#src').value=$('#lout').value;$('#auto').checked=true;go('match');load()};
+$('#lview').onclick=()=>{$('#src').value=$('#lout').value;setAuto(5);go('match');load()};
 setInterval(tick,1500);
 
 // --- gráfico OBS ---
@@ -208,7 +260,30 @@ $('#mgo').onclick=()=>br($('#mpath').value);$('#msc').onchange=e=>br(e.target.va
 $('#mup').onclick=e=>{if(e.target.dataset.p)br(e.target.dataset.p)};$('#muse').onclick=()=>setSrc(CUR);$('#mx').onclick=()=>{$('#modal').hidden=true};
 
 $('#load').onclick=load;$('#src').onkeydown=e=>{if(e.key==='Enter')load()};
-setInterval(()=>{if($('#auto').checked&&!document.hidden)load()},5000);
 try{if(localStorage.osuSrc){$('#src').value=localStorage.osuSrc;$('#skip').value=localStorage.osuSkip||0;load()}}catch{}
+// --- cabecera ---
+function updHdr(){
+  const D=S.d,m=D&&D.matches[S.mi],show=S.v==='match'&&!!m;
+  $('#matchcap').hidden=!show;$('#stat').hidden=!show;
+  if(!show)return;
+  const sel=$('#msel'),sig=D.matches.map(x=>x.name).join('\n');
+  if(sel.dataset.sig!==sig){sel.innerHTML=D.matches.map((x,i)=>`<option value="${i}">${esc(x.name)}</option>`).join('');sel.dataset.sig=sig}
+  sel.value=S.mi;
+  $('#stat').className='stat '+(m.closed?'closed':'open');
+  $('#stat span').textContent=m.closed?'Partida cerrada':'Sin cierre registrado (¿en juego?)';
+}
+$('#msel').onchange=e=>{S.mi=+e.target.value;vMatch();updHdr()};
+let at=null;
+function setAuto(n){
+  const sel=$('#auto');sel.value=String(n);if(sel.value!==String(n)){n=0;sel.value='0'}
+  clearInterval(at);at=n>0?setInterval(()=>{if(!document.hidden&&$('#src').value.trim())load()},n*1000):null;
+  $('#autocap').classList.toggle('on',n>0);try{localStorage.osuAuto=n}catch{}
+}
+$('#auto').onchange=e=>setAuto(+e.target.value);
+const hp=$('#help'),pop=$('#pop'),tgl=o=>{pop.hidden=!o;hp.setAttribute('aria-expanded',String(o))};
+hp.onclick=e=>{e.stopPropagation();tgl(pop.hidden)};
+document.addEventListener('click',e=>{if(!pop.hidden&&!pop.contains(e.target))tgl(false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')tgl(false)});
+try{setAuto(+localStorage.osuAuto||0)}catch{setAuto(0)}
 draw();tick();
 </script></body></html>
