@@ -37,11 +37,10 @@ table{width:100%;border-collapse:collapse;font-size:13px}th{color:var(--mu);font
 th:first-child,td:first-child{text-align:left}td img.av{width:26px;height:26px;border-radius:50%;vertical-align:middle;margin-right:8px;object-fit:cover}
 .rk{margin-left:7px;font-size:11px;font-weight:600;color:var(--mu)}.rk.gd{color:#fbbf24}.cst{font-weight:700;color:var(--tx)}td.cc{white-space:nowrap}.tbl{overflow-x:auto}tr.t-red td:first-child{box-shadow:inset 3px 0 var(--r)}tr.t-blue td:first-child{box-shadow:inset 3px 0 var(--b)}
 ul.tl{list-style:none;margin:0;padding:0}ul.tl li{display:flex;gap:12px;align-items:center;padding:9px 6px;border-top:1px solid #2a1f52}ul.tl li:first-child{border:0}
-.dot{width:11px;height:11px;border-radius:50%;background:var(--ac);flex:none}ul.tl small{color:var(--mu);display:block}.tl .w{margin-left:auto;font-size:12px}.tl .sc2{min-width:150px;text-align:right}.tl .sc2{position:relative}.tl .sv{display:block;transition:transform .2s ease}ul.tl small.df{position:absolute;right:0;top:50%;margin-top:2px;font-size:12px;font-weight:600;white-space:nowrap;opacity:0;transform:translateY(5px);transition:opacity .2s ease,transform .2s ease;pointer-events:none}ul.tl li:hover .sv{transform:translateY(-9px)}ul.tl li:hover small.df{opacity:1;transform:none}ul.tl small.df.r{color:var(--r)}ul.tl small.df.b{color:var(--b)}.tl .w,.tl .sc2{white-space:nowrap}.tl li>div{flex:1;min-width:0}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--ac);flex:none}ul.tl small{color:var(--mu);display:block}.tl .w{margin-left:auto;font-size:12px}.tl .sc2{min-width:150px;text-align:right}.tl .sc2{display:flex;justify-content:flex-end}.tl .sv{position:relative;width:max-content;transition:transform .2s ease}ul.tl small.df{position:absolute;left:0;right:0;top:100%;margin-top:1px;text-align:center;font-size:12px;font-weight:600;white-space:nowrap;opacity:0;transform:translateY(5px);transition:opacity .2s ease,transform .2s ease;pointer-events:none}ul.tl li:hover .sv{transform:translateY(-9px)}ul.tl li:hover small.df{opacity:1;transform:none}ul.tl small.df.r{color:var(--r)}ul.tl small.df.b{color:var(--b)}.tl .w,.tl .sc2{white-space:nowrap}.tl li>div{flex:1;min-width:0}
 .fl{width:22px;height:15px;border-radius:2px;vertical-align:middle;margin-right:6px;object-fit:cover}
 .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:12px}.row label{display:block;color:var(--mu);font-size:12px;margin-bottom:3px}.row input{width:100%}
 pre{background:#0b0620;border:1px solid var(--bd);border-radius:8px;padding:12px;margin:0;overflow:auto;font:12.5px/1.45 ui-monospace,Consolas,monospace}#log{height:340px}
-iframe{width:100%;height:480px;border:1px solid var(--bd);border-radius:8px;background:#fff}
 .empty{padding:70px 20px;text-align:center;color:var(--mu)}
 #modal{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:9}#modal[hidden]{display:none}
 .box{background:var(--cd);border:1px solid var(--bd);border-radius:14px;width:min(640px,94vw);max-height:84vh;display:flex;flex-direction:column;padding:14px;gap:10px}
@@ -119,7 +118,7 @@ background:linear-gradient(180deg,rgba(28,15,66,.9),rgba(13,6,34,.94));border:1.
 .mempty{padding:18px 10px;text-align:center;color:var(--mu);font-size:13px}
 </style></head><body>
 <aside><div class="logo">osu! <span>Lobby Tools</span></div>
-<nav><button data-v="match" class="on">Partida</button><button data-v="torneo">Torneo</button><button data-v="live">En vivo</button><button data-v="chart">Gráfico OBS</button></nav>
+<nav><button data-v="match" class="on">Partida</button><button data-v="torneo">Torneo</button><button data-v="live">En vivo</button></nav>
 <div class="pill" id="pill">Detenido</div></aside>
 <main>
 <div id="warn"></div>
@@ -161,15 +160,6 @@ background:linear-gradient(180deg,rgba(28,15,66,.9),rgba(13,6,34,.94));border:1.
 <button class="k" id="lclr">Limpiar</button><button class="k" id="lview">Ver en el panel →</button></div>
 <pre id="log"></pre></div></section>
 
-<section id="v-chart" class="view"><div class="cd">
-<h3>Gráfico de equipos (para OBS)</h3>
-<div class="row"><div><label>Archivo .jsonl de UNA partida (vacío = la partida elegida en el panel)</label><input id="cpath"></div>
-<div><label>Guardar HTML en</label><input id="cout" value="grafico.html"></div>
-<div><label>Nombre equipo rojo (vacío = país)</label><input id="cred"></div><div><label>Nombre equipo azul (vacío = país)</label><input id="cblue"></div>
-<div><label>Actualizar cada N s (0 = una vez)</label><input id="cfol" type="number" min="0" value="0"></div></div>
-<div class="top"><label class="c"><input type="checkbox" id="ctr">Fondo transparente</label><label class="c"><input type="checkbox" id="ctab" checked>Mostrar tabla</label>
-<button class="k pri" id="cgo">Generar gráfico</button><button class="k" id="cstop" disabled>■ Parar</button><span id="cst"></span></div>
-<iframe id="prev" title="vista previa"></iframe></div></section>
 </main>
 
 <div id="modal" hidden><div class="box"><div class="mh"><select id="msc"></select><input id="mpath"><button class="k" id="mgo">Ir</button></div>
@@ -180,7 +170,8 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const api=async(p,b)=>(await fetch(p,b?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}:{})).json();
 const isCC=s=>/^[A-Z]{2}$/.test(s||''),RN=new Intl.DisplayNames(['es'],{type:'region'});
-const tname=c=>{if(!isCC(c))return c||'';try{return RN.of(c)}catch{return c}};
+const NOMBRES={HK:'Hong Kong',MO:'Macao'};
+const tname=c=>{if(!isCC(c))return c||'';if(NOMBRES[c])return NOMBRES[c];try{return RN.of(c)}catch{return c}};
 const fl=c=>isCC(c)?`<img class="fl" src="https://flagcdn.com/w40/${c.toLowerCase()}.png" alt="" onerror="this.remove()">`:'';
 const av=u=>`<img class="av" src="https://a.ppy.sh/${u}" alt="" onerror="this.style.visibility='hidden'">`;
 const fmt=n=>Math.round(n).toLocaleString('es'),pct=x=>x==null?'-':(x*100).toFixed(2)+'%',f1=x=>x==null?'-':x.toFixed(1),f2=x=>x==null?'-':x.toFixed(2);
@@ -243,7 +234,7 @@ function vMatch(){
    <div class="cd"><h3>Estadísticas clave</h3><div class="tiles">${['red','blue'].map(t=>kt(t,'Acc. '+esc(tname(L[t])),pct(mean(tp(t).map(p=>p.acc))))+kt(t,'Misses '+esc(tname(L[t])),f1(mean(tp(t).map(p=>p.miss))))).join('')}</div></div></div>
   <div class="g g2"><div class="cd"><h3>Rendimiento en la serie<span class="lgd"><span class="r">● ${nm('red')}</span> &nbsp;<span class="b">● ${nm('blue')}</span></span></h3>${lineChart(ms)}</div>
    <div class="cd"><h3>Línea de tiempo</h3><ul class="tl">${ms.map((x,i)=>`<li><i class="dot"></i><div><b>Mapa ${i+1} · ${esc(x.title)}</b><small>${esc(x.version||'')}</small></div>
-    <span class="w ${x.winner=='red'?'r':x.winner=='blue'?'b':'mu'}">${x.winner?nm(x.winner)+' gana':'Empate'}</span><span class="sc2"><span class="sv"><b class="r">${fmt(x.red)}</b> - <b class="b">${fmt(x.blue)}</b></span>${x.red!==x.blue?`<small class="df ${x.red>x.blue?'r':'b'}" title="Diferencia de score">+${fmt(Math.abs(x.red-x.blue))}</small>`:''}</span></li>`).join('')||'<li class="mu">Sin mapas por equipos</li>'}</ul></div></div>
+    <span class="w ${x.winner=='red'?'r':x.winner=='blue'?'b':'mu'}">${x.winner?nm(x.winner)+' gana':'Empate'}</span><span class="sc2"><span class="sv"><b class="r">${fmt(x.red)}</b> - <b class="b">${fmt(x.blue)}</b>${x.red!==x.blue?`<small class="df ${x.red>x.blue?'r':'b'}" title="Diferencia de score">+${fmt(Math.abs(x.red-x.blue))}</small>`:''}</span></span></li>`).join('')||'<li class="mu">Sin mapas por equipos</li>'}</ul></div></div>
   <div class="g g2">${tbl('red')}${tbl('blue')}</div>`;
 }
 
@@ -275,15 +266,6 @@ $('#go').onclick=async()=>{nxt=0;$('#log').textContent='';
 $('#stop').onclick=async()=>{await api('/api/watch/stop',{});tick()};$('#lclr').onclick=()=>{$('#log').textContent=''};
 $('#lview').onclick=()=>{$('#src').value=$('#lout').value;setAuto(5);go('match');load()};
 setInterval(tick,1500);
-
-// --- gráfico OBS ---
-let ct=null;
-async function chart(){const n=+$('#cfol').value||0,p=($('#cpath').value||(S.d?S.d.matches[S.mi].sources.join(';'):$('#src').value)).replace(/;/g,'\n');
-  const r=await api('/api/chart',{paths:p,out:$('#cout').value,red:$('#cred').value,blue:$('#cblue').value,transparent:$('#ctr').checked,table:$('#ctab').checked,refresh:n>=1?n:null});
-  const s=$('#cst');if(r.error){s.className='er';s.textContent=r.error;return false}
-  $('#prev').srcdoc=r.html;s.className='ok';s.textContent=`${r.maps} mapas`+(r.saved?' → '+r.saved:'')+' · '+new Date().toLocaleTimeString();return true}
-$('#cgo').onclick=async()=>{clearInterval(ct);const ok=await chart(),n=+$('#cfol').value||0;if(ok&&n>=1){ct=setInterval(chart,n*1000);$('#cstop').disabled=false}};
-$('#cstop').onclick=()=>{clearInterval(ct);$('#cstop').disabled=true};
 
 // --- explorador de carpetas ---
 let CUR='';

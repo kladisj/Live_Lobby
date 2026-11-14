@@ -80,7 +80,6 @@ except Exception as e:  # noqa: BLE001
 try:
     from osuctools.reader import load
     from osuctools.salidas.consola import format_clean, format_hardest, format_header, format_mvp, format_torneo
-    from osuctools.salidas.html import render
     from osuctools.torneo.resumen import summarize, team_labels, trim
     from osuctools.stats import clean_players, hardest_maps, match_costs, team_series
 except Exception as e:  # noqa: BLE001
@@ -260,42 +259,6 @@ def api_stats(d):
     return _with_warnings("\n".join(lines), warns)
 
 
-def api_chart(d):
-    if (r := _falta("osuctools")):
-        return r
-    paths = _paths(d)
-    if not paths:
-        return {"error": "indicá el archivo .jsonl de una partida"}
-    try:
-        with _warnings_of() as warns:
-            matches = load(*paths)  # la partida y, si hay, el archivo de correcciones
-    except Exception as e:  # noqa: BLE001
-        return {"error": str(e)}
-    if len(matches) != 1:
-        return {"error": f"el gráfico es de una sola partida; esas rutas tienen {len(matches)}"}
-    match = matches[0]
-    warns = _relevant(warns, {match.match_id})
-    results = team_series(match)
-    if not results:
-        return {"error": "esa partida todavía no tiene mapas por equipos"}
-    labels = team_labels(match)  # si los nombres quedan vacíos, se usa el país de cada equipo
-    page = render(match.display_name, results,
-                  red_name=(d.get("red") or "").strip() or labels["red"],
-                  blue_name=(d.get("blue") or "").strip() or labels["blue"],
-                  refresh=d.get("refresh") or None, transparent=bool(d.get("transparent")),
-                  table=bool(d.get("table", True)))
-    out = (d.get("out") or "").strip()
-    if out:
-        p = Path(out).expanduser()
-        p.parent.mkdir(parents=True, exist_ok=True)
-        tmp = p.with_name(p.name + ".tmp")
-        tmp.write_text(page, encoding="utf-8")
-        os.replace(tmp, p)
-        out = str(p.resolve())
-    return {"html": page, "saved": out, "maps": len(results),
-            "warnings": list(dict.fromkeys(warns))}
-
-
 def api_files(_):
     found = [str(p) for p in Path.cwd().rglob("*.jsonl")
              if ".venv" not in p.parts][:200]
@@ -431,7 +394,7 @@ def api_dashboard(d):
 
 
 ROUTES_POST = {"/api/watch/start": api_watch_start, "/api/watch/stop": api_watch_stop,
-               "/api/stats": api_stats, "/api/chart": api_chart,
+               "/api/stats": api_stats,
                "/api/mkdir": api_mkdir, "/api/dashboard": api_dashboard}
 
 
