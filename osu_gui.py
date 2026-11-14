@@ -327,6 +327,30 @@ def api_mkdir(d):
     return {"path": str(target.resolve())}
 
 
+def _score_row(m, s):
+    """Un score para el popup de detalle del mapa."""
+    st = s.statistics or {}
+    return {"uid": s.user_id, "name": m.username(s.user_id), "cc": m.countries.get(s.user_id),
+            "team": s.team, "score": s.score, "acc": s.accuracy, "combo": s.max_combo,
+            "rank": s.rank, "passed": s.passed, "manual": s.manual, "mods": list(s.mods),
+            # great / ok / meh / miss; los scores cargados a mano no tienen estas estadísticas
+            "st": ({"g": st.get("count_300", 0), "o": st.get("count_100", 0),
+                    "m": st.get("count_50", 0), "x": st.get("count_miss", 0)}
+                   if st and not s.manual else None)}
+
+
+def _map_json(m, g, r):
+    """Un mapa de la línea de tiempo (r) con el detalle de sus jugadores (g) para el popup."""
+    out = {"gid": r.game_id, "title": r.title, "version": r.version, "red": r.red, "blue": r.blue,
+           "winner": r.winner, "set": r.beatmapset_id, "flipped": r.flipped}
+    if g is not None:
+        out["d"] = {"artist": g.artist, "stars": g.stars, "start": g.start_time, "end": g.end_time,
+                    "scoring": g.scoring_type, "mods": list(g.mods),
+                    "scores": [_score_row(m, s) for s in sorted(g.scores, key=lambda s: -s.score)
+                               if s.score > 0]}
+    return out
+
+
 def _dash_match(m0, skip):
     m = trim(m0, skip)
     labels, series, costs = team_labels(m), team_series(m), match_costs(m)
@@ -344,12 +368,12 @@ def _dash_match(m0, skip):
                     r[3] += s.statistics.get("count_miss", 0); r[4] += 1
     hard = hardest_maps([m])
     h = hard[0] if hard else None
+    games = {x.id: x for x in m.games}
     return {
         "id": m.match_id, "name": m.display_name, "closed": m.closed, "labels": labels,
         "sources": [str(x) for x in m0.sources],
         "rm": last.red_wins if last else 0, "bm": last.blue_wins if last else 0,
-        "maps": [{"title": r.title, "version": r.version, "red": r.red, "blue": r.blue,
-                  "winner": r.winner, "set": r.beatmapset_id} for r in series],
+        "maps": [_map_json(m, games.get(r.game_id), r) for r in series],
         "costs": [{"uid": c.user_id, "name": c.username, "team": c.team, "cc": m.countries.get(c.user_id),
                    "maps": c.maps, "total": c.total_maps, "cost": c.match_cost, "ratio": c.avg_ratio}
                   for c in costs],
