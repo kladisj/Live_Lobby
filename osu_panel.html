@@ -68,7 +68,7 @@ box-shadow:inset 0 0 0 1px rgba(255,255,255,.04),0 0 0 4px rgba(124,58,237,.08);
 .cap select{-webkit-appearance:none;appearance:none;cursor:pointer;font-weight:500;padding-right:26px}
 .chev{width:16px;height:16px;flex:none;margin-left:-28px;color:#bfaef5;pointer-events:none}
 .cap-auto.on{border-color:#a78bfa}.cap-auto.on .ic{color:#f58bbd}
-.cap-match{max-width:100%}.cap-match select{max-width:min(52ch,66vw);text-overflow:ellipsis}
+.cap-match{max-width:100%}
 .chip{border:0;border-radius:999px;padding:6px 14px;background:rgba(168,85,247,.2);color:#eadfff;font:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:background .15s}
 .chip:hover{background:rgba(168,85,247,.38)}
 .go{height:42px;padding:0 26px;border:0;border-radius:999px;color:#fff;font:inherit;font-weight:700;cursor:pointer;
@@ -96,6 +96,27 @@ background:linear-gradient(180deg,rgba(28,15,66,.9),rgba(13,6,34,.94));border:1.
 .tgl:hover{border-color:#8b5cf6}.tgl:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .tgl svg{width:18px;height:18px;transform:rotate(180deg);transition:transform .22s}.hdr.min .tgl svg{transform:none}
 @media(prefers-reduced-motion:reduce){.hdr,.hcol,.tgl svg{transition:none}}
+/* selector de partida */
+.msel-btn{display:block;background:transparent;border:0;color:inherit;font:inherit;font-weight:500;padding:0 26px 0 0;cursor:pointer;min-width:0;max-width:min(54ch,64vw);text-align:left;outline:0;overflow:hidden}
+#mseltxt{display:inline-grid;grid-template-columns:auto auto auto;align-items:center;gap:10px;white-space:nowrap}
+.cap-match .chev{transition:transform .18s}.cap-match.open .chev{transform:rotate(180deg)}
+.mpop{position:absolute;left:0;top:calc(100% + 8px);z-index:30;width:min(560px,calc(100vw - 48px));padding:10px;background:#1a1236;border:1px solid #4a3792;border-radius:18px;box-shadow:0 18px 44px rgba(0,0,0,.6);cursor:default}
+.msearch{display:flex;align-items:center;gap:10px;height:40px;padding:0 14px;margin-bottom:8px;border-radius:999px;background:#120a2c;border:1.5px solid #4a3792}
+.msearch:focus-within{border-color:#a78bfa;box-shadow:0 0 0 3px rgba(168,85,247,.28)}
+.msearch svg{width:17px;height:17px;flex:none;color:#bfaef5}
+.mpop .msearch input{flex:1;min-width:0;background:transparent;border:0;padding:0;color:var(--tx);font:inherit;font-size:14px;outline:0}
+.mc{font-size:12px;color:var(--mu);white-space:nowrap}
+#mlb{list-style:none;margin:0;padding:0;max-height:min(58vh,440px);overflow:auto;scrollbar-width:thin;scrollbar-color:#5b3fb5 transparent}
+.mg{position:sticky;top:0;z-index:1;padding:8px 10px 4px;background:#1a1236;font-size:12px;font-weight:600;color:#a99bd6}
+.mo{display:grid;grid-template-columns:1fr auto 1fr 12px;align-items:center;gap:12px;padding:9px 10px;border-radius:12px;cursor:pointer;scroll-margin-top:30px;font-size:14px}
+.mo.plain{grid-template-columns:1fr auto 12px}
+.mo.act{background:rgba(168,85,247,.16)}.mo.sel{background:rgba(168,85,247,.3);box-shadow:inset 3px 0 #a855f7}
+.mo .tl,.mo .tr,.mo .mn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#cfc4f0}
+.mo .tl{text-align:right}.mo .w{color:#fff;font-weight:700}
+.mo .tl .fl{margin:0 0 0 8px}.mo .tr .fl{margin:0 8px 0 0}
+.ms{display:inline-flex;gap:6px;font-weight:700;font-variant-numeric:tabular-nums}.ms i{font-style:normal;color:var(--mu)}
+.od{width:8px;height:8px;border-radius:50%}.od.on{background:#8a7bc4;box-shadow:0 0 0 3px rgba(138,123,196,.22)}
+.mempty{padding:18px 10px;text-align:center;color:var(--mu);font-size:13px}
 </style></head><body>
 <aside><div class="logo">osu! <span>Lobby Tools</span></div>
 <nav><button data-v="match" class="on">Partida</button><button data-v="torneo">Torneo</button><button data-v="live">En vivo</button><button data-v="chart">Gráfico OBS</button></nav>
@@ -111,7 +132,8 @@ background:linear-gradient(180deg,rgba(28,15,66,.9),rgba(13,6,34,.94));border:1.
 <div class="cap cap-auto" id="autocap"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg><select id="auto" aria-label="Recarga automática"><option value="0">Manual</option><option value="2">Auto 2 s</option><option value="5">Auto 5 s</option><option value="10">Auto 10 s</option><option value="30">Auto 30 s</option></select><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
 </div></div></div>
 <div class="hrow">
-<div class="cap cap-match" id="matchcap" hidden><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg><select id="msel" aria-label="Partida"></select><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+<div class="cap cap-match" id="matchcap" hidden><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg><button class="msel-btn" id="msel" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="mlb" aria-label="Elegir partida"><span id="mseltxt"></span></button><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+<div class="mpop" id="mpop" hidden><div class="msearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21 21-4.34-4.34"/><circle cx="11" cy="11" r="8"/></svg><input id="mq" placeholder="Buscar partida o país" aria-label="Buscar partida" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="mlb" aria-autocomplete="list"><span class="mc" id="mcount"></span></div><ul id="mlb" role="listbox" aria-label="Partidas"></ul><div class="mempty" id="mempty" hidden>Ninguna partida coincide con la búsqueda.</div></div></div>
 <span id="msg" role="status"></span><span class="grow"></span>
 <span class="stat" id="stat" hidden><i></i><span></span></span>
 <button class="tgl" id="tgl" type="button" aria-controls="hcol" aria-expanded="true" aria-label="Ocultar controles" title="Ocultar controles"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
@@ -276,14 +298,74 @@ try{if(localStorage.osuSrc){$('#src').value=localStorage.osuSrc;$('#skip').value
 function updHdr(){
   const D=S.d,m=D&&D.matches[S.mi],show=S.v==='match'&&!!m;
   $('#matchcap').hidden=!show;$('#stat').hidden=!show;
-  if(!show)return;
-  const sel=$('#msel'),sig=D.matches.map(x=>x.name).join('\n');
-  if(sel.dataset.sig!==sig){sel.innerHTML=D.matches.map((x,i)=>`<option value="${i}">${esc(x.name)}</option>`).join('');sel.dataset.sig=sig}
-  sel.value=S.mi;
+  if(!show){mClose(false);return}
+  $('#mseltxt').innerHTML=mRow(m);$('#msel').title=m.name;
+  if(!$('#mpop').hidden&&mSigOf(D)!==mSig)mFill(true); // con Auto no se redibuja si nada cambió (así no se pierde un clic)
   $('#stat').className='stat '+(m.closed?'closed':'open');
   $('#stat span').textContent=m.closed?'Partida cerrada':'Sin cierre registrado (¿en juego?)';
 }
-$('#msel').onchange=e=>{S.mi=+e.target.value;vMatch();updHdr()};
+// --- selector de partida: lista propia con búsqueda ---
+const nz=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const dirOf=m=>{const p=((m.sources||[])[0]||'').split(/[\\/]/);return p.length>1?p[p.length-2]:''};
+const hasTeams=m=>isCC(m.labels.red)&&isCC(m.labels.blue);
+const mRow=m=>{
+  const sc=`<span class="ms"><b class="r">${m.rm}</b><i>-</i><b class="b">${m.bm}</b></span>`;
+  if(!hasTeams(m))return `<span class="mn">${esc(m.name)}</span>${sc}`;
+  const w=m.rm>m.bm?'r':m.bm>m.rm?'b':'';
+  return `<span class="tl${w=='r'?' w':''}">${esc(tname(m.labels.red))}${fl(m.labels.red)}</span>${sc}<span class="tr${w=='b'?' w':''}">${fl(m.labels.blue)}${esc(tname(m.labels.blue))}</span>`;
+};
+let mQ='',mItems=[],mAct=0,mSig='';
+const mSigOf=D=>D.matches.map(x=>x.id+':'+x.rm+':'+x.bm+':'+(+x.closed)).join(',');
+function mFill(keep){
+  const D=S.d;if(!D)return;
+  mSig=mSigOf(D);
+  const toks=nz(mQ).split(/\s+/).filter(Boolean);
+  mItems=D.matches.map((m,i)=>({m,i})).filter(({m})=>{
+    const h=nz([m.name,tname(m.labels.red),tname(m.labels.blue),m.labels.red,m.labels.blue,dirOf(m)].join(' '));
+    return toks.every(t=>h.includes(t))});
+  const dirs=new Set(D.matches.map(dirOf)),group=dirs.size>1&&dirs.size<=30;
+  if(group)mItems.sort((a,b)=>dirOf(a.m).localeCompare(dirOf(b.m)));  // una sola cabecera por carpeta
+  if(mAct>=mItems.length)mAct=0;
+  const ul=$('#mlb'),top=ul.scrollTop;let last=null;
+  ul.innerHTML=mItems.map(({m,i},k)=>{
+    const d=dirOf(m);let h='';
+    if(group&&d!==last){h=`<li class="mg" role="presentation">${esc(d)}</li>`;last=d}
+    return h+`<li role="option" id="mo-${i}" data-k="${k}" class="mo${hasTeams(m)?'':' plain'}${i==S.mi?' sel':''}${k==mAct?' act':''}" aria-selected="${i==S.mi}">${mRow(m)}<i class="od${m.closed?'':' on'}"${m.closed?'':' title="Sin cierre registrado"'}></i></li>`}).join('');
+  $('#mempty').hidden=mItems.length>0;
+  const n=D.matches.length;
+  $('#mcount').textContent=toks.length?`${mItems.length} de ${n}`:`${n} partida${n==1?'':'s'}`;
+  if(keep)ul.scrollTop=top;
+  $('#mq').setAttribute('aria-activedescendant',mItems[mAct]?'mo-'+mItems[mAct].i:'');
+}
+function setAct(scroll=true){
+  $$('#mlb .mo').forEach(li=>li.classList.toggle('act',+li.dataset.k===mAct));
+  const a=$('#mlb .mo.act');if(!a)return;
+  $('#mq').setAttribute('aria-activedescendant',a.id);if(scroll)a.scrollIntoView({block:'nearest'});
+}
+function mOpen(){
+  tgl(false);mQ='';$('#mq').value='';mAct=0;mFill();
+  mAct=Math.max(0,mItems.findIndex(x=>x.i===S.mi));mFill();
+  $('#mpop').hidden=false;$('#msel').setAttribute('aria-expanded','true');$('#matchcap').classList.add('open');
+  const a=$('#mlb .mo.act');if(a)a.scrollIntoView({block:'center'});$('#mq').focus();
+}
+function mClose(focus){
+  $('#mpop').hidden=true;$('#msel').setAttribute('aria-expanded','false');$('#matchcap').classList.remove('open');
+  if(focus)$('#msel').focus();
+}
+function mPick(k){const it=mItems[k];if(!it)return;S.mi=it.i;mClose(true);vMatch();updHdr()}
+$('#msel').onclick=()=>$('#mpop').hidden?mOpen():mClose(true);
+$('#msel').onkeydown=e=>{if(e.key==='ArrowDown'&&$('#mpop').hidden){e.preventDefault();mOpen()}};
+$('#mq').oninput=e=>{mQ=e.target.value;mAct=0;mFill()};
+$('#mq').onkeydown=e=>{
+  const mv=d=>{e.preventDefault();if(mItems.length){mAct=(mAct+d+mItems.length)%mItems.length;setAct()}};
+  if(e.key==='ArrowDown')mv(1);else if(e.key==='ArrowUp')mv(-1);
+  else if(e.key==='Enter'){e.preventDefault();mPick(mAct)}
+  else if(e.key==='Escape'){e.preventDefault();e.stopPropagation();mClose(true)}
+  else if(e.key==='Tab')mClose(false);
+};
+$('#mlb').onclick=e=>{const li=e.target.closest('.mo');if(li)mPick(+li.dataset.k)};
+$('#mlb').onmousemove=e=>{const li=e.target.closest('.mo');if(li&&+li.dataset.k!==mAct){mAct=+li.dataset.k;setAct(false)}};
+document.addEventListener('click',e=>{if(!$('#mpop').hidden&&!$('#matchcap').contains(e.target))mClose(false)});
 let at=null;
 function setAuto(n){
   const sel=$('#auto');sel.value=String(n);if(sel.value!==String(n)){n=0;sel.value='0'}
@@ -292,7 +374,7 @@ function setAuto(n){
 }
 $('#auto').onchange=e=>setAuto(+e.target.value);
 const hp=$('#help'),pop=$('#pop'),tgl=o=>{pop.hidden=!o;hp.setAttribute('aria-expanded',String(o))};
-hp.onclick=e=>{e.stopPropagation();tgl(pop.hidden)};
+hp.onclick=e=>{e.stopPropagation();mClose(false);tgl(pop.hidden)};
 document.addEventListener('click',e=>{if(!pop.hidden&&!pop.contains(e.target))tgl(false)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')tgl(false)});
 try{setAuto(+localStorage.osuAuto||0)}catch{setAuto(0)}
