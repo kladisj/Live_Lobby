@@ -349,7 +349,7 @@ def _dash_match(m0, skip):
         "sources": [str(x) for x in m0.sources],
         "rm": last.red_wins if last else 0, "bm": last.blue_wins if last else 0,
         "maps": [{"title": r.title, "version": r.version, "red": r.red, "blue": r.blue,
-                  "winner": r.winner} for r in series],
+                  "winner": r.winner, "set": r.beatmapset_id} for r in series],
         "costs": [{"uid": c.user_id, "name": c.username, "team": c.team, "cc": m.countries.get(c.user_id),
                    "maps": c.maps, "total": c.total_maps, "cost": c.match_cost, "ratio": c.avg_ratio}
                   for c in costs],
@@ -357,7 +357,7 @@ def _dash_match(m0, skip):
                      "maps": r[0], "score": r[1] / r[0], "acc": r[2] / r[0],
                      "miss": r[3] / r[4] if r[4] else None} for u, r in rows.items()],
         "hard": ({"title": h.title, "version": h.version, "stars": h.stars, "acc": h.avg_accuracy,
-                  "miss": h.avg_misses} if h else None),
+                  "miss": h.avg_misses, "set": h.beatmapset_id} if h else None),
     }
 
 

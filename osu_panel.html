@@ -116,6 +116,11 @@ background:linear-gradient(180deg,rgba(28,15,66,.9),rgba(13,6,34,.94));border:1.
 .ms{display:inline-flex;gap:6px;font-weight:700;font-variant-numeric:tabular-nums}.ms i{font-style:normal;color:var(--mu)}
 .od{width:8px;height:8px;border-radius:50%}.od.on{background:#8a7bc4;box-shadow:0 0 0 3px rgba(138,123,196,.22)}
 .mempty{padding:18px 10px;text-align:center;color:var(--mu);font-size:13px}
+/* imagen del mapa */
+.cov{position:relative;flex:none;width:76px;height:48px;border-radius:9px;overflow:hidden;background:linear-gradient(135deg,#2c1f60,#1a1236);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+.cov img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cov.big{width:140px;height:96px;border-radius:13px}
+.hrd{display:flex;align-items:center;gap:14px}.hrd>div{min-width:0}
 </style></head><body>
 <aside><div class="logo">osu! <span>Lobby Tools</span></div>
 <nav><button data-v="match" class="on">Partida</button><button data-v="torneo">Torneo</button><button data-v="live">En vivo</button></nav>
@@ -173,6 +178,7 @@ const isCC=s=>/^[A-Z]{2}$/.test(s||''),RN=new Intl.DisplayNames(['es'],{type:'re
 const NOMBRES={HK:'Hong Kong',MO:'Macao'};
 const tname=c=>{if(!isCC(c))return c||'';if(NOMBRES[c])return NOMBRES[c];try{return RN.of(c)}catch{return c}};
 const fl=c=>isCC(c)?`<img class="fl" src="https://flagcdn.com/w40/${c.toLowerCase()}.png" alt="" onerror="this.remove()">`:'';
+const cov=(s,big)=>s?`<span class="cov${big?' big':''}"><img src="https://assets.ppy.sh/beatmaps/${s}/covers/${big?'card@2x':'card'}.jpg" alt="" loading="lazy" onerror="this.remove()"></span>`:'';
 const av=u=>`<img class="av" src="https://a.ppy.sh/${u}" alt="" onerror="this.style.visibility='hidden'">`;
 const fmt=n=>Math.round(n).toLocaleString('es'),pct=x=>x==null?'-':(x*100).toFixed(2)+'%',f1=x=>x==null?'-':x.toFixed(1),f2=x=>x==null?'-':x.toFixed(2);
 const mean=a=>{a=a.filter(x=>x!=null);return a.length?a.reduce((s,x)=>s+x,0)/a.length:null};
@@ -229,11 +235,11 @@ function vMatch(){
    <div class="cd"><h3>⭐ MVP (match cost)<span class="mu">${m.closed?'Final':'Actual'}</span></h3>${best?`<div class="mvp">${av(best.uid)}<div><b>${esc(best.name)} ${fl(best.cc)}</b>
     <div class="mu">Match cost: <b style="color:var(--tx)">${f2(best.cost)}</b></div><div class="st"><div><b>${f2(best.ratio)}</b><small>Ratio prom.</small></div><div><b>${best.maps}/${best.total}</b><small>Mapas</small></div></div></div></div>
     <div class="mu" style="margin-top:10px;font-size:12px">${m.costs.slice(1,4).map((c,i)=>`${i+2}. ${esc(c.name)} (${f2(c.cost)})`).join(' · ')}</div>`:'<span class="mu">Sin datos</span>'}</div>
-   <div class="cd"><h3>🔥 Mapa más duro</h3>${h?`<b style="font-size:17px">${esc(h.title)}</b><div class="mu">${esc(h.version||'')} ${h.stars?'· '+h.stars.toFixed(2)+'★':''}</div>
+   <div class="cd"><h3>🔥 Mapa más duro</h3>${h?`<div class="hrd">${cov(h.set,1)}<div><b style="font-size:17px">${esc(h.title)}</b><div class="mu">${esc(h.version||'')} ${h.stars?'· '+h.stars.toFixed(2)+'★':''}</div></div></div>
     <div class="tiles" style="margin-top:12px"><div class="tile"><b>${pct(h.acc)}</b><small>Acc. prom.</small></div><div class="tile"><b>${f1(h.miss)}</b><small>Misses prom.</small></div></div>`:'<span class="mu">Sin datos</span>'}</div>
    <div class="cd"><h3>Estadísticas clave</h3><div class="tiles">${['red','blue'].map(t=>kt(t,'Acc. '+esc(tname(L[t])),pct(mean(tp(t).map(p=>p.acc))))+kt(t,'Misses '+esc(tname(L[t])),f1(mean(tp(t).map(p=>p.miss))))).join('')}</div></div></div>
   <div class="g g2"><div class="cd"><h3>Rendimiento en la serie<span class="lgd"><span class="r">● ${nm('red')}</span> &nbsp;<span class="b">● ${nm('blue')}</span></span></h3>${lineChart(ms)}</div>
-   <div class="cd"><h3>Línea de tiempo</h3><ul class="tl">${ms.map((x,i)=>`<li><i class="dot"></i><div><b>Mapa ${i+1} · ${esc(x.title)}</b><small>${esc(x.version||'')}</small></div>
+   <div class="cd"><h3>Línea de tiempo</h3><ul class="tl">${ms.map((x,i)=>`<li>${cov(x.set)||'<i class="dot"></i>'}<div><b>Mapa ${i+1} · ${esc(x.title)}</b><small>${esc(x.version||'')}</small></div>
     <span class="w ${x.winner=='red'?'r':x.winner=='blue'?'b':'mu'}">${x.winner?nm(x.winner)+' gana':'Empate'}</span><span class="sc2"><span class="sv"><b class="r">${fmt(x.red)}</b> - <b class="b">${fmt(x.blue)}</b>${x.red!==x.blue?`<small class="df ${x.red>x.blue?'r':'b'}" title="Diferencia de score">+${fmt(Math.abs(x.red-x.blue))}</small>`:''}</span></span></li>`).join('')||'<li class="mu">Sin mapas por equipos</li>'}</ul></div></div>
   <div class="g g2">${tbl('red')}${tbl('blue')}</div>`;
 }
