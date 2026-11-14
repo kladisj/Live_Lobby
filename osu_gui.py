@@ -389,7 +389,7 @@ def _dash_match(m0, skip):
                   "winner": r.winner} for r in series],
         "costs": [{"uid": c.user_id, "name": c.username, "team": c.team, "cc": m.countries.get(c.user_id),
                    "maps": c.maps, "total": c.total_maps, "cost": c.match_cost, "ratio": c.avg_ratio}
-                  for c in costs[:8]],
+                  for c in costs],
         "players": [{"uid": u, "name": m.username(u), "team": side.get(u), "cc": m.countries.get(u),
                      "maps": r[0], "score": r[1] / r[0], "acc": r[2] / r[0],
                      "miss": r[3] / r[4] if r[4] else None} for u, r in rows.items()],

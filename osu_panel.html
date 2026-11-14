@@ -27,7 +27,7 @@ background:linear-gradient(110deg,rgba(240,83,155,.28),rgba(26,18,54,.9) 38%,rgb
 .g{display:grid;gap:14px;margin-bottom:14px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1.1fr 1.1fr 1fr}
 @media(max-width:1000px){.g2,.g3{grid-template-columns:1fr}aside{width:150px}}
 .cd{background:rgba(26,18,54,.85);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;min-width:0}
-.cd h3{margin:0 0 10px;font-size:14px;color:#d9ccff;display:flex;justify-content:space-between}
+.cd h3{position:relative;margin:0 0 14px;padding-bottom:11px;border-bottom:1px solid var(--bd);font-size:18px;font-weight:700;letter-spacing:.2px;color:#fff;display:flex;justify-content:space-between;align-items:baseline;gap:12px}.cd h3::after{content:"";position:absolute;left:0;bottom:-1px;width:48px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--ac),var(--r))}.cd h3 .mu,.cd h3 .lgd{font-size:12px;font-weight:500}.cd h3 .fl{width:26px;height:18px;margin-right:10px}
 .mvp{display:flex;gap:14px;align-items:center}.mvp img.av{width:84px;height:84px;border-radius:50%;object-fit:cover;border:2px solid var(--ac)}
 .mvp b{font-size:22px}.mvp .st{display:flex;gap:18px;margin-top:8px}.st div{text-align:center}.st b{font-size:16px;display:block}.st small{color:var(--mu)}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
@@ -35,9 +35,9 @@ background:linear-gradient(110deg,rgba(240,83,155,.28),rgba(26,18,54,.9) 38%,rgb
 .r{color:var(--r)}.b{color:var(--b)}
 table{width:100%;border-collapse:collapse;font-size:13px}th{color:var(--mu);font-weight:500;text-align:right;padding:6px 8px}td{padding:6px 8px;text-align:right;border-top:1px solid #2a1f52}
 th:first-child,td:first-child{text-align:left}td img.av{width:26px;height:26px;border-radius:50%;vertical-align:middle;margin-right:8px;object-fit:cover}
-.tbl{overflow-x:auto}tr.t-red td:first-child{box-shadow:inset 3px 0 var(--r)}tr.t-blue td:first-child{box-shadow:inset 3px 0 var(--b)}
+.rk{margin-left:7px;font-size:11px;font-weight:600;color:var(--mu)}.rk.gd{color:#fbbf24}.cst{font-weight:700;color:var(--tx)}td.cc{white-space:nowrap}.tbl{overflow-x:auto}tr.t-red td:first-child{box-shadow:inset 3px 0 var(--r)}tr.t-blue td:first-child{box-shadow:inset 3px 0 var(--b)}
 ul.tl{list-style:none;margin:0;padding:0}ul.tl li{display:flex;gap:12px;align-items:center;padding:9px 6px;border-top:1px solid #2a1f52}ul.tl li:first-child{border:0}
-.dot{width:11px;height:11px;border-radius:50%;background:var(--ac);flex:none}ul.tl small{color:var(--mu);display:block}.tl .w{margin-left:auto;font-size:12px}.tl .sc2{min-width:150px;text-align:right}.tl .w,.tl .sc2{white-space:nowrap}.tl li>div{flex:1;min-width:0}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--ac);flex:none}ul.tl small{color:var(--mu);display:block}.tl .w{margin-left:auto;font-size:12px}.tl .sc2{min-width:150px;text-align:right}.tl .sc2{position:relative}.tl .sv{display:block;transition:transform .2s ease}ul.tl small.df{position:absolute;right:0;top:50%;margin-top:2px;font-size:12px;font-weight:600;white-space:nowrap;opacity:0;transform:translateY(5px);transition:opacity .2s ease,transform .2s ease;pointer-events:none}ul.tl li:hover .sv{transform:translateY(-9px)}ul.tl li:hover small.df{opacity:1;transform:none}ul.tl small.df.r{color:var(--r)}ul.tl small.df.b{color:var(--b)}.tl .w,.tl .sc2{white-space:nowrap}.tl li>div{flex:1;min-width:0}
 .fl{width:22px;height:15px;border-radius:2px;vertical-align:middle;margin-right:6px;object-fit:cover}
 .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:12px}.row label{display:block;color:var(--mu);font-size:12px;margin-bottom:3px}.row input{width:100%}
 pre{background:#0b0620;border:1px solid var(--bd);border-radius:8px;padding:12px;margin:0;overflow:auto;font:12.5px/1.45 ui-monospace,Consolas,monospace}#log{height:340px}
@@ -113,7 +113,7 @@ background:linear-gradient(180deg,rgba(28,15,66,.9),rgba(13,6,34,.94));border:1.
 .mo.act{background:rgba(168,85,247,.16)}.mo.sel{background:rgba(168,85,247,.3);box-shadow:inset 3px 0 #a855f7}
 .mo .tl,.mo .tr,.mo .mn{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#cfc4f0}
 .mo .tl{text-align:right}.mo .w{color:#fff;font-weight:700}
-.mo .tl .fl{margin:0 0 0 8px}.mo .tr .fl{margin:0 8px 0 0}
+.mo .tl .fl,#mseltxt .tl .fl{margin:0 0 0 8px}.mo .tr .fl,#mseltxt .tr .fl{margin:0 8px 0 0}
 .ms{display:inline-flex;gap:6px;font-weight:700;font-variant-numeric:tabular-nums}.ms i{font-style:normal;color:var(--mu)}
 .od{width:8px;height:8px;border-radius:50%}.od.on{background:#8a7bc4;box-shadow:0 0 0 3px rgba(138,123,196,.22)}
 .mempty{padding:18px 10px;text-align:center;color:var(--mu);font-size:13px}
@@ -221,9 +221,15 @@ function vMatch(){
   const el=$('#v-match'),D=S.d;if(!D){el.innerHTML=empty();return}
   const m=D.matches[S.mi],L=m.labels,nm=t=>esc(tname(L[t])),col=t=>t=='red'?'Equipo rojo':'Equipo azul';
   const team=t=>`<div class="tm ${t}">${fl(L[t]).replace('class="fl"','class=""')}<div><b>${nm(t)}</b><small>${col(t)}</small></div></div>`;
-  const best=m.costs[0],tp=t=>m.players.filter(p=>p.team==t).sort((a,b)=>b.score-a.score);
-  const tbl=t=>`<div class="cd"><h3>${fl(L[t])}${nm(t)}</h3><div class="tbl"><table><tr><th>Jugador</th><th>Mapas</th><th>Score prom.</th><th>Accuracy</th><th>Misses</th></tr>
-   ${tp(t).map(p=>`<tr class="t-${t}"><td>${av(p.uid)}${esc(p.name)}</td><td>${p.maps}</td><td>${fmt(p.score)}</td><td>${pct(p.acc)}</td><td>${f1(p.miss)}</td></tr>`).join('')||'<tr><td colspan=5 class="mu">Sin datos</td></tr>'}</table></div></div>`;
+  const best=m.costs[0];
+  // una fila por jugador: match cost (de todos los que jugaron) + score/acc/misses (de los mapas pasados)
+  const pm=new Map(m.players.map(p=>[p.uid,p]));
+  const rows=m.costs.map((c,i)=>{const p=pm.get(c.uid)||{};return {uid:c.uid,name:c.name,team:p.team||c.team,cost:c.cost,ratio:c.ratio,rank:i+1,maps:p.maps??0,total:c.total,score:p.score,acc:p.acc,miss:p.miss}});
+  m.players.forEach(p=>{if(!rows.some(r=>r.uid===p.uid))rows.push({...p,cost:null,ratio:null,rank:null})});
+  const tp=t=>rows.filter(r=>r.team==t).sort((a,b)=>(b.cost??-1)-(a.cost??-1));
+  const rkc=r=>r.rank==null?'':`<span class="rk${r.rank<=3?' gd':''}" title="Puesto en el match cost de toda la partida">#${r.rank}</span>`;
+  const tbl=t=>`<div class="cd"><h3><span>${fl(L[t])}${nm(t)}</span></h3><div class="tbl"><table><tr><th>Jugador</th><th>Mapas</th><th title="Match cost de la partida">Cost</th><th title="Ratio promedio de score contra el promedio de cada mapa">Ratio</th><th>Score prom.</th><th>Accuracy</th><th>Misses</th></tr>
+   ${tp(t).map(p=>`<tr class="t-${t}"><td>${av(p.uid)}${esc(p.name)}</td><td>${p.maps}</td><td class="cc"><span class="cst">${f2(p.cost)}</span>${rkc(p)}</td><td>${f2(p.ratio)}</td><td>${p.score==null?'-':fmt(p.score)}</td><td>${pct(p.acc)}</td><td>${f1(p.miss)}</td></tr>`).join('')||'<tr><td colspan=7 class="mu">Sin datos</td></tr>'}</table></div></div>`;
   const kt=(t,l,v)=>`<div class="tile"><b class="${t=='red'?'r':'b'}">${v}</b><small>${l}</small></div>`;
   const h=m.hard,ms=m.maps;
   el.innerHTML=`
@@ -235,9 +241,9 @@ function vMatch(){
    <div class="cd"><h3>🔥 Mapa más duro</h3>${h?`<b style="font-size:17px">${esc(h.title)}</b><div class="mu">${esc(h.version||'')} ${h.stars?'· '+h.stars.toFixed(2)+'★':''}</div>
     <div class="tiles" style="margin-top:12px"><div class="tile"><b>${pct(h.acc)}</b><small>Acc. prom.</small></div><div class="tile"><b>${f1(h.miss)}</b><small>Misses prom.</small></div></div>`:'<span class="mu">Sin datos</span>'}</div>
    <div class="cd"><h3>Estadísticas clave</h3><div class="tiles">${['red','blue'].map(t=>kt(t,'Acc. '+esc(tname(L[t])),pct(mean(tp(t).map(p=>p.acc))))+kt(t,'Misses '+esc(tname(L[t])),f1(mean(tp(t).map(p=>p.miss))))).join('')}</div></div></div>
-  <div class="g g2"><div class="cd"><h3>Rendimiento en la serie<span><span class="r">● ${nm('red')}</span> &nbsp;<span class="b">● ${nm('blue')}</span></span></h3>${lineChart(ms)}</div>
+  <div class="g g2"><div class="cd"><h3>Rendimiento en la serie<span class="lgd"><span class="r">● ${nm('red')}</span> &nbsp;<span class="b">● ${nm('blue')}</span></span></h3>${lineChart(ms)}</div>
    <div class="cd"><h3>Línea de tiempo</h3><ul class="tl">${ms.map((x,i)=>`<li><i class="dot"></i><div><b>Mapa ${i+1} · ${esc(x.title)}</b><small>${esc(x.version||'')}</small></div>
-    <span class="w ${x.winner=='red'?'r':x.winner=='blue'?'b':'mu'}">${x.winner?nm(x.winner)+' gana':'Empate'}</span><span class="sc2"><b class="r">${fmt(x.red)}</b> - <b class="b">${fmt(x.blue)}</b></span></li>`).join('')||'<li class="mu">Sin mapas por equipos</li>'}</ul></div></div>
+    <span class="w ${x.winner=='red'?'r':x.winner=='blue'?'b':'mu'}">${x.winner?nm(x.winner)+' gana':'Empate'}</span><span class="sc2"><span class="sv"><b class="r">${fmt(x.red)}</b> - <b class="b">${fmt(x.blue)}</b></span>${x.red!==x.blue?`<small class="df ${x.red>x.blue?'r':'b'}" title="Diferencia de score">+${fmt(Math.abs(x.red-x.blue))}</small>`:''}</span></li>`).join('')||'<li class="mu">Sin mapas por equipos</li>'}</ul></div></div>
   <div class="g g2">${tbl('red')}${tbl('blue')}</div>`;
 }
 
