@@ -237,14 +237,14 @@ nav button:focus-visible{outline:2px solid #fff;outline-offset:2px}
 
 /* desglose de mapas */
 ul.mapl{list-style:none;margin:0;padding:0}
-ul.mapl li{display:grid;grid-template-columns:30px 78px minmax(0,1fr) 132px auto;gap:14px;align-items:center;padding:10px 2px;border-top:1px solid rgba(255,255,255,.07)}ul.mapl li:first-child{border:0}
+ul.mapl li{position:relative;overflow:hidden;display:grid;grid-template-columns:30px 78px minmax(0,1fr) 132px auto;gap:14px;align-items:center;padding:10px 16px 10px 12px;border:1px solid rgba(255,255,255,.08);border-radius:14px}
 .mnum{color:var(--mu);font-weight:600}
 .mtt b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mtt small{display:block;color:var(--mu)}
 .mw{display:flex;align-items:center;gap:8px;font-size:13px;white-space:nowrap}.mw .fl{margin:0}
 .mscore{white-space:nowrap;font-weight:600;text-align:right}
 .mscore .sv{position:relative;display:inline-block;transition:transform .2s ease}
 .mscore small.df{position:absolute;left:0;right:0;top:100%;margin-top:1px;text-align:center;font-size:12px;font-weight:600;opacity:0;transform:translateY(5px);transition:opacity .2s ease,transform .2s ease;pointer-events:none}
-ul.mapl li[data-g]{cursor:pointer;border-radius:12px;transition:background .15s}ul.mapl li[data-g]:hover{background:rgba(168,85,247,.09)}ul.mapl li[data-g]:focus-visible{outline:2px solid var(--ac);outline-offset:-2px}
+ul.mapl li[data-g]{cursor:pointer;border-radius:14px;transition:background .15s,border-color .2s}ul.mapl li[data-g]:hover{background:rgba(168,85,247,.09)}ul.mapl li[data-g]:focus-visible{outline:2px solid var(--ac);outline-offset:-2px}
 ul.mapl li:hover .sv{transform:translateY(-9px)}ul.mapl li:hover small.df{opacity:1;transform:none}.mscore small.df.r{color:var(--r)}.mscore small.df.b{color:var(--b)}
 
 /* estadísticas por equipo */
@@ -266,6 +266,24 @@ ul.mapl li:hover .sv{transform:translateY(-9px)}ul.mapl li:hover small.df{opacit
 @media(max-width:1000px){.gB{grid-template-columns:1fr}aside{width:170px}}
 @media(max-width:820px){.hv{grid-template-columns:1fr;gap:14px}.ht.red,.ht.blue{justify-content:center;text-align:center}}
 @media(prefers-reduced-motion:reduce){nav button,.mscore .sv,.mscore small.df{transition:none}}
+/* portada del último mapa como fondo del banner */
+.hero::before,.hero::after{z-index:1}.hero .hv,.hero .hero-chip{z-index:2}
+.hero-bg{position:absolute;z-index:0;top:-34px;left:-34px;width:calc(100% + 68px);height:calc(100% + 68px);object-fit:cover;filter:blur(15px) saturate(1.15);opacity:0;transition:opacity .7s ease;pointer-events:none}
+.hero-tint{position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .7s ease;pointer-events:none;background:linear-gradient(110deg,rgba(240,83,155,.66),rgba(22,13,48,.50) 36%,rgba(22,13,48,.50) 64%,rgba(77,163,255,.66))}
+.hero.hascov .hero-bg{opacity:.45}.hero.hascov .hero-tint{opacity:1}
+.hero.nofade .hero-bg,.hero.nofade .hero-tint{transition:none}
+@media (prefers-reduced-motion:reduce){.hero-bg,.hero-tint{transition:none}}
+/* portada de fondo en cada fila del desglose */
+ul.mapl{display:grid;gap:8px}
+.rbg{position:absolute;z-index:0;top:-6px;left:-6px;width:calc(100% + 12px);height:calc(100% + 12px);object-fit:cover;object-position:center 38%;filter:blur(2.5px);opacity:0;transition:opacity .5s ease,filter .25s ease;pointer-events:none}
+.rbg.ld{opacity:.40}.rbg.nofade{transition:filter .25s ease}
+.rtint{position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,rgba(22,13,48,.90),rgba(22,13,48,.58) 48%,rgba(22,13,48,.74))}
+.rtint.r{background:linear-gradient(270deg,rgba(240,83,155,.26),transparent 42%),linear-gradient(90deg,rgba(22,13,48,.90),rgba(22,13,48,.58) 48%,rgba(22,13,48,.74))}
+.rtint.b{background:linear-gradient(270deg,rgba(77,163,255,.26),transparent 42%),linear-gradient(90deg,rgba(22,13,48,.90),rgba(22,13,48,.58) 48%,rgba(22,13,48,.74))}
+ul.mapl li>*:not(.rbg):not(.rtint){position:relative;z-index:1}
+ul.mapl li .mtt,ul.mapl li .mnum,ul.mapl li .mw,ul.mapl li .mscore{text-shadow:0 1px 8px rgba(0,0,0,.6)}
+ul.mapl li[data-g]:hover{border-color:rgba(168,85,247,.55)}ul.mapl li[data-g]:hover .rbg{filter:blur(1px)}ul.mapl li[data-g]:hover .rbg.ld{opacity:.56}
+@media (prefers-reduced-motion:reduce){.rbg{transition:none}}
 </style></head><body>
 <aside><div class="logo"><i>osu!</i><span>Lobby Tools</span></div>
 <nav><button data-v="matches"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>Matches</button><button data-v="match" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"></polyline><line x1="13" x2="19" y1="19" y2="13"></line><line x1="16" x2="20" y1="16" y2="20"></line><line x1="19" x2="21" y1="21" y2="19"></line><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"></polyline><line x1="5" x2="9" y1="14" y2="18"></line><line x1="7" x2="4" y1="17" y2="20"></line><line x1="3" x2="5" y1="19" y2="21"></line></svg>Partida</button><button data-v="torneo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>Torneo</button><button data-v="live"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg>En vivo</button></nav>
@@ -329,6 +347,11 @@ const isCC=s=>/^[A-Z]{2}$/.test(s||''),RN=new Intl.DisplayNames(['es'],{type:'re
 const NOMBRES={HK:'Hong Kong',MO:'Macao'};
 const tname=c=>{if(!isCC(c))return c||'';if(NOMBRES[c])return NOMBRES[c];try{return RN.of(c)}catch{return c}};
 const fl=c=>isCC(c)?`<img class="fl" src="https://flagcdn.com/w40/${c.toLowerCase()}.png" alt="" onerror="this.remove()">`:'';
+const rbgOk=new Set();
+function rbgLoaded(img){img.classList.add('ld');rbgOk.add(+img.dataset.s)}
+const rbg=x=>{const s=+x.set;return s?`<img class="rbg${rbgOk.has(s)?' ld nofade':''}" src="https://assets.ppy.sh/beatmaps/${s}/covers/cover.jpg" alt="" data-s="${s}" onload="rbgLoaded(this)" onerror="this.nextElementSibling.remove();this.remove()"><i class="rtint ${x.winner==='red'?'r':x.winner==='blue'?'b':''}"></i>`:''};
+const heroOk=new Set();
+function heroCovOk(img){img.parentElement.classList.add('hascov');heroOk.add(+img.dataset.s)}
 const cov=(s,big)=>s?`<span class="cov${big?' big':''}"><img src="https://assets.ppy.sh/beatmaps/${s}/covers/${big?'card@2x':'card'}.jpg" alt="" loading="lazy" onerror="this.remove()"></span>`:'';
 const ICO={"trophy": "<path d=\"M6 9H4.5a2.5 2.5 0 0 1 0-5H6\"></path><path d=\"M18 9h1.5a2.5 2.5 0 0 0 0-5H18\"></path><path d=\"M4 22h16\"></path><path d=\"M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22\"></path><path d=\"M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22\"></path><path d=\"M18 2H6v7a6 6 0 0 0 12 0V2Z\"></path>", "swords": "<polyline points=\"14.5 17.5 3 6 3 3 6 3 17.5 14.5\"></polyline><line x1=\"13\" x2=\"19\" y1=\"19\" y2=\"13\"></line><line x1=\"16\" x2=\"20\" y1=\"16\" y2=\"20\"></line><line x1=\"19\" x2=\"21\" y1=\"21\" y2=\"19\"></line><polyline points=\"14.5 6.5 18 3 21 3 21 6 17.5 9.5\"></polyline><line x1=\"5\" x2=\"9\" y1=\"14\" y2=\"18\"></line><line x1=\"7\" x2=\"4\" y1=\"17\" y2=\"20\"></line><line x1=\"3\" x2=\"5\" y1=\"19\" y2=\"21\"></line>", "radio": "<path d=\"M4.9 19.1C1 15.2 1 8.8 4.9 4.9\"></path><path d=\"M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5\"></path><circle cx=\"12\" cy=\"12\" r=\"2\"></circle><path d=\"M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5\"></path><path d=\"M19.1 4.9C23 8.8 23 15.1 19.1 19\"></path>", "star": "<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\"></path>", "flame": "<path d=\"M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z\"></path>", "clock": "<circle cx=\"12\" cy=\"12\" r=\"10\"></circle><polyline points=\"12 6 12 12 16 14\"></polyline>", "layers": "<path d=\"m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z\"></path><path d=\"m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65\"></path><path d=\"m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65\"></path>", "chart": "<path d=\"M3 3v16a2 2 0 0 0 2 2h16\"></path><path d=\"M18 17V9\"></path><path d=\"M13 17V5\"></path><path d=\"M8 17v-3\"></path>", "users": "<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"></path><circle cx=\"9\" cy=\"7\" r=\"4\"></circle><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"></path><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"></path>", "check": "<path d=\"M20 6 9 17l-5-5\"></path>", "grid": "<rect width=\"7\" height=\"7\" x=\"3\" y=\"3\" rx=\"1\"></rect><rect width=\"7\" height=\"7\" x=\"14\" y=\"3\" rx=\"1\"></rect><rect width=\"7\" height=\"7\" x=\"14\" y=\"14\" rx=\"1\"></rect><rect width=\"7\" height=\"7\" x=\"3\" y=\"14\" rx=\"1\"></rect>"};
 const ic=n=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICO[n]}</svg>`,ci=(n,c='')=>`<span class="ci ${c}">${ic(n)}</span>`;
@@ -389,7 +412,7 @@ function vMatch(){
   const rkc=r=>r.rank==null?'':`<span class="rk${r.rank<=3?' gd':''}" title="Puesto en el match cost de toda la partida">#${r.rank}</span>`;
   const tbl=t=>`<div class="cd"><h3><span>${fl(L[t])}${nm(t)}</span></h3><div class="tbl"><table><tr><th>Jugador</th><th>Mapas</th><th title="Match cost de la partida">Cost</th><th title="Ratio promedio de score contra el promedio de cada mapa">Ratio</th><th>Score prom.</th><th>Accuracy</th><th>Misses</th></tr>
    ${tp(t).map(p=>`<tr class="t-${t}"><td>${av(p.uid)}${esc(p.name)}</td><td>${p.maps}</td><td class="cc"><span class="cst">${f2(p.cost)}</span>${rkc(p)}</td><td>${f2(p.ratio)}</td><td>${p.score==null?'-':fmt(p.score)}</td><td>${pct(p.acc)}</td><td>${f1(p.miss)}</td></tr>`).join('')||'<tr><td colspan=7 class="mu">Sin datos</td></tr>'}</table></div></div>`;
-  const ms=m.maps,n=ms.length,sumR=ms.reduce((a,x)=>a+x.red,0),sumB=ms.reduce((a,x)=>a+x.blue,0);
+  const ms=m.maps,n=ms.length,heroS=ms.length&&+ms[ms.length-1].set||0,sumR=ms.reduce((a,x)=>a+x.red,0),sumB=ms.reduce((a,x)=>a+x.blue,0);
   const h=m.hard,lead=sumR>sumB?'red':sumB>sumR?'blue':null,w=m.rm>m.bm?'red':m.bm>m.rm?'blue':null,lo=w==='red'?'blue':'red';
   const tour=m.name.includes(':')?m.name.split(':')[0].trim():'Partida';
   const when=m.t0?new Date(m.t0).toLocaleString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'';
@@ -403,7 +426,7 @@ function vMatch(){
     :m.closed?(w?[`${tname(L[w])} se lleva la victoria`,`Con un ${mx}-${mi} en ${n} mapas, ${tname(L[w])} se queda con el encuentro ante ${tname(L[lo])}.`]:['La serie terminó empatada',`Terminó ${m.rm}-${m.bm} en ${n} mapas.`])
     :(w?[`${tname(L[w])} va ganando`,`${mx}-${mi} tras ${n} mapas, contra ${tname(L[lo])}. La partida todavía no registra cierre.`]:['Serie empatada por ahora',`${m.rm}-${m.bm} tras ${n} mapas. La partida todavía no registra cierre.`]);
   el.innerHTML=`
-  <div class="hero">
+  <div class="hero${heroS&&heroOk.has(heroS)?' hascov nofade':''}">${heroS?`<img class="hero-bg" src="https://assets.ppy.sh/beatmaps/${heroS}/covers/cover.jpg" alt="" data-s="${heroS}" onload="heroCovOk(this)" onerror="this.remove()"><div class="hero-tint"></div>`:''}
    <div class="hero-chip">${ic('trophy')}${esc(tour)}</div>
    <div class="hv"><div class="ht red"><div><b>${nm('red')}</b><small>${col('red')}</small></div>${hf('red')}</div>
     <div class="hsc"><big><span class="r">${m.rm}</span> - <span class="b">${m.bm}</span></big>
@@ -421,7 +444,7 @@ function vMatch(){
     <div class="srow">${ic('layers')}<span>Mapas jugados</span><b>${n}</b></div>
     <div class="srow">${ic('chart')}<span>Ventaja de score</span>${lead?`<b class="${lead=='red'?'r':'b'}">+${fmt(Math.abs(sumR-sumB))} ${nm(lead)}</b>`:'<b>Empate</b>'}</div></div></div>
   <div class="g gB">
-   <div class="cd"><h3>${ci('layers')}Desglose de mapas</h3><ul class="mapl">${ms.map((x,i)=>`<li data-g="${x.gid}" tabindex="0" role="button" aria-label="Ver el detalle del mapa ${i+1}"><span class="mnum">#${i+1}</span>${cov(x.set)||'<span class="cov"></span>'}<div class="mtt"><b>${esc(x.title)}</b><small>${esc(x.version||'')}</small></div>
+   <div class="cd"><h3>${ci('layers')}Desglose de mapas</h3><ul class="mapl">${ms.map((x,i)=>`<li data-g="${x.gid}" tabindex="0" role="button" aria-label="Ver el detalle del mapa ${i+1}">${rbg(x)}<span class="mnum">#${i+1}</span>${cov(x.set)||'<span class="cov"></span>'}<div class="mtt"><b>${esc(x.title)}</b><small>${esc(x.version||'')}</small></div>
     <span class="mw">${x.winner?fl(L[x.winner])+`<span class="${x.winner=='red'?'r':'b'}">${nm(x.winner)}</span>`:'<span class="mu">Empate</span>'}</span>
     <span class="mscore"><span class="sv"><b class="r">${fmt(x.red)}</b> - <b class="b">${fmt(x.blue)}</b>${x.red!==x.blue?`<small class="df ${x.red>x.blue?'r':'b'}" title="Diferencia de score">+${fmt(Math.abs(x.red-x.blue))}</small>`:''}</span></span></li>`).join('')||'<li class="mu">Sin mapas por equipos</li>'}</ul></div>
    <div class="cd"><h3>${ci('chart')}Estadísticas clave</h3><div class="kts">${kt('red')}${kt('blue')}</div></div></div>
