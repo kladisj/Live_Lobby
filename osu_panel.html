@@ -1,0 +1,214 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>osu! Lobby Tools</title>
+<style>
+:root{--bg:#0e0820;--cd:#1a1236;--cd2:#241a4a;--bd:#33265e;--tx:#ece8fa;--mu:#9a8fc0;--ac:#a855f7;--r:#f0539b;--b:#4da3ff;--ok:#4cc38a;--er:#ff6b7a}
+*{box-sizing:border-box}body{margin:0;display:flex;min-height:100vh;color:var(--tx);font:14px/1.4 system-ui,-apple-system,"Segoe UI",sans-serif;
+background:radial-gradient(1100px 560px at 75% -10%,#2f1470 0,transparent 60%),var(--bg)}
+aside{width:200px;flex:none;padding:18px 12px;background:rgba(18,9,44,.75);border-right:1px solid var(--bd);display:flex;flex-direction:column;gap:6px;position:sticky;top:0;height:100vh}
+.logo{font-size:19px;font-weight:700;padding:4px 10px 16px}.logo span{color:var(--ac)}
+nav button{width:100%;text-align:left;background:none;border:0;color:var(--mu);padding:10px 12px;border-radius:9px;font:inherit;cursor:pointer}
+nav button:hover{background:var(--cd)}nav button.on{background:linear-gradient(90deg,#6d28d9,#9333ea);color:#fff}
+.pill{margin-top:auto;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;color:var(--mu);font-size:13px}
+.pill.on{color:#fff;border-color:var(--r)}.pill.on:before{content:"●";color:var(--r);margin-right:6px}
+main{flex:1;min-width:0;padding:16px 22px 28px}
+.top{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+input,select,textarea{background:#120a2c;color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px 10px;font:inherit}
+.top input#src{flex:1;min-width:220px}#skip{width:60px}
+button.k{background:var(--cd2);color:var(--tx);border:1px solid var(--bd);border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer}
+button.k:hover{border-color:var(--ac)}button.pri{background:linear-gradient(90deg,#7c3aed,#c026d3);border-color:transparent;font-weight:600}
+button:disabled{opacity:.45;cursor:default}label.c{display:flex;gap:6px;align-items:center;color:var(--mu)}
+#msg{font-size:13px}.er{color:var(--er)}.ok{color:var(--ok)}.mu{color:var(--mu)}
+#warn{background:#3a1428;border:1px solid #7a2b4a;border-radius:8px;padding:8px 12px;margin-bottom:12px;font-size:13px;display:none;white-space:pre-wrap}
+.view{display:none}.view.on{display:block}
+.banner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 28px;border-radius:14px;border:1px solid var(--bd);
+background:linear-gradient(110deg,rgba(240,83,155,.28),rgba(26,18,54,.9) 38%,rgba(26,18,54,.9) 62%,rgba(77,163,255,.28))}
+.tm{display:flex;align-items:center;gap:14px;flex:1}.tm.blue{flex-direction:row-reverse;text-align:right}
+.tm img{width:76px;height:50px;object-fit:cover;border-radius:6px;box-shadow:0 2px 14px #0008}.tm b{font-size:24px;display:block}.tm small{color:var(--mu)}
+.sc{text-align:center}.sc big{font-size:44px;font-weight:700;letter-spacing:2px}.sc small{display:block;color:var(--mu)}
+.sub{display:flex;justify-content:space-between;align-items:center;margin:10px 2px 14px;color:var(--mu)}
+.g{display:grid;gap:14px;margin-bottom:14px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1.1fr 1.1fr 1fr}
+@media(max-width:1000px){.g2,.g3{grid-template-columns:1fr}aside{width:150px}}
+.cd{background:rgba(26,18,54,.85);border:1px solid var(--bd);border-radius:12px;padding:14px 16px;min-width:0}
+.cd h3{margin:0 0 10px;font-size:14px;color:#d9ccff;display:flex;justify-content:space-between}
+.mvp{display:flex;gap:14px;align-items:center}.mvp img.av{width:84px;height:84px;border-radius:50%;object-fit:cover;border:2px solid var(--ac)}
+.mvp b{font-size:22px}.mvp .st{display:flex;gap:18px;margin-top:8px}.st div{text-align:center}.st b{font-size:16px;display:block}.st small{color:var(--mu)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+.tile{background:var(--cd2);border-radius:10px;padding:10px;text-align:center}.tile b{font-size:19px;display:block}.tile small{color:var(--mu);font-size:12px}
+.r{color:var(--r)}.b{color:var(--b)}
+table{width:100%;border-collapse:collapse;font-size:13px}th{color:var(--mu);font-weight:500;text-align:right;padding:6px 8px}td{padding:6px 8px;text-align:right;border-top:1px solid #2a1f52}
+th:first-child,td:first-child{text-align:left}td img.av{width:26px;height:26px;border-radius:50%;vertical-align:middle;margin-right:8px;object-fit:cover}
+.tbl{overflow-x:auto}tr.t-red td:first-child{box-shadow:inset 3px 0 var(--r)}tr.t-blue td:first-child{box-shadow:inset 3px 0 var(--b)}
+ul.tl{list-style:none;margin:0;padding:0}ul.tl li{display:flex;gap:12px;align-items:center;padding:9px 6px;border-top:1px solid #2a1f52}ul.tl li:first-child{border:0}
+.dot{width:11px;height:11px;border-radius:50%;background:var(--ac);flex:none}ul.tl small{color:var(--mu);display:block}.tl .w{margin-left:auto;font-size:12px}.tl .sc2{min-width:150px;text-align:right}.tl .w,.tl .sc2{white-space:nowrap}.tl li>div{flex:1;min-width:0}
+.fl{width:22px;height:15px;border-radius:2px;vertical-align:middle;margin-right:6px;object-fit:cover}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-bottom:12px}.row label{display:block;color:var(--mu);font-size:12px;margin-bottom:3px}.row input{width:100%}
+pre{background:#0b0620;border:1px solid var(--bd);border-radius:8px;padding:12px;margin:0;overflow:auto;font:12.5px/1.45 ui-monospace,Consolas,monospace}#log{height:340px}
+iframe{width:100%;height:480px;border:1px solid var(--bd);border-radius:8px;background:#fff}
+.empty{padding:70px 20px;text-align:center;color:var(--mu)}
+#modal{position:fixed;inset:0;background:#000a;display:flex;align-items:center;justify-content:center;z-index:9}#modal[hidden]{display:none}
+.box{background:var(--cd);border:1px solid var(--bd);border-radius:14px;width:min(640px,94vw);max-height:84vh;display:flex;flex-direction:column;padding:14px;gap:10px}
+.mh,.mf{display:flex;gap:8px}.mh input{flex:1}#mlist{list-style:none;margin:0;padding:0;overflow:auto;flex:1;min-height:200px}
+#mlist li{padding:7px 10px;border-radius:7px;cursor:pointer}#mlist li:hover{background:var(--cd2)}.mf{justify-content:flex-end}
+</style></head><body>
+<aside><div class="logo">osu! <span>Lobby Tools</span></div>
+<nav><button data-v="match" class="on">Partida</button><button data-v="torneo">Torneo</button><button data-v="live">En vivo</button><button data-v="chart">Gráfico OBS</button></nav>
+<div class="pill" id="pill">Detenido</div></aside>
+<main>
+<div id="warn"></div>
+<div class="top"><input id="src" placeholder="Carpeta o archivos .jsonl (varios, separados por ;)"><button class="k" id="bro">📂 Examinar</button>
+<label class="c">Warmups <input id="skip" type="number" min="0" value="0"></label><button class="k pri" id="load">Cargar</button>
+<label class="c"><input type="checkbox" id="auto">Auto 5 s</label><span id="msg"></span></div>
+
+<section id="v-match" class="view on"></section>
+<section id="v-torneo" class="view"></section>
+
+<section id="v-live" class="view"><div class="cd">
+<h3>Seguir una partida en vivo</h3>
+<div class="row"><div><label>ID o link de la partida (mp link)</label><input id="lmatch" placeholder="122095688 o https://osu.ppy.sh/community/matches/…"></div>
+<div><label>Guardar en archivo .jsonl</label><input id="lout" value="partida.jsonl"></div>
+<div><label>Segundos entre consultas</label><input id="lint" type="number" min="1" value="5"></div></div>
+<details class="mu" style="margin-bottom:12px"><summary>Credenciales de la API (vacío = usa tu archivo .env)</summary>
+<div class="row" style="margin-top:8px"><div><label>OSU_CLIENT_ID</label><input id="lcid"></div><div><label>OSU_CLIENT_SECRET</label><input id="lsec" type="password"></div></div>Solo se envían al programa local y no se guardan.</details>
+<div class="top"><button class="k pri" id="go">▶ Empezar a seguir</button><button class="k" id="stop" disabled>■ Detener</button>
+<button class="k" id="lclr">Limpiar</button><button class="k" id="lview">Ver en el panel →</button></div>
+<pre id="log"></pre></div></section>
+
+<section id="v-chart" class="view"><div class="cd">
+<h3>Gráfico de equipos (para OBS)</h3>
+<div class="row"><div><label>Archivo .jsonl de UNA partida (vacío = la partida elegida en el panel)</label><input id="cpath"></div>
+<div><label>Guardar HTML en</label><input id="cout" value="grafico.html"></div>
+<div><label>Nombre equipo rojo (vacío = país)</label><input id="cred"></div><div><label>Nombre equipo azul (vacío = país)</label><input id="cblue"></div>
+<div><label>Actualizar cada N s (0 = una vez)</label><input id="cfol" type="number" min="0" value="0"></div></div>
+<div class="top"><label class="c"><input type="checkbox" id="ctr">Fondo transparente</label><label class="c"><input type="checkbox" id="ctab" checked>Mostrar tabla</label>
+<button class="k pri" id="cgo">Generar gráfico</button><button class="k" id="cstop" disabled>■ Parar</button><span id="cst"></span></div>
+<iframe id="prev" title="vista previa"></iframe></div></section>
+</main>
+
+<div id="modal" hidden><div class="box"><div class="mh"><select id="msc"></select><input id="mpath"><button class="k" id="mgo">Ir</button></div>
+<ul id="mlist"></ul><div class="mf"><button class="k" id="mup">↑ Subir</button><button class="k pri" id="muse">Usar esta carpeta</button><button class="k" id="mx">Cerrar</button></div></div></div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const api=async(p,b)=>(await fetch(p,b?{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)}:{})).json();
+const isCC=s=>/^[A-Z]{2}$/.test(s||''),RN=new Intl.DisplayNames(['es'],{type:'region'});
+const tname=c=>{if(!isCC(c))return c||'';try{return RN.of(c)}catch{return c}};
+const fl=c=>isCC(c)?`<img class="fl" src="https://flagcdn.com/w40/${c.toLowerCase()}.png" alt="" onerror="this.remove()">`:'';
+const av=u=>`<img class="av" src="https://a.ppy.sh/${u}" alt="" onerror="this.style.visibility='hidden'">`;
+const fmt=n=>Math.round(n).toLocaleString('es'),pct=x=>x==null?'-':(x*100).toFixed(2)+'%',f1=x=>x==null?'-':x.toFixed(1),f2=x=>x==null?'-':x.toFixed(2);
+const mean=a=>{a=a.filter(x=>x!=null);return a.length?a.reduce((s,x)=>s+x,0)/a.length:null};
+const S={d:null,mi:0};let timer=null;
+const say=(t,c='')=>{$('#msg').className=c;$('#msg').textContent=t};
+const empty=()=>`<div class="cd empty">Elegí una carpeta con tus .jsonl (📂 Examinar) y pulsá <b>Cargar</b>.</div>`;
+const miss=__MISSING__;if(miss.length){$('#warn').style.display='block';$('#warn').textContent='Faltan módulos: '+miss.join(' | ')}
+
+function go(v){$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));if(v==='match'||v==='torneo')draw()}
+$$('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
+
+async function load(){
+  const paths=$('#src').value.split(';').map(s=>s.trim()).filter(Boolean).join('\n');
+  if(!paths)return say('Elegí una carpeta o un archivo .jsonl','er');
+  say('Cargando…','mu');
+  const r=await api('/api/dashboard',{paths,skip:+$('#skip').value||0});
+  if(r.error){say(r.error,'er');return}
+  S.d=r;if(S.mi>=r.matches.length)S.mi=0;
+  say(`${r.matches.length} partida(s) · ${new Date().toLocaleTimeString()}`,'ok');
+  const w=$('#warn');w.style.display=r.warnings.length?'block':'none';w.textContent=r.warnings.join('\n');
+  try{localStorage.osuSrc=$('#src').value;localStorage.osuSkip=$('#skip').value}catch{}
+  draw();
+}
+const draw=()=>{vMatch();vTorneo()};
+
+function lineChart(ms){
+  const W=520,H=190,P=46,n=ms.length;if(!n)return '<span class="mu">Sin mapas por equipos.</span>';
+  const all=ms.flatMap(x=>[x.red,x.blue]),hi=Math.max(...all),lo=Math.min(...all),sp=hi-lo||hi||1,mn=Math.max(0,lo-sp*.3),mx=hi+sp*.15;
+  const X=i=>P+(n==1?(W-2*P)/2:i*(W-2*P)/(n-1)),Y=v=>H-26-(v-mn)/(mx-mn)*(H-48),cf=new Intl.NumberFormat('es',{notation:'compact',maximumFractionDigits:1}).format;
+  const pl=k=>ms.map((x,i)=>X(i)+','+Y(x[k])).join(' '),grid=[mn,(mn+mx)/2,mx].map(v=>`<line x1="${P}" x2="${W-P+10}" y1="${Y(v)}" y2="${Y(v)}" stroke="#33265e"/><text x="${P-8}" y="${Y(v)+4}" text-anchor="end" fill="#9a8fc0" font-size="10">${cf(v)}</text>`).join('');
+  const dots=k=>ms.map((x,i)=>`<circle cx="${X(i)}" cy="${Y(x[k])}" r="4" fill="var(--${k=='red'?'r':'b'})"/>`).join('');
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%">${grid}${ms.map((_,i)=>`<text x="${X(i)}" y="${H-6}" text-anchor="middle" fill="#9a8fc0" font-size="10">Mapa ${i+1}</text>`).join('')}
+  <polyline points="${pl('blue')}" fill="none" stroke="var(--b)" stroke-width="2.5"/><polyline points="${pl('red')}" fill="none" stroke="var(--r)" stroke-width="2.5"/>${dots('blue')}${dots('red')}</svg>`;
+}
+
+function vMatch(){
+  const el=$('#v-match'),D=S.d;if(!D){el.innerHTML=empty();return}
+  const m=D.matches[S.mi],L=m.labels,nm=t=>esc(tname(L[t])),col=t=>t=='red'?'Equipo rojo':'Equipo azul';
+  const team=t=>`<div class="tm ${t}">${fl(L[t]).replace('class="fl"','class=""')}<div><b>${nm(t)}</b><small>${col(t)}</small></div></div>`;
+  const best=m.costs[0],tp=t=>m.players.filter(p=>p.team==t).sort((a,b)=>b.score-a.score);
+  const tbl=t=>`<div class="cd"><h3>${fl(L[t])}${nm(t)}</h3><div class="tbl"><table><tr><th>Jugador</th><th>Mapas</th><th>Score prom.</th><th>Accuracy</th><th>Misses</th></tr>
+   ${tp(t).map(p=>`<tr class="t-${t}"><td>${av(p.uid)}${esc(p.name)}</td><td>${p.maps}</td><td>${fmt(p.score)}</td><td>${pct(p.acc)}</td><td>${f1(p.miss)}</td></tr>`).join('')||'<tr><td colspan=5 class="mu">Sin datos</td></tr>'}</table></div></div>`;
+  const kt=(t,l,v)=>`<div class="tile"><b class="${t=='red'?'r':'b'}">${v}</b><small>${l}</small></div>`;
+  const h=m.hard,ms=m.maps;
+  el.innerHTML=`
+  <div class="sub"><select id="msel">${D.matches.map((x,i)=>`<option value="${i}"${i==S.mi?' selected':''}>${esc(x.name)}</option>`).join('')}</select>
+   <span>${m.closed?'✔ Partida cerrada':'● Sin cierre registrado (¿en juego?)'}</span></div>
+  <div class="banner">${team('red')}<div class="sc"><big><span class="r">${m.rm}</span> - <span class="b">${m.bm}</span></big><small>${ms.length} mapa(s) por equipos</small></div>${team('blue')}</div>
+  <div class="g g3" style="margin-top:14px">
+   <div class="cd"><h3>⭐ MVP (match cost)<span class="mu">${m.closed?'Final':'Actual'}</span></h3>${best?`<div class="mvp">${av(best.uid)}<div><b>${esc(best.name)} ${fl(best.cc)}</b>
+    <div class="mu">Match cost: <b style="color:var(--tx)">${f2(best.cost)}</b></div><div class="st"><div><b>${f2(best.ratio)}</b><small>Ratio prom.</small></div><div><b>${best.maps}/${best.total}</b><small>Mapas</small></div></div></div></div>
+    <div class="mu" style="margin-top:10px;font-size:12px">${m.costs.slice(1,4).map((c,i)=>`${i+2}. ${esc(c.name)} (${f2(c.cost)})`).join(' · ')}</div>`:'<span class="mu">Sin datos</span>'}</div>
+   <div class="cd"><h3>🔥 Mapa más duro</h3>${h?`<b style="font-size:17px">${esc(h.title)}</b><div class="mu">${esc(h.version||'')} ${h.stars?'· '+h.stars.toFixed(2)+'★':''}</div>
+    <div class="tiles" style="margin-top:12px"><div class="tile"><b>${pct(h.acc)}</b><small>Acc. prom.</small></div><div class="tile"><b>${f1(h.miss)}</b><small>Misses prom.</small></div></div>`:'<span class="mu">Sin datos</span>'}</div>
+   <div class="cd"><h3>Estadísticas clave</h3><div class="tiles">${['red','blue'].map(t=>kt(t,'Acc. '+esc(tname(L[t])),pct(mean(tp(t).map(p=>p.acc))))+kt(t,'Misses '+esc(tname(L[t])),f1(mean(tp(t).map(p=>p.miss))))).join('')}</div></div></div>
+  <div class="g g2"><div class="cd"><h3>Rendimiento en la serie<span><span class="r">● ${nm('red')}</span> &nbsp;<span class="b">● ${nm('blue')}</span></span></h3>${lineChart(ms)}</div>
+   <div class="cd"><h3>Línea de tiempo</h3><ul class="tl">${ms.map((x,i)=>`<li><i class="dot"></i><div><b>Mapa ${i+1} · ${esc(x.title)}</b><small>${esc(x.version||'')}</small></div>
+    <span class="w ${x.winner=='red'?'r':x.winner=='blue'?'b':'mu'}">${x.winner?nm(x.winner)+' gana':'Empate'}</span><span class="sc2"><b class="r">${fmt(x.red)}</b> - <b class="b">${fmt(x.blue)}</b></span></li>`).join('')||'<li class="mu">Sin mapas por equipos</li>'}</ul></div></div>
+  <div class="g g2">${tbl('red')}${tbl('blue')}</div>`;
+  $('#msel').onchange=e=>{S.mi=+e.target.value;vMatch()};
+}
+
+function vTorneo(){
+  const el=$('#v-torneo'),D=S.d;if(!D){el.innerHTML=empty();return}
+  const T=D.torneo,tn=c=>fl(c)+esc(tname(c));
+  el.innerHTML=`<div class="tiles" style="margin-bottom:14px">${[['Partidas',T.n],['Mapas',T.games],['Jugadores',T.players],['Mapas distintos',T.beatmaps]].map(([l,v])=>`<div class="tile"><b>${v}</b><small>${l}</small></div>`).join('')}</div>
+  ${T.open.length?`<div class="cd" style="margin-bottom:14px;color:var(--er)">⚠ ${T.open.length} partida(s) sin cierre registrado: ${T.open.slice(0,3).map(esc).join('; ')}${T.open.length>3?'…':''}</div>`:''}
+  <div class="g g2"><div class="cd"><h3>Posiciones <span class="mu">por país</span></h3><div class="tbl">${T.standings.length?`<table><tr><th>#  Equipo</th><th>PJ</th><th>PG</th><th>PP</th><th>PE</th><th>Mapas</th><th>Dif. mapas</th><th>Dif. score</th></tr>
+   ${T.standings.map((t,i)=>`<tr><td>${i+1} &nbsp;${tn(t.team)}</td><td>${t.played}</td><td>${t.won}</td><td>${t.lost}</td><td>${t.drawn}</td><td>${t.maps_for}-${t.maps_against}</td><td>${t.map_diff>0?'+':''}${t.map_diff}</td><td>${t.score_diff>0?'+':''}${fmt(t.score_diff)}</td></tr>`).join('')}</table>`:'<span class="mu">No se pudieron identificar los equipos por país.</span>'}</div>
+   ${T.skipped?`<div class="mu" style="font-size:12px;margin-top:6px">${T.skipped} partida(s) fuera de la tabla: equipos sin país identificado.</div>`:''}</div>
+   <div class="cd"><h3>Resultados</h3><ul class="tl">${T.results.map(r=>`<li><div><b>${tn(r.red)} <span class="r">${r.red_maps}</span> - <span class="b">${r.blue_maps}</span> ${tn(r.blue)}</b><small>${esc(r.name)}${r.closed?'':' · sin cierre'}</small></div>
+    <span class="w mu">${r.maps?(r.winner?'gana '+esc(tname(r.winner)):'empate'):'sin mapas'}</span></li>`).join('')}</ul></div></div>
+  <div class="cd" style="margin-bottom:14px"><h3>Jugadores <span class="mu">por match cost promedio · mirá "ratio" para el rendimiento real</span></h3><div class="tbl"><table><tr><th>#  Jugador</th><th>Partidas</th><th>Mapas</th><th>MVP</th><th>Cost prom.</th><th>Ratio</th><th>Score prom.</th><th>Acc.</th><th>Miss/mapa</th></tr>
+   ${T.top.map((p,i)=>`<tr><td>${i+1} &nbsp;${fl(p.cc)}${esc(p.name)}</td><td>${p.matches}</td><td>${p.maps}</td><td>${p.mvps}</td><td>${f2(p.cost)}</td><td>${f2(p.ratio)}</td><td>${fmt(p.score)}</td><td>${pct(p.acc)}</td><td>${f2(p.miss)}</td></tr>`).join('')}</table></div></div>
+  <div class="g g2"><div class="cd"><h3>Mapas del pool</h3><div class="tbl"><table><tr><th>Mapa</th><th>★</th><th>Veces</th><th>Score prom.</th><th>Acc.</th><th>Miss</th></tr>
+   ${T.maps.map(t=>`<tr><td>${esc(t.title)} <span class="mu">${esc(t.version||'')}</span></td><td>${t.stars?t.stars.toFixed(1):'-'}</td><td>${t.plays}</td><td>${fmt(t.score)}</td><td>${pct(t.acc)}</td><td>${f1(t.miss)}</td></tr>`).join('')}</table></div></div>
+   <div class="cd"><h3>Récords</h3><ul class="tl">${T.records.map(([k,v])=>`<li><div><b>${esc(k)}</b><small>${esc(v)}</small></div></li>`).join('')||'<li class="mu">Sin datos</li>'}</ul></div></div>`;
+}
+
+// --- en vivo ---
+let nxt=0;
+async function tick(){const r=await api('/api/log?since='+nxt);nxt=r.next;
+  if(r.lines.length){const l=$('#log');l.textContent+=r.lines.join('\n')+'\n';l.scrollTop=1e9}
+  $('#go').disabled=r.running;$('#stop').disabled=!r.running;$('#pill').className='pill'+(r.running?' on':'');$('#pill').textContent=r.running?'Siguiendo partida':'Detenido'}
+$('#go').onclick=async()=>{nxt=0;$('#log').textContent='';
+  const r=await api('/api/watch/start',{match:$('#lmatch').value,out:$('#lout').value,interval:$('#lint').value,cid:$('#lcid').value,secret:$('#lsec').value});
+  if(r.error)$('#log').textContent='ERROR: '+r.error;tick()};
+$('#stop').onclick=async()=>{await api('/api/watch/stop',{});tick()};$('#lclr').onclick=()=>{$('#log').textContent=''};
+$('#lview').onclick=()=>{$('#src').value=$('#lout').value;$('#auto').checked=true;go('match');load()};
+setInterval(tick,1500);
+
+// --- gráfico OBS ---
+let ct=null;
+async function chart(){const n=+$('#cfol').value||0,p=($('#cpath').value||(S.d?S.d.matches[S.mi].sources.join(';'):$('#src').value)).replace(/;/g,'\n');
+  const r=await api('/api/chart',{paths:p,out:$('#cout').value,red:$('#cred').value,blue:$('#cblue').value,transparent:$('#ctr').checked,table:$('#ctab').checked,refresh:n>=1?n:null});
+  const s=$('#cst');if(r.error){s.className='er';s.textContent=r.error;return false}
+  $('#prev').srcdoc=r.html;s.className='ok';s.textContent=`${r.maps} mapas`+(r.saved?' → '+r.saved:'')+' · '+new Date().toLocaleTimeString();return true}
+$('#cgo').onclick=async()=>{clearInterval(ct);const ok=await chart(),n=+$('#cfol').value||0;if(ok&&n>=1){ct=setInterval(chart,n*1000);$('#cstop').disabled=false}};
+$('#cstop').onclick=()=>{clearInterval(ct);$('#cstop').disabled=true};
+
+// --- explorador de carpetas ---
+let CUR='';
+async function br(p){const r=await api('/api/browse?path='+encodeURIComponent(p||''));if(r.error){say(r.error,'er');return}
+  CUR=r.path;$('#mpath').value=r.path;$('#mup').dataset.p=r.parent||'';
+  $('#msc').innerHTML=r.shortcuts.map(s=>`<option value="${esc(s.path)}">${esc(s.name)}</option>`).join('');
+  $('#mlist').innerHTML=r.entries.map(e=>`<li data-p="${esc(e.path)}" data-d="${+e.dir}">${e.dir?'📁':'📄'} ${esc(e.name)}${e.dir?'':` <span class="mu">${(e.size/1024).toFixed(0)} KB</span>`}</li>`).join('')||'<li class="mu">(sin carpetas ni .jsonl)</li>'}
+const setSrc=v=>{$('#src').value=v;$('#modal').hidden=true;load()};
+$('#bro').onclick=()=>{$('#modal').hidden=false;br($('#src').value.split(';')[0])};
+$('#mlist').onclick=e=>{const li=e.target.closest('li');if(!li||!li.dataset.p)return;
+  if(li.dataset.d==='1')br(li.dataset.p);else setSrc(e.ctrlKey&&$('#src').value?$('#src').value+';'+li.dataset.p:li.dataset.p)};
+$('#mgo').onclick=()=>br($('#mpath').value);$('#msc').onchange=e=>br(e.target.value);
+$('#mup').onclick=e=>{if(e.target.dataset.p)br(e.target.dataset.p)};$('#muse').onclick=()=>setSrc(CUR);$('#mx').onclick=()=>{$('#modal').hidden=true};
+
+$('#load').onclick=load;$('#src').onkeydown=e=>{if(e.key==='Enter')load()};
+setInterval(()=>{if($('#auto').checked&&!document.hidden)load()},5000);
+try{if(localStorage.osuSrc){$('#src').value=localStorage.osuSrc;$('#skip').value=localStorage.osuSkip||0;load()}}catch{}
+draw();tick();
+</script></body></html>

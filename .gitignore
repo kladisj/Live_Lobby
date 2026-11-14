@@ -3,7 +3,6 @@
 __pycache__/
 *.jsonl
 game_sample.jsonl
-osu_gui.py
 .pytest_cache/
 *.egg-info/
 grafico.html
