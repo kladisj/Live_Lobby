@@ -410,6 +410,8 @@ def _dash_match(m0, skip):
     games = {x.id: x for x in m.games}
     return {
         "id": m.match_id, "name": m.display_name, "closed": m.closed, "labels": labels,
+        "t0": (m.games[0].start_time if m.games else None),
+        "t1": ((m.games[-1].end_time or m.games[-1].start_time) if m.games else None),
         "sources": [str(x) for x in m0.sources],
         "rm": last.red_wins if last else 0, "bm": last.blue_wins if last else 0,
         "maps": [_map_json(m, games.get(r.game_id), r) for r in series],
