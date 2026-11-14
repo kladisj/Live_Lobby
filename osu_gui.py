@@ -74,7 +74,7 @@ try:
     from osu_cores.__main__ import format_result, parse_match, title_of
     from osu_cores.api.client import OsuClient
     from osu_cores.output.jsonl import JsonlWriter
-    from osu_cores.service.watcher import MatchWatcher
+    from osu_cores.service.watcher import STALE_GAME_SECONDS, MatchWatcher
 except Exception as e:  # noqa: BLE001
     MISSING.append(_hint("livelobby (osu_cores)", e))
 try:
@@ -149,6 +149,28 @@ def _with_warnings(text, warns):
     return {"text": text}
 
 
+def _live_of(g):
+    """Datos del mapa que se está jugando (para mostrarlo como en la página de osu!)."""
+    b = g.beatmap
+    return {"gid": g.id, "start": g.start_time, "title": b.title if b else None,
+            "artist": b.artist if b else None, "version": b.version if b else None,
+            "stars": b.difficulty_rating if b else None, "set": b.beatmapset_id if b else None,
+            "length": b.length_seconds if b else None}
+
+
+def _fresh_live(st):
+    """El mapa en juego, salvo que el seguimiento esté parado o el mapa sea tan viejo que se dé por abandonado."""
+    lv = st["live"]
+    if not lv or not st["thread"].is_alive():
+        return None
+    try:
+        from datetime import datetime
+        age = time.time() - datetime.fromisoformat(lv["start"].replace("Z", "+00:00")).timestamp()
+    except Exception:  # noqa: BLE001
+        return lv
+    return lv if age < STALE_GAME_SECONDS else None
+
+
 def watch_job(mid, out, interval, cid, secret):
     st = WATCH[mid]
     L = lambda m: log(m, mid)  # noqa: E731
@@ -161,14 +183,18 @@ def watch_job(mid, out, interval, cid, secret):
 
         def backfilled(m):
             st["name"] = getattr(m, "name", None) or st["name"]
-            st["games"] = len(m.games)
+            st["games"] = sum(1 for g in m.games if g.is_finished)  # el mapa en juego todavía no cuenta
             L(f"historial: {len(m.events)} eventos, {len(m.games)} mapas, {len(m.players)} jugadores")
 
         def started(g):
+            if not g.is_finished:
+                st["live"] = _live_of(g)
             st["playing"] = title_of(g)
             L(f"empezó {title_of(g)}")
 
         def finished(g):
+            if st["live"] and st["live"]["gid"] == g.id:
+                st["live"] = None
             st["playing"] = None
             st["games"] += 1
             L(f"terminó {title_of(g)} | {len(g.scores)} scores")
@@ -179,6 +205,10 @@ def watch_job(mid, out, interval, cid, secret):
         w.on("game_finished", finished)
         L(f"siguiendo la partida {mid} -> {out}")
         m = w.backfill()
+        cur = next((e.game for e in m.events if e.type == "game" and e.game.id == m.current_game_id
+                    and not e.game.is_finished), None)  # si ya había un mapa en juego al empezar a seguir
+        if cur:
+            st["live"], st["playing"] = _live_of(cur), title_of(cur)
         w._emit("backfill", m)
         while not st["stop"].is_set() and not w.ended:
             if st["stop"].wait(interval):
@@ -193,6 +223,7 @@ def watch_job(mid, out, interval, cid, secret):
     except Exception as e:  # noqa: BLE001
         st["error"] = str(e)
         L(f"ERROR: {e}")
+    st["live"] = None
     L("detenido")
 
 
@@ -225,7 +256,7 @@ def api_watch_start(d):
         if old and old["thread"].is_alive():
             errors.append(f"{mid}: ya se está siguiendo")
             continue
-        WATCH[mid] = {"id": mid, "stop": threading.Event(), "log": [], "name": None, "playing": None,
+        WATCH[mid] = {"id": mid, "stop": threading.Event(), "log": [], "name": None, "playing": None, "live": None,
                       "games": 0, "ended": False, "error": None, "interval": interval,
                       "out": str(folder / f"{mid}.jsonl")}
         t = threading.Thread(target=watch_job, daemon=True, args=(
@@ -246,7 +277,7 @@ def api_watch_stop(d):
 
 def api_watchers(_):
     items = [{"id": st["id"], "name": st["name"], "running": st["thread"].is_alive(), "ended": st["ended"],
-              "playing": st["playing"], "games": st["games"], "error": st["error"], "out": st["out"]}
+              "playing": st["playing"], "live": _fresh_live(st), "games": st["games"], "error": st["error"], "out": st["out"]}
              for st in WATCH.values()]
     per_min = sum(60 / st["interval"] for st in WATCH.values() if st["thread"].is_alive())
     return {"items": items, "per_min": round(per_min)}
