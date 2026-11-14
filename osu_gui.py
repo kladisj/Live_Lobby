@@ -86,11 +86,14 @@ except Exception as e:  # noqa: BLE001
     MISSING.append(_hint("osuctools", e))
 
 # --- seguimiento en vivo (hilo en segundo plano) -------------------------------
-W = {"thread": None, "stop": threading.Event(), "log": []}
+WATCH = {}  # id de la partida -> estado de su seguimiento (hilo, log, nombre, mapa en juego...)
+_THREAD_MID = {}  # id del hilo -> id de la partida (para atribuir los avisos de livelobby)
+LOG0 = []  # avisos que no pertenecen a ninguna partida
 
 
-def log(msg):
-    W["log"].append(f"[{time.strftime('%H:%M:%S')}] {msg}")
+def log(msg, mid=None):
+    line = f"[{time.strftime('%H:%M:%S')}] {msg}"
+    (WATCH[mid]["log"] if mid in WATCH else LOG0).append(line)
 
 
 class _GuiLog(logging.Handler):
@@ -101,7 +104,7 @@ class _GuiLog(logging.Handler):
         msg = record.getMessage()
         if record.exc_info and record.exc_info[1]:
             msg += f": {record.exc_info[1]}"
-        log(f"AVISO: {msg}")
+        log(f"AVISO: {msg}", _THREAD_MID.get(threading.get_ident()))
 
 
 logging.getLogger("osu_cores").addHandler(_GuiLog(level=logging.WARNING))
@@ -146,37 +149,51 @@ def _with_warnings(text, warns):
     return {"text": text}
 
 
-def watch_job(match, out, interval, cid, secret):
+def watch_job(mid, out, interval, cid, secret):
+    st = WATCH[mid]
+    L = lambda m: log(m, mid)  # noqa: E731
+    _THREAD_MID[threading.get_ident()] = mid
     try:
-        w = MatchWatcher(OsuClient(cid or None, secret or None), match)
-        if out:
-            out = str(Path(out).expanduser())
-            Path(out).parent.mkdir(parents=True, exist_ok=True)
-            JsonlWriter(out, w)
-        name_of = lambda uid: w.players[uid].username if uid in w.players else str(uid)
-        w.on("backfill", lambda m: log(f"historial: {len(m.events)} eventos, "
-                                       f"{len(m.games)} mapas, {len(m.players)} jugadores"))
-        w.on("game_started", lambda g: log(f"empezó {title_of(g)}"))
+        w = MatchWatcher(OsuClient(cid or None, secret or None), mid)
+        Path(out).parent.mkdir(parents=True, exist_ok=True)
+        JsonlWriter(out, w)
+        name_of = lambda uid: w.players[uid].username if uid in w.players else str(uid)  # noqa: E731
+
+        def backfilled(m):
+            st["name"] = getattr(m, "name", None) or st["name"]
+            st["games"] = len(m.games)
+            L(f"historial: {len(m.events)} eventos, {len(m.games)} mapas, {len(m.players)} jugadores")
+
+        def started(g):
+            st["playing"] = title_of(g)
+            L(f"empezó {title_of(g)}")
 
         def finished(g):
-            log(f"terminó {title_of(g)} | {len(g.scores)} scores")
-            W["log"].extend(format_result(g, name_of))
-        w.on("game_finished", finished)
+            st["playing"] = None
+            st["games"] += 1
+            L(f"terminó {title_of(g)} | {len(g.scores)} scores")
+            st["log"].extend(format_result(g, name_of))
 
-        log(f"siguiendo la partida {match}" + (f" -> {out}" if out else ""))
+        w.on("backfill", backfilled)
+        w.on("game_started", started)
+        w.on("game_finished", finished)
+        L(f"siguiendo la partida {mid} -> {out}")
         m = w.backfill()
         w._emit("backfill", m)
-        while not W["stop"].is_set() and not w.ended:
-            if W["stop"].wait(interval):
+        while not st["stop"].is_set() and not w.ended:
+            if st["stop"].wait(interval):
                 break
             w.poll_once()
         if w.ended:  # tanto si se cerró mientras se seguía como si ya estaba cerrada
-            log("la partida está cerrada")
+            st["ended"], st["playing"] = True, None
+            L("la partida está cerrada")
     except KeyError as e:
-        log(f"ERROR: falta {e.args[0]} (completá las credenciales o el .env)")
+        st["error"] = f"falta {e.args[0]} (completá las credenciales o el .env)"
+        L(f"ERROR: {st['error']}")
     except Exception as e:  # noqa: BLE001
-        log(f"ERROR: {e}")
-    log("detenido")
+        st["error"] = str(e)
+        L(f"ERROR: {e}")
+    L("detenido")
 
 
 def _falta(prefijo):
@@ -188,35 +205,57 @@ def _falta(prefijo):
 
 
 def api_watch_start(d):
+    """Empieza a seguir una o varias partidas (una por línea): un hilo y un .jsonl cada una."""
     if (r := _falta("livelobby")):
         return r
-    if W["thread"] and W["thread"].is_alive():
-        return {"error": "ya hay una partida siguiéndose"}
-    try:
-        match = parse_match(str(d.get("match", "")))
-    except Exception as e:  # noqa: BLE001
-        return {"error": str(e)}
+    ids, errors = [], []
+    for raw in re.split(r"[\n,;]+", str(d.get("match", ""))):
+        if raw.strip():
+            try:
+                ids.append(parse_match(raw.strip()))
+            except Exception as e:  # noqa: BLE001
+                errors.append(f"{raw.strip()}: {e}")
+    if not ids and not errors:
+        errors.append("pegá el ID o el link de al menos una partida")
     interval = max(1.0, float(d.get("interval") or 5))
-    W["stop"] = threading.Event()
-    W["log"] = []
-    W["thread"] = threading.Thread(
-        target=watch_job,
-        args=(match, (d.get("out") or "").strip(), interval,
-              (d.get("cid") or "").strip(), (d.get("secret") or "").strip()),
-        daemon=True)
-    W["thread"].start()
+    folder = Path((d.get("folder") or "partidas").strip()).expanduser()
+    started = []
+    for mid in dict.fromkeys(ids):
+        old = WATCH.get(mid)
+        if old and old["thread"].is_alive():
+            errors.append(f"{mid}: ya se está siguiendo")
+            continue
+        WATCH[mid] = {"id": mid, "stop": threading.Event(), "log": [], "name": None, "playing": None,
+                      "games": 0, "ended": False, "error": None, "interval": interval,
+                      "out": str(folder / f"{mid}.jsonl")}
+        t = threading.Thread(target=watch_job, daemon=True, args=(
+            mid, WATCH[mid]["out"], interval, (d.get("cid") or "").strip(), (d.get("secret") or "").strip()))
+        WATCH[mid]["thread"] = t
+        t.start()
+        started.append(mid)
+    return {"started": started, "errors": errors, "folder": str(folder.resolve())}
+
+
+def api_watch_stop(d):
+    """Detiene una partida (si viene "id") o todas."""
+    targets = [WATCH[d["id"]]] if d.get("id") in WATCH else list(WATCH.values())
+    for st in targets:
+        st["stop"].set()
     return {"ok": True}
 
 
-def api_watch_stop(_):
-    W["stop"].set()
-    return {"ok": True}
+def api_watchers(_):
+    items = [{"id": st["id"], "name": st["name"], "running": st["thread"].is_alive(), "ended": st["ended"],
+              "playing": st["playing"], "games": st["games"], "error": st["error"], "out": st["out"]}
+             for st in WATCH.values()]
+    per_min = sum(60 / st["interval"] for st in WATCH.values() if st["thread"].is_alive())
+    return {"items": items, "per_min": round(per_min)}
 
 
 def api_log(q):
-    since = int(q.get("since", ["0"])[0])
-    return {"lines": W["log"][since:], "next": len(W["log"]),
-            "running": bool(W["thread"] and W["thread"].is_alive())}
+    mid, since = int((q.get("id") or ["0"])[0]), int((q.get("since") or ["0"])[0])
+    lines = WATCH[mid]["log"] if mid in WATCH else LOG0
+    return {"lines": lines[since:], "next": len(lines)}
 
 
 # --- estadísticas y gráfico ----------------------------------------------------
@@ -439,6 +478,8 @@ class Handler(BaseHTTPRequestHandler):
             except OSError:
                 return self._send(500, "Falta osu_panel.html: ponelo junto a osu_gui.py.", "text/plain")
             return self._send(200, page, "text/html")
+        if u.path == "/api/watchers":
+            return self._send(200, json.dumps(api_watchers(None), ensure_ascii=False))
         if u.path == "/api/log":
             return self._send(200, json.dumps(api_log(parse_qs(u.query))))
         if u.path == "/api/browse":
@@ -479,7 +520,8 @@ def main():
     try:
         srv.serve_forever()
     except KeyboardInterrupt:
-        W["stop"].set()
+        for st in WATCH.values():
+            st["stop"].set()
         print("\nchau")
     return 0
 

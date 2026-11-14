@@ -83,7 +83,7 @@ background:linear-gradient(135deg,#7c3aed,#9333ea);box-shadow:0 4px 14px rgba(12
 .help[aria-expanded=true]{background:linear-gradient(135deg,#c026d3,#9333ea)}
 .pop{position:absolute;right:14px;top:calc(100% + 10px);z-index:20;width:min(390px,calc(100vw - 48px));padding:16px 18px;background:#1a1236;border:1px solid #4a3792;border-radius:16px;box-shadow:0 18px 44px rgba(0,0,0,.6);font-size:13px;line-height:1.5}
 .pop h4{margin:0 0 10px;font-size:14px;color:#e6dcff}.pop dl{margin:0;display:grid;gap:12px}.pop dt{font-weight:600;color:#d9ccff}.pop dd{margin:3px 0 0;color:var(--mu)}
-@media(max-width:760px){.hdr{padding:12px;border-radius:18px}.cap-file{flex-basis:100%}.go,.cap-auto{flex:1}.cap-auto select{flex:1}}
+@media(max-width:760px){.hdr{padding:12px;border-radius:18px}.cap-file{flex-basis:100%}.go,.cap-auto{flex:1}.cap-auto .msel-btn{flex:1}}
 @media(prefers-reduced-motion:reduce){.cap,.go,.chip{transition:none}}
 /* plegar la cabecera */
 .hcol{display:grid;grid-template-rows:1fr;transition:grid-template-rows .22s ease}
@@ -182,9 +182,21 @@ ul.tl li[data-g]:hover{background:rgba(168,85,247,.09)}ul.tl li[data-g]:focus-vi
 #mlb{position:relative}.mo{transition:background-color .12s ease}
 #mlb.mgo .mo{animation:mpRow .34s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*32ms + 70ms)}
 @media (prefers-reduced-motion:reduce){.mpop,.mpop *{animation:none!important}}
+.wc{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;background:var(--cd2)}
+.wc>div{flex:1;min-width:0}.wc small{display:block;color:var(--mu)}.pw{font-size:12px;padding:3px 10px;border-radius:99px;border:1px solid var(--bd);color:var(--mu)}.pw.on{color:#fff;border-color:var(--r)}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}.mcard{cursor:pointer;transition:border-color .15s}.mcard:hover{border-color:var(--ac)}
+.mtop,.mrow{display:flex;justify-content:space-between;align-items:center;gap:8px}.mtop{font-size:12px;margin-bottom:10px}.mrow big{font-size:30px;font-weight:700}
+.mt{display:flex;align-items:center;gap:6px;flex:1;min-width:0}.mt:last-child{justify-content:flex-end}.mt b{font-size:16px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mt .fl{width:30px;height:20px}
+.mfoot{margin-top:10px;font-size:12px}
+.apop{left:auto;right:0;top:0;width:196px;transform-origin:top right}
+#alb{list-style:none;margin:0;padding:0}
+.ao{padding:9px 12px;border-radius:12px;cursor:pointer;font-size:14px;color:#cfc4f0;transition:background-color .12s ease}
+.ao.act{background:rgba(168,85,247,.16)}.ao.sel{background:rgba(168,85,247,.3);box-shadow:inset 3px 0 #a855f7;color:#fff;font-weight:700}
+#alb.mgo .ao{animation:mpRow .34s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*32ms + 70ms)}
+.cap-auto .chev{transition:transform .18s}.cap-auto.open .chev{transform:rotate(180deg)}
 </style></head><body>
 <aside><div class="logo">osu! <span>Lobby Tools</span></div>
-<nav><button data-v="match" class="on">Partida</button><button data-v="torneo">Torneo</button><button data-v="live">En vivo</button></nav>
+<nav><button data-v="matches">Matches</button><button data-v="match" class="on">Partida</button><button data-v="torneo">Torneo</button><button data-v="live">En vivo</button></nav>
 <div class="pill" id="pill">Detenido</div></aside>
 <main>
 <div id="warn"></div>
@@ -194,7 +206,7 @@ ul.tl li[data-g]:hover{background:rgba(168,85,247,.09)}ul.tl li[data-g]:focus-vi
 <div class="cap cap-file"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></svg><input id="src" placeholder="Carpeta o archivos .jsonl (varios, separados por ;)" aria-label="Carpeta o archivos .jsonl"><button class="chip" id="bro" type="button">Examinar</button></div>
 <label class="cap cap-num" title="Mapas de calentamiento que no cuentan, al comienzo de cada partida"><span>Warmups</span><input id="skip" type="number" min="0" value="0"></label>
 <button class="go" id="load" type="button">Cargar</button>
-<div class="cap cap-auto" id="autocap"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg><select id="auto" aria-label="Recarga automática"><option value="0">Manual</option><option value="2">Auto 2 s</option><option value="5">Auto 5 s</option><option value="10">Auto 10 s</option><option value="30">Auto 30 s</option></select><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
+<div class="cap cap-auto" id="autocap"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></svg><button class="msel-btn" id="asel" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="alb" aria-label="Recarga automática"><span id="aseltxt">Manual</span></button><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></div>
 </div></div></div>
 <div class="hrow">
 <div class="cap cap-match" id="matchcap" hidden><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="6" x2="10" y1="11" y2="11"/><line x1="8" x2="8" y1="9" y2="13"/><line x1="15" x2="15.01" y1="12" y2="12"/><line x1="18" x2="18.01" y1="10" y2="10"/><path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.545-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z"/></svg><button class="msel-btn" id="msel" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="mlb" aria-label="Elegir partida"><span id="mseltxt"></span></button><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
@@ -210,21 +222,24 @@ ul.tl li[data-g]:hover{background:rgba(168,85,247,.09)}ul.tl li[data-g]:focus-vi
 <div><dt>Cargar y Auto</dt><dd>Cargar vuelve a leer los archivos. Auto lo hace solo cada pocos segundos, útil mientras la partida sigue en juego.</dd></div>
 <div><dt>Partida cerrada</dt><dd>El archivo registró que la sala se cerró. Si dice “Sin cierre registrado”, la partida sigue en juego o no se grabó el final.</dd></div>
 </dl></div>
+<div class="mpop apop" id="apop" hidden><ul id="alb" role="listbox" aria-label="Recarga automática"></ul></div>
 </header>
 
+<section id="v-matches" class="view"></section>
 <section id="v-match" class="view on"></section>
 <section id="v-torneo" class="view"></section>
 
 <section id="v-live" class="view"><div class="cd">
-<h3>Seguir una partida en vivo</h3>
-<div class="row"><div><label>ID o link de la partida (mp link)</label><input id="lmatch" placeholder="122095688 o https://osu.ppy.sh/community/matches/…"></div>
-<div><label>Guardar en archivo .jsonl</label><input id="lout" value="partida.jsonl"></div>
-<div><label>Segundos entre consultas</label><input id="lint" type="number" min="1" value="5"></div></div>
+<h3>Seguir partidas en vivo <span class="mu" id="lhint"></span></h3>
+<div class="row"><div style="grid-column:1/-1"><label>IDs o links de las partidas (una por línea; podés seguir varias a la vez)</label>
+<textarea id="lmatch" rows="4" style="width:100%" placeholder="122095688&#10;https://osu.ppy.sh/community/matches/122095999"></textarea></div>
+<div><label>Carpeta donde guardar (un .jsonl por partida)</label><div style="display:flex;gap:6px"><input id="lfolder" value="partidas" style="flex:1"><button class="k" id="lbro">📂</button></div></div>
+<div><label>Segundos entre consultas (por partida)</label><input id="lint" type="number" min="1" value="5"></div></div>
 <details class="mu" style="margin-bottom:12px"><summary>Credenciales de la API (vacío = usa tu archivo .env)</summary>
 <div class="row" style="margin-top:8px"><div><label>OSU_CLIENT_ID</label><input id="lcid"></div><div><label>OSU_CLIENT_SECRET</label><input id="lsec" type="password"></div></div>Solo se envían al programa local y no se guardan.</details>
-<div class="top"><button class="k pri" id="go">▶ Empezar a seguir</button><button class="k" id="stop" disabled>■ Detener</button>
-<button class="k" id="lclr">Limpiar</button><button class="k" id="lview">Ver en el panel →</button></div>
-<pre id="log"></pre></div></section>
+<div class="top"><button class="k pri" id="go">▶ Seguir estas partidas</button><button class="k" id="stop">■ Detener todas</button><button class="k" id="lview">Ver todas en el panel →</button><span id="lerr" class="er"></span></div>
+<div id="wl"></div>
+<h3 style="margin-top:14px">Registro <span class="mu" id="logt">elegí una partida con "Log"</span></h3><pre id="log" style="height:240px"></pre></div></section>
 
 </main>
 
@@ -250,7 +265,7 @@ const say=(t,c='')=>{$('#msg').className=c;$('#msg').textContent=t;if(c==='er'&&
 const empty=()=>`<div class="cd empty">Elegí una carpeta con tus .jsonl (Examinar) y pulsá <b>Cargar</b>.</div>`;
 const miss=__MISSING__;if(miss.length){$('#warn').style.display='block';$('#warn').textContent='Faltan módulos: '+miss.join(' | ')}
 
-function go(v){$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));S.v=v;if(v==='match'||v==='torneo')draw();updHdr()}
+function go(v){$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));S.v=v;if(v==='matches'||v==='match'||v==='torneo')draw();updHdr()}
 $$('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
 async function load(){
@@ -265,7 +280,7 @@ async function load(){
   try{localStorage.osuSrc=$('#src').value;localStorage.osuSkip=$('#skip').value}catch{}
   draw();
 }
-const draw=()=>{vMatch();vTorneo();updHdr()};
+const draw=()=>{vMatches();vMatch();vTorneo();updHdr()};
 
 function lineChart(ms){
   const W=520,H=190,P=46,n=ms.length;if(!n)return '<span class="mu">Sin mapas por equipos.</span>';
@@ -275,6 +290,16 @@ function lineChart(ms){
   const dots=k=>ms.map((x,i)=>`<circle cx="${X(i)}" cy="${Y(x[k])}" r="4" fill="var(--${k=='red'?'r':'b'})"/>`).join('');
   return `<svg viewBox="0 0 ${W} ${H}" width="100%">${grid}${ms.map((_,i)=>`<text x="${X(i)}" y="${H-6}" text-anchor="middle" fill="#9a8fc0" font-size="10">Mapa ${i+1}</text>`).join('')}
   <polyline points="${pl('blue')}" fill="none" stroke="var(--b)" stroke-width="2.5"/><polyline points="${pl('red')}" fill="none" stroke="var(--r)" stroke-width="2.5"/>${dots('blue')}${dots('red')}</svg>`;
+}
+
+function vMatches(){
+  const el=$('#v-matches'),D=S.d;if(!D){el.innerHTML=empty();return}
+  el.innerHTML=`<div class="mgrid">${D.matches.map((m,i)=>{const L=m.labels,w=WS[m.id],live=w&&w.running,last=m.maps[m.maps.length-1];
+   const t=c=>`<div class="mt">${fl(L[c])}<b>${esc(tname(L[c]))}</b></div>`;
+   return `<div class="cd mcard" data-i="${i}"><div class="mtop"><span class="mu">${esc(m.name)}</span><span class="${live?'r':'mu'}">${live?'● En vivo':m.closed||(w&&w.ended)?'✔ Cerrada':'Sin cierre'}</span></div>
+   <div class="mrow">${t('red')}<big><span class="r">${m.rm}</span> - <span class="b">${m.bm}</span></big>${t('blue')}</div>
+   <div class="mu mfoot">${w&&w.playing?'● Jugando: '+esc(w.playing):last?`Último: ${esc(last.title)} · ${last.winner?esc(tname(L[last.winner]))+' gana':'empate'}`:'Sin mapas por equipos'}</div></div>`}).join('')}</div>`;
+  el.querySelectorAll('.mcard').forEach(c=>c.onclick=()=>{S.mi=+c.dataset.i;go('match')});
 }
 
 function vMatch(){
@@ -325,16 +350,30 @@ function vTorneo(){
    <div class="cd"><h3>Récords</h3><ul class="tl">${T.records.map(([k,v])=>`<li><div><b>${esc(k)}</b><small>${esc(v)}</small></div></li>`).join('')||'<li class="mu">Sin datos</li>'}</ul></div></div>`;
 }
 
-// --- en vivo ---
-let nxt=0;
-async function tick(){const r=await api('/api/log?since='+nxt);nxt=r.next;
-  if(r.lines.length){const l=$('#log');l.textContent+=r.lines.join('\n')+'\n';l.scrollTop=1e9}
-  $('#go').disabled=r.running;$('#stop').disabled=!r.running;$('#pill').className='pill'+(r.running?' on':'');$('#pill').textContent=r.running?'Siguiendo partida':'Detenido'}
-$('#go').onclick=async()=>{nxt=0;$('#log').textContent='';
-  const r=await api('/api/watch/start',{match:$('#lmatch').value,out:$('#lout').value,interval:$('#lint').value,cid:$('#lcid').value,secret:$('#lsec').value});
-  if(r.error)$('#log').textContent='ERROR: '+r.error;tick()};
-$('#stop').onclick=async()=>{await api('/api/watch/stop',{});tick()};$('#lclr').onclick=()=>{$('#log').textContent=''};
-$('#lview').onclick=()=>{$('#src').value=$('#lout').value;setAuto(5);go('match');load()};
+// --- en vivo (varias partidas a la vez) ---
+let WS={},sig='',logId=null,logN=0,LF='';
+async function tick(){
+  const r=await api('/api/watchers');WS=Object.fromEntries(r.items.map(w=>[w.id,w]));
+  const run=r.items.filter(w=>w.running).length,s2=JSON.stringify(r.items.map(w=>[w.id,w.playing,w.running,w.games,w.error,w.name]));
+  $('#pill').className='pill'+(run?' on':'');$('#pill').textContent=run?`Siguiendo ${run} partida(s)`:'Detenido';
+  $('#lhint').textContent=run?`≈ ${r.per_min} peticiones/min (el límite normal de osu! es 60)`:'';
+  if(s2!==sig){sig=s2;
+    $('#wl').innerHTML=r.items.map(w=>`<div class="wc"><div><b>${esc(w.name||'Partida '+w.id)}</b> <span class="mu">#${w.id}</span>
+     <small>${w.error?`<span class="er">${esc(w.error)}</span>`:w.playing?'● Jugando: '+esc(w.playing):w.ended?'✔ Cerrada':w.running?'Esperando el próximo mapa':'Detenida'} · ${w.games} mapa(s)</small></div>
+     <span class="pw ${w.running?'on':''}">${w.running?'En vivo':'Parada'}</span><button class="k" data-log="${w.id}">Log</button>${w.running?`<button class="k" data-stop="${w.id}">■</button>`:''}</div>`).join('')||'<div class="mu">Ninguna partida en seguimiento.</div>';
+    if($('#v-matches').classList.contains('on'))vMatches()}
+  if(logId!=null){const l=await api(`/api/log?id=${logId}&since=${logN}`);logN=l.next;if(l.lines.length){const e=$('#log');e.textContent+=l.lines.join('\n')+'\n';e.scrollTop=1e9}}
+}
+$('#wl').onclick=async e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.stop){await api('/api/watch/stop',{id:+b.dataset.stop});sig='';tick()}
+  if(b.dataset.log){logId=+b.dataset.log;logN=0;$('#log').textContent='';$('#logt').textContent='#'+logId;tick()}};
+$('#go').onclick=async()=>{
+  const r=await api('/api/watch/start',{match:$('#lmatch').value,folder:$('#lfolder').value,interval:$('#lint').value,cid:$('#lcid').value,secret:$('#lsec').value});
+  $('#lerr').textContent=r.error||(r.errors||[]).join(' · ');LF=r.folder||LF;
+  if(r.started&&r.started.length){logId=r.started[0];logN=0;$('#log').textContent='';$('#logt').textContent='#'+logId}sig='';tick()};
+$('#stop').onclick=async()=>{await api('/api/watch/stop',{});sig='';tick()};
+$('#lview').onclick=()=>{$('#src').value=LF||$('#lfolder').value;setAuto(5);go('matches');load()};
+$('#lbro').onclick=()=>openBro('#lfolder',false);
 setInterval(tick,1500);
 
 // --- popup con el detalle de un mapa ---
@@ -407,15 +446,16 @@ document.addEventListener('keydown',e=>{
 },true);
 
 // --- explorador de carpetas ---
-let CUR='';
+let CUR='',BT={t:'#src',load:true};
 async function br(p){const r=await api('/api/browse?path='+encodeURIComponent(p||''));if(r.error){say(r.error,'er');return}
   CUR=r.path;$('#mpath').value=r.path;$('#mup').dataset.p=r.parent||'';
   $('#msc').innerHTML=r.shortcuts.map(s=>`<option value="${esc(s.path)}">${esc(s.name)}</option>`).join('');
   $('#mlist').innerHTML=r.entries.map(e=>`<li data-p="${esc(e.path)}" data-d="${+e.dir}">${e.dir?'📁':'📄'} ${esc(e.name)}${e.dir?'':` <span class="mu">${(e.size/1024).toFixed(0)} KB</span>`}</li>`).join('')||'<li class="mu">(sin carpetas ni .jsonl)</li>'}
-const setSrc=v=>{$('#src').value=v;$('#modal').hidden=true;load()};
-$('#bro').onclick=()=>{$('#modal').hidden=false;br($('#src').value.split(';')[0])};
+const setSrc=v=>{$(BT.t).value=v;$('#modal').hidden=true;if(BT.load)load()};
+const openBro=(t,ld)=>{BT={t,load:ld};$('#modal').hidden=false;br($(t).value.split(';')[0])};
+$('#bro').onclick=()=>openBro('#src',true);
 $('#mlist').onclick=e=>{const li=e.target.closest('li');if(!li||!li.dataset.p)return;
-  if(li.dataset.d==='1')br(li.dataset.p);else setSrc(e.ctrlKey&&$('#src').value?$('#src').value+';'+li.dataset.p:li.dataset.p)};
+  if(li.dataset.d==='1')br(li.dataset.p);else if(BT.load)setSrc(e.ctrlKey&&$('#src').value?$('#src').value+';'+li.dataset.p:li.dataset.p)};
 $('#mgo').onclick=()=>br($('#mpath').value);$('#msc').onchange=e=>br(e.target.value);
 $('#mup').onclick=e=>{if(e.target.dataset.p)br(e.target.dataset.p)};$('#muse').onclick=()=>setSrc(CUR);$('#mx').onclick=()=>{$('#modal').hidden=true};
 
@@ -470,7 +510,7 @@ function setAct(scroll=true){
   $('#mq').setAttribute('aria-activedescendant',a.id);if(scroll)a.scrollIntoView({block:'nearest'});
 }
 function mOpen(){
-  tgl(false);mQ='';$('#mq').value='';mAct=0;mFill();
+  aClose(false);tgl(false);mQ='';$('#mq').value='';mAct=0;mFill();
   mAct=Math.max(0,mItems.findIndex(x=>x.i===S.mi));mFill();
   clearTimeout(mT);$('#mpop').classList.remove('out');
   $('#mpop').hidden=false;$('#msel').setAttribute('aria-expanded','true');$('#matchcap').classList.add('open');
@@ -505,18 +545,52 @@ $('#mlb').onclick=e=>{const li=e.target.closest('.mo');if(li)mPick(+li.dataset.k
 $('#mlb').onmousemove=e=>{const li=e.target.closest('.mo');if(li&&+li.dataset.k!==mAct){mAct=+li.dataset.k;setAct(false)}};
 document.addEventListener('click',e=>{if(!$('#mpop').hidden&&!$('#matchcap').contains(e.target))mClose(false)});
 let at=null;
+const AUTO=[[0,'Manual'],[2,'Auto 2 s'],[5,'Auto 5 s'],[10,'Auto 10 s'],[30,'Auto 30 s']];
+let aV=0,aAct=0,aT=null;
 function setAuto(n){
-  const sel=$('#auto');sel.value=String(n);if(sel.value!==String(n)){n=0;sel.value='0'}
+  if(!AUTO.some(x=>x[0]===n))n=0;aV=n;$('#aseltxt').textContent=AUTO.find(x=>x[0]===n)[1];
   clearInterval(at);at=n>0?setInterval(()=>{if(!document.hidden&&$('#src').value.trim())load()},n*1000):null;
   $('#autocap').classList.toggle('on',n>0);try{localStorage.osuAuto=n}catch{}
 }
-$('#auto').onchange=e=>setAuto(+e.target.value);
+// lista de recarga: misma mecánica que el selector de partidas (apertura/cierre animados, teclado, clic afuera)
+const aIsOpen=()=>!$('#apop').hidden&&!$('#apop').classList.contains('out');
+function aFill(){$('#alb').innerHTML=AUTO.map(([v,t],k)=>`<li class="ao${k===aAct?' act':''}${v===aV?' sel':''}" role="option" aria-selected="${v===aV}" data-k="${k}" style="--i:${k}">${t}</li>`).join('')}
+const aSetAct=()=>$$('#alb .ao').forEach((li,k)=>li.classList.toggle('act',k===aAct));
+function aOpen(){
+  mClose(false);aAct=Math.max(0,AUTO.findIndex(x=>x[0]===aV));aFill();
+  const p=$('#apop'),hr=document.querySelector('.hdr').getBoundingClientRect(),cr=$('#autocap').getBoundingClientRect();
+  p.style.top=(cr.bottom-hr.top+8)+'px';p.style.right=Math.max(0,hr.right-cr.right)+'px';  // fuera de la zona plegable (que recorta)
+  clearTimeout(aT);p.classList.remove('out');p.hidden=false;
+  $('#asel').setAttribute('aria-expanded','true');$('#autocap').classList.add('open');
+  const ul=$('#alb');ul.classList.add('mgo');clearTimeout(aOpen.t);aOpen.t=setTimeout(()=>ul.classList.remove('mgo'),900);
+}
+function aClose(focus){
+  const p=$('#apop');$('#asel').setAttribute('aria-expanded','false');$('#autocap').classList.remove('open');
+  if(aIsOpen()){p.classList.add('out');clearTimeout(aT);aT=setTimeout(()=>{p.hidden=true;p.classList.remove('out')},160)}
+  if(focus)$('#asel').focus();
+}
+const aPick=k=>{setAuto(AUTO[k][0]);aClose(true)};
+$('#asel').onclick=()=>aIsOpen()?aClose(true):aOpen();
+$('#asel').onkeydown=e=>{
+  const mv=d=>{e.preventDefault();aAct=(aAct+d+AUTO.length)%AUTO.length;aSetAct()};
+  if(e.key==='ArrowDown'){if(aIsOpen())mv(1);else{e.preventDefault();aOpen()}}
+  else if(e.key==='ArrowUp'&&aIsOpen())mv(-1);
+  else if((e.key==='Enter'||e.key===' ')&&aIsOpen()){e.preventDefault();aPick(aAct)}
+  else if(e.key==='Escape'&&aIsOpen()){e.preventDefault();e.stopPropagation();aClose(true)}
+  else if(e.key==='Tab'&&aIsOpen())aClose(false);
+};
+$('#alb').onclick=e=>{const li=e.target.closest('.ao');if(li)aPick(+li.dataset.k)};
+$('#alb').onmousemove=e=>{const li=e.target.closest('.ao');if(li&&+li.dataset.k!==aAct){aAct=+li.dataset.k;aSetAct()}};
+document.addEventListener('click',e=>{if(!$('#apop').hidden&&!$('#autocap').contains(e.target)&&!$('#apop').contains(e.target))aClose(false)});
+addEventListener('resize',()=>aClose(false));
 const hp=$('#help'),pop=$('#pop'),tgl=o=>{pop.hidden=!o;hp.setAttribute('aria-expanded',String(o))};
-hp.onclick=e=>{e.stopPropagation();mClose(false);tgl(pop.hidden)};
+hp.onclick=e=>{e.stopPropagation();mClose(false);aClose(false);tgl(pop.hidden)};
 document.addEventListener('click',e=>{if(!pop.hidden&&!pop.contains(e.target))tgl(false)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')tgl(false)});
+
 try{setAuto(+localStorage.osuAuto||0)}catch{setAuto(0)}
 function setMin(v,keep=true){
+  if(v)aClose(false);
   const b=$('#tgl'),t=v?'Mostrar controles':'Ocultar controles';
   document.querySelector('.hdr').classList.toggle('min',v);$('#hcol').inert=v;
   b.setAttribute('aria-expanded',String(!v));b.setAttribute('aria-label',t);b.title=t;
