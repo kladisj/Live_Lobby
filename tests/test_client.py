@@ -109,3 +109,54 @@ def test_separa_los_requests_con_min_gap(monkeypatch):
     for _ in range(5):
         t.wait_turn()
     assert time.monotonic() - t0 >= 0.19  # 4 huecos de 0.05 s
+
+
+# --- estado visible (lo que muestra la interfaz) ---------------------------------
+def test_estado_unknown_blocked_unverified_ok():
+    t = C._Throttle()
+    assert t.status()["state"] == "unknown"
+    t.block(60)
+    st = t.status()
+    assert st["state"] == "blocked" and 55 <= st["remaining"] <= 60
+    t._blocked_until = time.time() - 1          # la pausa ya terminó, pero nadie comprobó nada
+    assert t.status()["state"] == "unverified"
+    t.ok()
+    assert t.status()["state"] == "ok"
+
+
+def test_el_bloqueo_sobrevive_a_un_reinicio(tmp_path):
+    f = tmp_path / "estado.json"
+    a = C._Throttle(f)
+    a.block()                                   # "cierro el programa"
+    b = C._Throttle(f)                          # "lo vuelvo a abrir"
+    assert b.status()["state"] == "blocked"
+    with pytest.raises(C.OsuBlockedError):
+        b.check_blocked()
+    b._blocked_until = time.time() - 1          # pasa la espera...
+    b.ok()                                      # ...y la API vuelve a contestar bien
+    assert C._Throttle(f)._strikes == 0         # la escalada quedó reiniciada también en disco
+
+
+def test_archivo_de_estado_roto_no_rompe_nada(tmp_path):
+    f = tmp_path / "estado.json"
+    f.write_text("{no es json")
+    assert C._Throttle(f).status()["state"] == "unknown"
+
+
+def test_probe_no_sale_a_la_red_si_hay_pausa(fresh, monkeypatch):
+    n = []
+    monkeypatch.setattr(C.requests, "get", lambda url, **kw: n.append(1) or Resp(200, {}))
+    C.THROTTLE.block(300)
+    with pytest.raises(C.OsuBlockedError):
+        cli().probe()
+    assert n == []
+
+
+def test_probe_distingue_bloqueo_de_sin_conexion(fresh, monkeypatch):
+    def boom(url, **kw):
+        raise C.requests.ConnectionError("sin internet")
+    monkeypatch.setattr(C.requests, "get", boom)
+    monkeypatch.setattr(C.requests, "post", lambda url, **kw: TOKEN)
+    with pytest.raises(C.OsuNetworkError):
+        cli().probe()
+    assert C.THROTTLE.status()["state"] != "blocked"   # un corte de internet no es un bloqueo

@@ -217,6 +217,11 @@ nav button:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .snm{margin-top:7px;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.ssc{font-size:26px;font-weight:700;letter-spacing:1px;line-height:1.2;margin:2px 0 6px}
 .sidecard svg{display:block;width:100%;height:44px}
 .pill{margin-top:12px;padding:10px 14px;border:1px solid var(--ln);border-radius:12px;color:var(--mu);font-size:12.5px}.sidecard[hidden]+.pill{margin-top:auto}
+.pill.bad{color:#fff;border-color:var(--er);background:rgba(255,107,122,.15)}.pill.bad:before{content:none}
+.apibar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:0 0 12px;padding:10px 14px;border-radius:12px;border:1px solid var(--bd);background:var(--cd2);font-size:13px}
+.apibar[hidden]{display:none}.apibar>span:first-child{flex:1;min-width:220px}
+.apibar.bad{border-color:var(--er);background:rgba(255,107,122,.12);color:#ffd5da}.apibar.warn{border-color:#f5b84d;background:rgba(245,184,77,.1);color:#ffe7b8}.apibar.ok{border-color:var(--ok);color:#c9f1de}
+.pw.bad{color:#fff;border-color:var(--er);background:rgba(255,107,122,.15)}
 .pill.on{color:#fff;border-color:var(--r)}.pill.on:before{content:"●";color:var(--r);margin-right:6px}
 
 /* banner del partido */
@@ -426,6 +431,7 @@ details.rdet summary{cursor:pointer;color:var(--mu);font-size:13px}
 
 <section id="v-live" class="view"><div class="cd">
 <h3>Seguir partidas en vivo <span class="mu" id="lhint"></span></h3>
+<div id="apibar" class="apibar" hidden></div>
 <div class="row"><div style="grid-column:1/-1"><label>IDs o links de las partidas (una por línea; podés seguir varias a la vez). Para elegir el nombre del archivo: <code>ID | nombre</code></label>
 <textarea id="lmatch" rows="4" style="width:100%" placeholder="122095688&#10;https://osu.ppy.sh/community/matches/122095999&#10;122096100 | final china vs francia"></textarea></div>
 <div><label>Carpeta donde guardar (un .jsonl por partida)</label><div style="display:flex;gap:6px"><input id="lfolder" value="partidas" style="flex:1"><button class="k" id="lbro">📂</button></div></div>
@@ -892,16 +898,31 @@ $('#v-torneo').addEventListener('change',async e=>{
 });
 
 // --- en vivo (varias partidas a la vez) ---
-let WS={},sig='',logId=null,logN=0,LF='';
+let WS={},sig='',logId=null,logN=0,LF='',APIRES=null,CHK=false;
+const fmtT=n=>`${Math.floor(n/60)}:${String(n%60).padStart(2,'0')}`,hhmm=t=>new Date(t*1000).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+function apiBar(a){ // estado de la conexión con osu!: se ve apenas se abre el panel, sin seguir ninguna partida
+  const bar=$('#apibar');if(!a){bar.hidden=true;return}if(CHK)return;
+  let cls='',txt='Conexión con osu!: todavía sin comprobar.';
+  if(a.state==='blocked'){cls='bad';txt=`⛔ <b>Cloudflare bloqueó tu IP.</b> Pausa automática: faltan ${fmtT(a.remaining)} (hasta las ${hhmm(a.until)}). Mientras tanto no se hace ninguna consulta.`}
+  else if(a.state==='unverified'){cls='warn';txt='⚠ La pausa por el bloqueo terminó, pero todavía no se comprobó si se levantó. Tocá "Comprobar ahora".'}
+  else if(a.state==='ok'){cls='ok';txt=`✔ Conexión con osu! OK (última respuesta correcta a las ${hhmm(a.last_ok)}).`}
+  const res=APIRES&&Date.now()-APIRES.at<60000?`<span class="${APIRES.cls}" style="flex-basis:100%">${esc(APIRES.msg)}</span>`:'';
+  bar.hidden=false;bar.className='apibar '+cls;bar.innerHTML=`<span>${txt}</span><button class="k" id="apichk">Comprobar ahora</button>${res}`}
+$('#apibar').onclick=async e=>{const b=e.target.closest('#apichk');if(!b)return;
+  CHK=true;b.disabled=true;b.textContent='Comprobando…';
+  const r=await api('/api/apicheck',{cid:$('#lcid').value,secret:$('#lsec').value});
+  APIRES={msg:r.error||r.message,cls:r.ok?'ok':'er',at:Date.now()};CHK=false;sig='';tick()};
 async function tick(){
   const r=await api('/api/watchers');WS=Object.fromEntries(r.items.map(w=>[w.id,w]));
-  const run=r.items.filter(w=>w.running).length,s2=JSON.stringify(r.items.map(w=>[w.id,w.playing,w.running,w.games,w.error,w.name,w.live&&w.live.gid]));
-  $('#pill').className='pill'+(run?' on':'');$('#pill').textContent=run?`Siguiendo ${run} partida(s)`:'Detenido';
+  const run=r.items.filter(w=>w.running).length,s2=JSON.stringify(r.items.map(w=>[w.id,w.playing,w.running,w.games,w.error,w.name,w.live&&w.live.gid,w.ready,w.blocked>0?Math.ceil(w.blocked/10):0]));
+  const A=r.api,bl=A&&A.state==='blocked';
+  $('#pill').className='pill'+(bl?' bad':run?' on':'');$('#pill').textContent=bl?`⛔ IP bloqueada · ${fmtT(A.remaining)}`:run?`Siguiendo ${run} partida(s)`:'Detenido';
+  apiBar(A);
   $('#lhint').textContent=run?`≈ ${r.per_min} peticiones/min (el límite normal de osu! es 60)`:'';
   if(s2!==sig){sig=s2;
     $('#wl').innerHTML=r.items.map(w=>`<div class="wc"><div><b>${esc(w.name||'Partida '+w.id)}</b> <span class="mu">#${w.id}</span>
-     <small>${w.error?`<span class="er">${esc(w.error)}</span>`:w.playing?'● Jugando: '+esc(w.playing):w.ended?'✔ Cerrada':w.running?'Esperando el próximo mapa':'Detenida'} · ${w.games} mapa(s)</small></div>
-     <span class="pw ${w.running?'on':''}">${w.running?'En vivo':'Parada'}</span><button class="k" data-log="${w.id}">Log</button>${w.running?`<button class="k" data-stop="${w.id}">■</button>`:''}</div>`).join('')||'<div class="mu">Ninguna partida en seguimiento.</div>';
+     <small>${w.error?`<span class="er">${esc(w.error)}</span>`:w.running&&w.blocked?`<span class="er">⛔ Bloqueado por Cloudflare · reintenta en ${fmtT(w.blocked)}</span>`:w.running&&!w.ready?'Conectando con osu! y bajando el historial…':w.playing?'● Jugando: '+esc(w.playing):w.ended?'✔ Cerrada':w.running?'Esperando el próximo mapa':'Detenida'} · ${w.games} mapa(s)</small></div>
+     <span class="pw ${w.running?(w.blocked?'bad':'on'):''}">${w.running?(w.blocked?'Bloqueada':!w.ready?'Conectando':'En vivo'):'Parada'}</span><button class="k" data-log="${w.id}">Log</button>${w.running?`<button class="k" data-stop="${w.id}">■</button>`:''}</div>`).join('')||'<div class="mu">Ninguna partida en seguimiento.</div>';
     if($('#v-matches').classList.contains('on'))vMatches();if(S.v==='match')vMatch();updSide()}
   if(logId!=null){const l=await api(`/api/log?id=${logId}&since=${logN}`);logN=l.next;if(l.lines.length){const e=$('#log');e.textContent+=l.lines.join('\n')+'\n';e.scrollTop=1e9}}
 }

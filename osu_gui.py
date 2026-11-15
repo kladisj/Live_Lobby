@@ -61,6 +61,7 @@ for base in _search_roots():
             sys.path.insert(0, str(base))
 
 MISSING = []
+MISSING_LL = True  # pasa a False si livelobby (osu_cores) se importó bien
 
 
 def _hint(nombre, e):
@@ -77,9 +78,10 @@ def _hint(nombre, e):
 
 try:
     from osu_cores.__main__ import format_result, parse_match, title_of
-    from osu_cores.api.client import OsuBlockedError, OsuClient
+    from osu_cores.api.client import THROTTLE, OsuApiError, OsuBlockedError, OsuClient, OsuNetworkError
     from osu_cores.output.jsonl import JsonlWriter
     from osu_cores.service.watcher import STALE_GAME_SECONDS, MatchWatcher
+    MISSING_LL = False
 except Exception as e:  # noqa: BLE001
     MISSING.append(_hint("livelobby (osu_cores)", e))
 try:
@@ -262,6 +264,7 @@ def watch_job(mid, folder, mode, custom, interval, cid, secret, delay=0.0):
         w = MatchWatcher(OsuClient(cid or None, secret or None), mid)
         # el historial se baja primero (no avisa a nadie todavía): de ahí sale el nombre del lobby
         m = _retry_if_blocked(st, L, w.backfill)
+        st["ready"] = True  # ya conectó y bajó el historial
         existing = _existing_file(folder, mid)
         out = _out_path(folder, mid, mode, custom, getattr(m, "name", None))
         st["out"] = str(out)
@@ -355,7 +358,7 @@ def api_watch_start(d):
             errors.append(f"{mid}: ya se está siguiendo")
             continue
         WATCH[mid] = {"id": mid, "stop": threading.Event(), "log": [], "name": None, "playing": None, "live": None,
-                      "games": 0, "ended": False, "error": None, "interval": interval, "blocked": None,
+                      "games": 0, "ended": False, "error": None, "interval": interval, "blocked": None, "ready": False,
                       "out": str(folder / f"{_safe_filename(names.get(mid)) or mid}.jsonl")}  # provisorio; se ajusta al arrancar
         t = threading.Thread(target=watch_job, daemon=True, args=(
             mid, folder, mode, names.get(mid), interval, (d.get("cid") or "").strip(), (d.get("secret") or "").strip(),
@@ -364,6 +367,26 @@ def api_watch_start(d):
         t.start()
         started.append(mid)
     return {"started": started, "errors": errors, "folder": str(folder.resolve())}
+
+
+def api_apicheck(d):
+    """Botón "Comprobar ahora": UNA request liviana para saber si la IP sigue bloqueada.
+    Si todavía estamos en pausa por un bloqueo, no sale a la red (no empeora nada)."""
+    if (r := _falta("livelobby")):
+        return r
+    try:
+        OsuClient((d.get("cid") or "").strip() or None, (d.get("secret") or "").strip() or None).probe()
+        res = {"ok": True, "message": "✔ La API de osu! respondió bien: tu IP NO está bloqueada."}
+    except OsuBlockedError as e:
+        res = {"ok": False, "blocked": True, "message": f"⛔ {e}. No consulto hasta que termine, para no alargar el bloqueo."}
+    except OsuNetworkError as e:
+        res = {"ok": False, "message": f"Sin conexión con osu.ppy.sh (no es un bloqueo): {e}"}
+    except KeyError as e:
+        res = {"ok": False, "message": f"Falta {e.args[0]}: completá las credenciales o el .env"}
+    except OsuApiError as e:
+        res = {"ok": False, "message": f"La API contestó con un error, pero no es un bloqueo de Cloudflare: {e}"}
+    res["api"] = THROTTLE.status()
+    return res
 
 
 def api_watch_stop(d):
@@ -377,10 +400,11 @@ def api_watch_stop(d):
 def api_watchers(_):
     items = [{"id": st["id"], "name": st["name"], "running": st["thread"].is_alive(), "ended": st["ended"],
               "playing": st["playing"], "live": _fresh_live(st), "games": st["games"], "error": st["error"], "out": st["out"],
-              "blocked": max(0, int(st["blocked"] - time.time())) if st.get("blocked") else 0}
+              "blocked": max(0, int(st["blocked"] - time.time())) if st.get("blocked") else 0,
+              "ready": st["ready"]}
              for st in WATCH.values()]
     per_min = sum(60 / st["interval"] for st in WATCH.values() if st["thread"].is_alive())
-    return {"items": items, "per_min": round(per_min)}
+    return {"items": items, "per_min": round(per_min), "api": THROTTLE.status() if not MISSING_LL else None}
 
 
 def api_log(q):
@@ -820,6 +844,7 @@ def api_pools_update(d):
 
 
 ROUTES_POST = {"/api/watch/start": api_watch_start, "/api/watch/stop": api_watch_stop,
+               "/api/apicheck": api_apicheck,
                "/api/stats": api_stats,
                "/api/mkdir": api_mkdir, "/api/dashboard": api_dashboard,
                "/api/notes/set": api_notes_set, "/api/pools/update": api_pools_update}

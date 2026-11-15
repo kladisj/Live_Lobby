@@ -1,6 +1,8 @@
+import json
 import os
 import threading
 import time
+from pathlib import Path
 
 import requests
 from dotenv import load_dotenv
@@ -20,10 +22,17 @@ USER_AGENT = "osu-lobby-tools/1.0 (seguimiento personal de lobbies)"
 MIN_GAP = float(os.environ.get("OSU_MIN_GAP", "0.5"))  # segundos entre requests (0.5 = máx. 120/min)
 BLOCK_COOLDOWN = float(os.environ.get("OSU_BLOCK_COOLDOWN", "600"))  # 1er bloqueo: 10 min
 BLOCK_COOLDOWN_MAX = 3600.0  # tope: 1 hora
+# El bloqueo se guarda en disco: si cerrás y reabrís el programa, sigue respetando la espera.
+STATE_FILE = Path(os.environ.get("OSU_STATE_FILE")
+                  or Path(__file__).resolve().parents[2] / ".osu_block_state.json")
 
 
 class OsuApiError(Exception):
     """Error al hablar con la API de osu!."""
+
+
+class OsuNetworkError(OsuApiError):
+    """No se pudo ni llegar a osu.ppy.sh (sin internet, DNS, timeout...). No es un bloqueo."""
 
 
 class OsuBlockedError(OsuApiError):
@@ -48,17 +57,62 @@ def _is_html(r):
 class _Throttle:
     """Estado compartido por todos los clientes del proceso: ritmo, bloqueo y token."""
 
-    def __init__(self):
+    def __init__(self, state_file=None):
         self._lock = threading.Lock()
-        self._next_slot = 0.0
-        self._blocked_until = 0.0
+        self._next_slot = 0.0       # time.monotonic(): cuándo puede salir el próximo request
+        self._blocked_until = 0.0   # hora real (time.time()), para poder guardarla en disco
+        self._last_block = 0.0
+        self.last_ok = 0.0          # último request que la API contestó bien
         self._strikes = 0
+        self._state_file = state_file
         self.tokens = {}  # client_id -> (token, vence_en)
         self.token_lock = threading.Lock()
+        self._load()
+
+    # --- persistencia (opcional: solo si se pasa state_file) -------------
+    def _load(self):
+        if not self._state_file:
+            return
+        try:
+            d = json.loads(Path(self._state_file).read_text(encoding="utf-8"))
+            self._blocked_until = float(d.get("blocked_until", 0))
+            self._last_block = float(d.get("last_block", 0))
+            self._strikes = int(d.get("strikes", 0))
+        except (OSError, ValueError, TypeError):
+            pass
+
+    def _save(self):  # se llama con el lock tomado
+        if not self._state_file:
+            return
+        try:
+            Path(self._state_file).write_text(json.dumps({
+                "blocked_until": self._blocked_until, "last_block": self._last_block,
+                "strikes": self._strikes}), encoding="utf-8")
+        except OSError:
+            pass
+
+    # --- estado ----------------------------------------------------------
+    def status(self):
+        """Estado para mostrar en pantalla. No hace ninguna request.
+        state: blocked (en pausa) | unverified (la pausa terminó, falta comprobar)
+               | ok (la API respondió bien) | unknown (todavía no se probó)."""
+        with self._lock:
+            now = time.time()
+            remaining = max(0.0, self._blocked_until - now)
+            if remaining > 0:
+                state = "blocked"
+            elif self._last_block and self.last_ok < self._last_block:
+                state = "unverified"
+            elif self.last_ok:
+                state = "ok"
+            else:
+                state = "unknown"
+            return {"state": state, "remaining": int(remaining), "until": self._blocked_until,
+                    "last_block": self._last_block, "last_ok": self.last_ok}
 
     def check_blocked(self):
         with self._lock:
-            remaining = self._blocked_until - time.monotonic()
+            remaining = self._blocked_until - time.time()
         if remaining > 0:
             raise OsuBlockedError(
                 f"En pausa por bloqueo de Cloudflare (faltan {int(remaining)} s)", remaining)
@@ -78,15 +132,21 @@ class _Throttle:
             wait = seconds if seconds is not None else min(
                 BLOCK_COOLDOWN * (2 ** self._strikes), BLOCK_COOLDOWN_MAX)
             self._strikes += 1
-            self._blocked_until = max(self._blocked_until, time.monotonic() + wait)
+            self._last_block = time.time()
+            self._blocked_until = max(self._blocked_until, self._last_block + wait)
+            self._save()
         return wait
 
     def ok(self):
+        """La API contestó bien: el bloqueo (si lo había) se levantó."""
         with self._lock:
-            self._strikes = 0
+            self.last_ok = time.time()
+            if self._strikes:
+                self._strikes = 0
+                self._save()
 
 
-THROTTLE = _Throttle()
+THROTTLE = _Throttle(STATE_FILE)
 
 
 class OsuClient:
@@ -100,17 +160,20 @@ class OsuClient:
     def _fetch_token(self):
         THROTTLE.check_blocked()
         THROTTLE.wait_turn()
-        r = requests.post(
-            TOKEN_URL,
-            json={
-                "client_id": int(self.client_id),
-                "client_secret": self.client_secret,
-                "grant_type": "client_credentials",
-                "scope": "public",
-            },
-            headers={"User-Agent": USER_AGENT},
-            timeout=self.timeout,
-        )
+        try:
+            r = requests.post(
+                TOKEN_URL,
+                json={
+                    "client_id": int(self.client_id),
+                    "client_secret": self.client_secret,
+                    "grant_type": "client_credentials",
+                    "scope": "public",
+                },
+                headers={"User-Agent": USER_AGENT},
+                timeout=self.timeout,
+            )
+        except requests.RequestException as e:
+            raise OsuNetworkError(f"Error de red: {e}") from e
         if r.status_code in (403, 429) and _is_html(r):
             wait = THROTTLE.block()
             raise OsuBlockedError(f"Cloudflare bloqueó la IP ({r.status_code}); pauso {int(wait)} s", wait)
@@ -151,7 +214,7 @@ class OsuClient:
                 )
             except requests.RequestException as e:
                 if attempt == self.max_retries:
-                    raise OsuApiError(f"Error de red: {e}") from e
+                    raise OsuNetworkError(f"Error de red: {e}") from e
                 time.sleep(2 ** attempt)
                 continue
 
@@ -187,6 +250,11 @@ class OsuClient:
         raise OsuApiError("Se agotaron los reintentos")
 
     # --- endpoints -----------------------------------------------------
+    def probe(self):
+        """Una sola request liviana para saber si la API nos deja pasar. Si estamos en pausa
+        por un bloqueo NO sale a la red (lanza OsuBlockedError al instante)."""
+        return self._request("/matches", params={"limit": 1})
+
     def get_match(self, match_id, after=None, before=None, limit=None):
         """Devuelve el JSON crudo de /matches/{id}."""
         params = {"after": after, "before": before, "limit": limit}
