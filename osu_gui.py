@@ -13,6 +13,7 @@ from dataclasses import asdict
 import json
 import logging
 import os
+import random
 import re
 import sys
 import threading
@@ -76,7 +77,7 @@ def _hint(nombre, e):
 
 try:
     from osu_cores.__main__ import format_result, parse_match, title_of
-    from osu_cores.api.client import OsuClient
+    from osu_cores.api.client import OsuBlockedError, OsuClient
     from osu_cores.output.jsonl import JsonlWriter
     from osu_cores.service.watcher import STALE_GAME_SECONDS, MatchWatcher
 except Exception as e:  # noqa: BLE001
@@ -232,14 +233,35 @@ def _out_path(folder, mid, mode, custom, lobby_name):
     return path
 
 
-def watch_job(mid, folder, mode, custom, interval, cid, secret):
+class _Stop(Exception):
+    """El usuario detuvo el seguimiento mientras se esperaba."""
+
+
+def _retry_if_blocked(st, L, fn):
+    """Corre fn(). Si Cloudflare bloqueó la IP, espera el enfriamiento (se puede cortar con
+    Detener) y reintenta solo, en vez de matar el seguimiento o seguir golpeando la API."""
+    while True:
+        try:
+            return fn()
+        except OsuBlockedError as e:
+            wait = max(5.0, e.retry_after) + random.uniform(0, 15)  # el azar evita que todas despierten juntas
+            st["blocked"] = time.time() + wait
+            L(f"BLOQUEO de Cloudflare: pauso {int(wait // 60)} min {int(wait % 60)} s y reintento solo")
+            if st["stop"].wait(wait):
+                raise _Stop from e
+            st["blocked"] = None
+
+
+def watch_job(mid, folder, mode, custom, interval, cid, secret, delay=0.0):
     st = WATCH[mid]
     L = lambda m: log(m, mid)  # noqa: E731
     _THREAD_MID[threading.get_ident()] = mid
     try:
+        if delay and st["stop"].wait(delay):  # arranque escalonado: no largar todas las partidas juntas
+            raise _Stop
         w = MatchWatcher(OsuClient(cid or None, secret or None), mid)
         # el historial se baja primero (no avisa a nadie todavía): de ahí sale el nombre del lobby
-        m = w.backfill()
+        m = _retry_if_blocked(st, L, w.backfill)
         existing = _existing_file(folder, mid)
         out = _out_path(folder, mid, mode, custom, getattr(m, "name", None))
         st["out"] = str(out)
@@ -278,12 +300,14 @@ def watch_job(mid, folder, mode, custom, interval, cid, secret):
             st["live"], st["playing"] = _live_of(cur), title_of(cur)
         w._emit("backfill", m)
         while not st["stop"].is_set() and not w.ended:
-            if st["stop"].wait(interval):
+            if st["stop"].wait(interval * random.uniform(0.9, 1.1)):  # un poco de azar: que no salgan sincronizadas
                 break
-            w.poll_once()
+            _retry_if_blocked(st, L, w.poll_once)
         if w.ended:  # tanto si se cerró mientras se seguía como si ya estaba cerrada
             st["ended"], st["playing"] = True, None
             L("la partida está cerrada")
+    except _Stop:
+        pass
     except KeyError as e:
         st["error"] = f"falta {e.args[0]} (completá las credenciales o el .env)"
         L(f"ERROR: {st['error']}")
@@ -331,10 +355,11 @@ def api_watch_start(d):
             errors.append(f"{mid}: ya se está siguiendo")
             continue
         WATCH[mid] = {"id": mid, "stop": threading.Event(), "log": [], "name": None, "playing": None, "live": None,
-                      "games": 0, "ended": False, "error": None, "interval": interval,
+                      "games": 0, "ended": False, "error": None, "interval": interval, "blocked": None,
                       "out": str(folder / f"{_safe_filename(names.get(mid)) or mid}.jsonl")}  # provisorio; se ajusta al arrancar
         t = threading.Thread(target=watch_job, daemon=True, args=(
-            mid, folder, mode, names.get(mid), interval, (d.get("cid") or "").strip(), (d.get("secret") or "").strip()))
+            mid, folder, mode, names.get(mid), interval, (d.get("cid") or "").strip(), (d.get("secret") or "").strip(),
+            2.0 * len(started)))  # cada partida arranca 2 s después de la anterior
         WATCH[mid]["thread"] = t
         t.start()
         started.append(mid)
@@ -351,7 +376,8 @@ def api_watch_stop(d):
 
 def api_watchers(_):
     items = [{"id": st["id"], "name": st["name"], "running": st["thread"].is_alive(), "ended": st["ended"],
-              "playing": st["playing"], "live": _fresh_live(st), "games": st["games"], "error": st["error"], "out": st["out"]}
+              "playing": st["playing"], "live": _fresh_live(st), "games": st["games"], "error": st["error"], "out": st["out"],
+              "blocked": max(0, int(st["blocked"] - time.time())) if st.get("blocked") else 0}
              for st in WATCH.values()]
     per_min = sum(60 / st["interval"] for st in WATCH.values() if st["thread"].is_alive())
     return {"items": items, "per_min": round(per_min)}
