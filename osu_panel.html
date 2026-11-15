@@ -385,17 +385,43 @@ ul.mapl li[data-g]:hover{border-color:rgba(168,85,247,.55)}ul.mapl li[data-g]:ho
 .slot.nm{background:#6ea8ff}.slot.hd{background:#f5c04f}.slot.hr{background:#f26d6d}.slot.dt{background:#b39bff}.slot.fm{background:#52d39a}.slot.tb{background:#62d6e6}.slot.ez{background:#8ee39a}.slot.fl{background:#c9c2dd}
 .ptag{display:inline-block;padding:1px 7px;border-radius:999px;font-size:10.5px;font-weight:700;margin-left:4px;vertical-align:middle;background:rgba(255,255,255,.12);color:#fff}.ptag.original{background:#e0488d}.ptag.new{background:#f08a2c}
 .pool-ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.pool-ctl input{flex:1;min-width:240px}
-.pool-g{display:grid;gap:8px;min-width:860px}
-.prow{--pc:56px minmax(0,1.7fr) 44px 54px 104px 70px 48px minmax(0,1.2fr);position:relative;overflow:hidden;display:grid;grid-template-columns:var(--pc);gap:14px;align-items:center;padding:9px 16px 9px 12px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:#241a4a;font-size:13px}
+.pool-g{display:grid;gap:8px;min-width:900px}
+.prow{--pc:34px 56px minmax(0,1.7fr) 44px 54px 104px 70px 48px minmax(0,1.2fr);position:relative;overflow:hidden;display:grid;grid-template-columns:var(--pc);gap:14px;align-items:center;padding:9px 16px 9px 12px;border:1px solid rgba(255,255,255,.08);border-radius:14px;background:#241a4a;font-size:13px}
 .prow>*:not(.rbg):not(.rtint){position:relative;z-index:1}
 .prow.dim{opacity:.5}.prow .n{text-align:right}.prow .nt{color:#d9ccff}
 .prow .pm{min-width:0}.prow .pm b{display:block;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.prow .pm small{display:block;color:var(--mu)}
 .prow.prh{background:none;border-color:transparent;padding-top:2px;padding-bottom:2px;color:var(--mu);font-weight:500;font-size:12px}.prow.prh.dim{opacity:1}
 .prow:not(.prh):hover .rbg.ld{opacity:.56}.prow:not(.prh):hover{border-color:rgba(168,85,247,.45)}
+.prow>.pv.pv{position:relative;right:auto;bottom:auto;width:30px;height:30px}
+.pool-g.compact{gap:4px;min-width:760px}
+.pool-g.compact .prow{--pc:26px 46px minmax(0,2.4fr) 36px 40px 78px 58px 36px minmax(0,1.2fr);gap:10px;padding:4px 12px 4px 8px;border-radius:10px;font-size:12.5px}
+.pool-g.compact .prow.prh{padding-top:0;padding-bottom:0;font-size:11px}
+.pool-g.compact .prow>.pv.pv{width:24px;height:24px}.pool-g.compact .pv svg{width:11px;height:11px}
+.pool-g.compact .pm{display:flex;align-items:baseline;gap:8px;overflow:hidden}
+.pool-g.compact .pm b{flex:0 1 auto;min-width:0}
+.pool-g.compact .pm small{flex:0 100 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px}
+.pool-g.compact .nt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eq-chip.push{margin-left:auto}.eq-chip.ico{width:38px;padding:0;justify-content:center}.eq-chip.ico svg{width:16px;height:16px}.prow>.pvb.pvb{position:absolute;left:0;bottom:0;z-index:2}
 .rch{display:inline-block;padding:0 7px;margin-right:6px;border-radius:999px;font-size:11px;font-weight:600;background:rgba(168,85,247,.25);color:#e3d2ff}
 .rsel{display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center;margin-top:10px;font-size:13px}.rsel select{min-width:150px}
 details.rdet summary{cursor:pointer;color:var(--mu);font-size:13px}
 .pp-slot{margin-top:6px;font-size:13px;color:#d9ccff}
+
+/* ---- animaciones de entrada y de clic (solo se disparan por una acción: cambiar de vista, de pestaña, abrir algo; no en cada refresco) ---- */
+@keyframes cdIn{from{opacity:0;transform:translateY(14px) scale(.985)}}
+@keyframes rowIn{from{opacity:0;transform:translateY(9px)}}
+@keyframes ctlIn{from{opacity:0;transform:translateY(-8px)}}
+.view.enter .cd,.view.enter .mcard,.view.enter .hero{animation:cdIn .42s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*55ms)}
+.pool-g.stag .prow:not(.prh){animation:rowIn .36s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*28ms)}
+.kin>*{animation:rowIn .38s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*50ms)}
+.pool-ctl.slide{animation:ctlIn .26s cubic-bezier(.2,.8,.2,1)}
+/* respuesta al clic: se achica un poquito mientras se aprieta */
+.eq-chip,button.k,.mcard{transition:border-color .15s,background-color .15s,scale .12s ease,translate .15s ease}
+.eq-chip:not(:disabled):active,button.k:not(:disabled):active,.pl-tabs button:active,.pl-sort button:active,nav button:active,.tgl:active{scale:.95}
+.mcard:hover{translate:0 -2px}.mcard:active{scale:.985;translate:0 0}
+.pl-map:active,.prow:not(.prh):active{scale:.994}
+.pv:active{transform:scale(.9)}
+@media (prefers-reduced-motion:reduce){.view.enter .cd,.view.enter .mcard,.view.enter .hero,.pool-g.stag .prow,.kin>*,.pool-ctl.slide{animation:none!important}.eq-chip,button.k,.mcard{transition:none}.mcard:hover{translate:none}}
 </style></head><body>
 <aside><div class="logo"><i>osu!</i><span>Lobby Tools</span></div>
 <nav><button data-v="matches"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>Matches</button><button data-v="match" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"></polyline><line x1="13" x2="19" y1="19" y2="13"></line><line x1="16" x2="20" y1="16" y2="20"></line><line x1="19" x2="21" y1="21" y2="19"></line><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"></polyline><line x1="5" x2="9" y1="14" y2="18"></line><line x1="7" x2="4" y1="17" y2="20"></line><line x1="3" x2="5" y1="19" y2="21"></line></svg>Partida</button><button data-v="torneo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>Torneo</button><button data-v="equipos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" x2="4" y1="22" y2="15"></line></svg>Equipos</button><button data-v="live"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg>En vivo</button></nav>
@@ -510,7 +536,26 @@ const say=(t,c='')=>{$('#msg').className=c;$('#msg').textContent=t;if(c==='er'&&
 const empty=()=>`<div class="cd empty">Elegí una carpeta con tus .jsonl (Examinar) y pulsá <b>Cargar</b>.</div>`;
 const miss=__MISSING__;if(miss.length){$('#warn').style.display='block';$('#warn').textContent='Faltan módulos: '+miss.join(' | ')}
 
-function go(v){$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));S.v=v;if(v==='matches'||v==='match'||v==='torneo'||v==='equipos')draw();updHdr()}
+// --- animaciones: helpers que se llaman a mano al hacer clic (no en cada draw(), para que los refrescos en vivo no parpadeen) ---
+const MRM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function enter(el){  // aparición escalonada de las tarjetas de una vista
+  if(!el||MRM)return;
+  el.querySelectorAll('.cd,.mcard,.hero').forEach((x,i)=>x.style.setProperty('--i',Math.min(i,9)));
+  el.classList.remove('enter');void el.offsetWidth;el.classList.add('enter');
+  clearTimeout(el._et);el._et=setTimeout(()=>el.classList.remove('enter'),1000);
+}
+function stag(sel){  // filas de la tabla de mappools
+  const g=$(sel);if(!g||MRM)return;
+  g.querySelectorAll(':scope>.prow:not(.prh)').forEach((r,i)=>r.style.setProperty('--i',Math.min(i,14)));
+  g.classList.add('stag');setTimeout(()=>g.classList.remove('stag'),900);
+}
+function kin(sel){  // hijos directos de un contenedor (cuerpo del popup de jugador)
+  const g=$(sel);if(!g||MRM)return;
+  [...g.children].forEach((r,i)=>r.style.setProperty('--i',Math.min(i,8)));
+  g.classList.remove('kin');void g.offsetWidth;g.classList.add('kin');setTimeout(()=>g.classList.remove('kin'),900);
+}
+function slideIn(sel){const g=$(sel);if(g&&!MRM)g.classList.add('slide')}
+function go(v){$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));const pv=S.v;S.v=v;if(v==='matches'||v==='match'||v==='torneo'||v==='equipos')draw();updHdr();if(pv!==v)enter($('#v-'+v))}
 $$('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
 async function load(){
@@ -524,6 +569,7 @@ async function load(){
   const w=$('#warn');w.style.display=r.warnings.length?'block':'none';w.textContent=r.warnings.join('\n');
   try{localStorage.osuSrc=$('#src').value;localStorage.osuSkip=$('#skip').value}catch{}
   draw();
+  if(S.ver===1)enter($('.view.on'));
 }
 const draw=()=>{vMatches();vMatch();vTorneo();vEquipos();updHdr();updSide();if(S.pl)plRender()};
 
@@ -742,13 +788,13 @@ function poolCard(){
   const tabs=P.rounds.map(r=>{const pl=r.maps.filter(e=>(st.get(e.bid)||{}).plays).length;
     return`<button type="button" class="eq-chip" data-pr="${esc(r.name)}" aria-pressed="${r.name===S.pr}">${esc(r.name)} <span class="mu">${pl}/${r.maps.length}</span></button>`}).join('');
   const rows=R.maps.map(e=>{const a=st.get(e.bid),ok=a&&a.passed;
-    return`<div class="prow${a?'':' dim'}">${rbg({set:a&&a.set})}<span>${slotChip(e)}</span><div class="pm"><b title="${esc(e.title)}">${esc(e.title)}</b><small>${esc(e.mapper||'')}</small></div><span class="n">${e.sr?e.sr.toFixed(1):'-'}</span><span class="n">${a?a.plays:0}</span><span class="n">${ok?fmt(a.sc/a.passed):'-'}</span><span class="n">${ok?pct(a.ac/a.passed):'-'}</span><span class="n">${a&&a.mn?f1(a.ms/a.mn):'-'}</span><span class="nt">${esc(e.notes||'')}${tagsHtml(e)}</span></div>`}).join('');
+    return`<div class="prow${a?'':' dim'}">${rbg({set:a&&a.set})}${a&&a.set?pvBtn(a.set):'<span></span>'}<span>${slotChip(e)}</span><div class="pm"><b title="${esc(e.title)}">${esc(e.title)}</b><small>${esc(e.mapper||'')}</small></div><span class="n">${e.sr?e.sr.toFixed(1):'-'}</span><span class="n">${a?a.plays:0}</span><span class="n">${ok?fmt(a.sc/a.passed):'-'}</span><span class="n">${ok?pct(a.ac/a.passed):'-'}</span><span class="n">${a&&a.mn?f1(a.ms/a.mn):'-'}</span><span class="nt">${esc(e.notes||'')}${tagsHtml(e)}</span></div>`}).join('');
   const open=[...new Set(D.matches.map(m=>roundOf(m)))].length;
   const rsel=D.matches.map(m=>{const cur=(NOTES['r:'+m.id]||{}).text||'',L=m.labels;
     return`<span>${rchip(m)}${esc(isCC(L.red)&&isCC(L.blue)?tname(L.red)+' vs '+tname(L.blue):m.name)}</span><select data-rsel="${m.id}" aria-label="Ronda de ${esc(m.name)}"><option value="">Automática${roundOf(m)&&!cur?' ('+esc(roundOf(m))+')':''}</option>${P.rounds.map(r=>`<option value="${esc(r.name)}"${r.name===cur?' selected':''}>${esc(r.name)}</option>`).join('')}</select>`}).join('');
   return`<div class="cd" style="margin-bottom:14px"><h3>${ci('layers')}Mappools <span class="mu">${P.updated?'hoja bajada el '+esc(P.updated):''}</span></h3>
-   ${poolCtl()}<div class="eq-chips">${tabs}</div>
-   <div class="tbl pool-tbl"><div class="pool-g"><div class="prow prh"><span>Slot</span><span>Mapa</span><span class="n">★</span><span class="n">Veces</span><span class="n">Score prom.</span><span class="n">Acc.</span><span class="n">Miss</span><span>Notas</span></div>${rows}</div></div>
+   ${S.pctl?poolCtl():''}<div class="eq-chips">${tabs}<button type="button" class="eq-chip push" data-pcomp aria-pressed="${!!S.pcomp}" title="Filas más bajas, con el mapper al lado del título">Compacto</button><button type="button" class="eq-chip ico" data-pctl aria-pressed="${!!S.pctl}" aria-label="Link de la hoja y actualizar pools" title="Link de la hoja y actualizar pools"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/></svg></button></div>
+   <div class="tbl pool-tbl"><div class="pool-g${S.pcomp?' compact':''}"><div class="prow prh"><span></span><span>Slot</span><span>Mapa</span><span class="n">★</span><span class="n">Veces</span><span class="n">Score prom.</span><span class="n">Acc.</span><span class="n">Miss</span><span>Notas</span></div>${rows}</div></div>
    ${loose?`<div class="mu" style="font-size:12px;margin-top:8px">${loose} mapa(s) jugados no están en ningún pool (calentamientos, o ids que cambiaron).</div>`:''}
    <details class="rdet" style="margin-top:10px"${S.rdOpen?' open':''}><summary>Ronda de cada partida (se detecta por los mapas jugados; podés corregirla)</summary><div class="rsel">${rsel}</div></details></div>`;
 }
@@ -758,6 +804,7 @@ api('/api/pools').then(setPools).catch(()=>{});
 // --- equipos: elegís un país y ves su plantel, sus mejores/peores mapas y tus notas ---
 let NOTES={},eqSig='',eqT={},eqPend={};
 S.eq=null;try{S.eq=localStorage.osuEq||null}catch{}
+S.pcomp=true;try{S.pcomp=localStorage.osuPComp!=='0'}catch{}  // tabla de mappools compacta por defecto
 api('/api/notes').then(r=>{NOTES=r.notes||{};if(r.ok===false)say('El archivo de notas está dañado: se guardó una copia .bak al escribir la próxima nota','er');eqSig='';vEquipos()}).catch(()=>{});
 const sgn=n=>n>0?'+':'';
 const eqTeams=()=>{  // países identificados como equipo en alguna partida, en el orden de la tabla de posiciones
@@ -911,7 +958,9 @@ $('#v-equipos').addEventListener('keydown',e=>{if(e.key==='Escape'&&e.target.mat
 $('#v-torneo').addEventListener('input',e=>{if(e.target.id==='purl')S.purl=e.target.value});
 $('#v-torneo').addEventListener('toggle',e=>{if(e.target.matches&&e.target.matches('details.rdet'))S.rdOpen=e.target.open},true);
 $('#v-torneo').addEventListener('click',async e=>{
-  const pr=e.target.closest('[data-pr]');if(pr){S.pr=pr.dataset.pr;vTorneo();return}
+  const pt=e.target.closest('[data-pctl]');if(pt){S.pctl=!S.pctl;vTorneo();if(S.pctl){slideIn('.pool-ctl');const i=$('#purl');if(i)i.focus()}return}
+  const pc=e.target.closest('[data-pcomp]');if(pc){S.pcomp=!S.pcomp;try{localStorage.osuPComp=S.pcomp?1:0}catch{}vTorneo();stag('.pool-g');return}
+  const pr=e.target.closest('[data-pr]');if(pr){S.pr=pr.dataset.pr;vTorneo();stag('.pool-g');return}
   const ps=e.target.closest('[data-ps]');if(ps){S.ps=ps.dataset.ps;S.pall=false;vTorneo();return}
   const pa=e.target.closest('[data-pall]');if(pa){S.pall=pa.dataset.pall==='1';vTorneo();return}
   if(!e.target.closest('#pupd'))return;
@@ -1108,7 +1157,7 @@ let plSig='',plT=null,plFrom=null;
 function plOpen(uid,mid,from){
   if(!S.d)return;clearTimeout(plT);plFrom=from||null;
   const o=$('#plpop');o.classList.remove('out');
-  S.pl={uid,mid:mid||null,tab:mid?'match':'tour'};plSig='';o.hidden=false;plRender(true);$('#plx').focus();
+  S.pl={uid,mid:mid||null,tab:mid?'match':'tour'};plSig='';o.hidden=false;plRender(true);kin('#plbox .pl-body');$('#plx').focus();
 }
 function plClose(noFocus){
   S.pl=null;plSig='';
@@ -1173,10 +1222,10 @@ const plTrig=e=>{
 $('#plbox').addEventListener('click',e=>{
   const t=e.target.closest('#plx,[data-tab],[data-m],[data-g],[data-sort]');if(!t||!S.pl)return;
   if(t.id==='plx')return plClose();
-  if(t.dataset.tab){S.pl.tab=t.dataset.tab;plSig='';plRender(false)}
+  if(t.dataset.tab){S.pl.tab=t.dataset.tab;plSig='';plRender(false);kin('#plbox .pl-body')}
   else if(t.dataset.sort){const k=t.dataset.sort;if((S.plSort||'order')===k)S.plRev=!S.plRev;else{S.plSort=k;S.plRev=false}
     plSig='';plRender(false);const b=$('#plbox [data-sort="'+k+'"]');if(b)b.focus()}  // se redibuja: se devuelve el foco al botón
-  else if(t.dataset.m){S.pl.mid=+t.dataset.m;S.pl.tab='match';plSig='';plRender(true);$('#plpop').scrollTop=0}
+  else if(t.dataset.m){S.pl.mid=+t.dataset.m;S.pl.tab='match';plSig='';plRender(true);$('#plpop').scrollTop=0;kin('#plbox .pl-body')}
   else if(t.dataset.g){  // abre el popup de ese mapa (en la partida que se está viendo en el popup)
     const i=S.d.matches.findIndex(x=>x.id===S.pl.mid);if(i<0)return;
     const gid=+t.dataset.g;plClose(true);
