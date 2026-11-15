@@ -85,6 +85,7 @@ try:
     from osuctools.reader import load
     from osuctools.salidas.consola import format_clean, format_hardest, format_header, format_mvp, format_torneo
     from osuctools.torneo.resumen import summarize, team_labels, trim
+    from osuctools.torneo.pscore import TOTAL, pools_from_rounds, pscore_report
     from osuctools.stats import clean_players, hardest_maps, match_costs, team_series
 except Exception as e:  # noqa: BLE001
     MISSING.append(_hint("osuctools", e))
@@ -537,6 +538,43 @@ def _ptot(p):
             "acc": p.avg_acc, "miss": p.misses_per_map if p.miss_n else None}
 
 
+def _round_overrides(pools):
+    """Rondas corregidas a mano en el panel (notas r:<id de partida>); solo las que existen en los pools."""
+    notes, _ok = _notes_read()
+    out = {}
+    for k, v in notes.items():
+        if k.startswith("r:") and isinstance(v, dict) and v.get("text") in pools:
+            try:
+                out[int(k[2:])] = v["text"]
+            except ValueError:
+                pass
+    return out
+
+
+def _pscore_json(matches):
+    """Mejor del torneo: el ranking por pscore de cada ronda y el de todo el torneo (clave TOTAL).
+
+    Va aparte del match cost (que sigue igual). Necesita los mappools: de ahí salen los mapas de cada
+    ronda y los slots. Si falla, el resto del dashboard sigue funcionando."""
+    try:
+        pools = pools_from_rounds(api_pools_get()["rounds"])  # los mismos pools (sin duplicados) que ve el panel
+        if not pools:
+            return {"rounds": [], "tables": {}, "reason": "Cargá los mappools (abajo) para calcular el pscore."}
+        report = pscore_report(matches, pools, overrides=_round_overrides(pools))
+        if not report:
+            return {"rounds": [], "tables": {}, "reason": "Ninguna partida tiene mapas de los pools cargados."}
+        return {"rounds": [k for k in report if k != TOTAL],
+                "tables": {k: [{"uid": p.user_id, "name": p.username, "cc": p.country, "maps": p.maps,
+                                "tmaps": p.team_maps, "ps": p.pscore, "star": p.star, "score": p.avg_score,
+                                "acc": p.avg_acc,
+                                "best": ({"rank": p.best.rank, "slot": p.best.slot, "grade": p.best.grade,
+                                          "score": p.best.score} if p.best else None)}
+                               for p in rows] for k, rows in report.items()}}
+    except Exception as e:  # noqa: BLE001
+        log(f"pscore: {e}")
+        return {"rounds": [], "tables": {}, "error": f"no se pudo calcular el pscore: {e}"}
+
+
 def api_dashboard(d):
     if (r := _falta("osuctools")):
         return r
@@ -564,6 +602,7 @@ def api_dashboard(d):
                  for t in s.map_totals[:12]],
     }
     return {"matches": [_dash_match(m, skip) for m in matches], "torneo": torneo,
+            "pscore": _pscore_json(matches),  # sin recortar warmups: los mapas fuera del pool ya no cuentan
             "warnings": _relevant(warns, {m.match_id for m in matches})}
 
 

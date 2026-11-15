@@ -600,6 +600,23 @@ function updSide(){
   c.hidden=false;c.className='sidecard'+(m.closed?' closed':!m.closed&&liveOf(m)?' live':'');
   c.innerHTML=`<div class="sst"><i></i>${m.closed?'Partida cerrada':liveOf(m)?(liveOf(m).live?'En progreso':'En vivo'):'Sin cierre registrado'}</div><div class="snm">${nm('red')} vs ${nm('blue')}</div><div class="ssc"><span class="r">${m.rm}</span> - <span class="b">${m.bm}</span></div>${sp}`;
 }
+// --- mejor del torneo (pscore): un ranking por ronda + el torneo completo ---
+const GRADE={X:'SS',XH:'SS',SH:'S'};
+function pscoreCard(D){
+  const P=D.pscore,hd=`<h3>${ci('trophy','gold')}Mejor del torneo <span class="mu">por pscore · el match cost de cada partida no cambia</span></h3>`;
+  if(!P||!P.rounds||!P.rounds.length)return `<div class="cd" style="margin-bottom:14px">${hd}<span class="mu">${esc((P&&(P.error||P.reason))||'Cargá los mappools para calcular el pscore.')}</span></div>`;
+  const keys=[...P.rounds,...(P.rounds.length>1?['TOTAL']:[])],lbl=k=>k==='TOTAL'?'Torneo completo':k;
+  if(!keys.includes(S.ps))S.ps=keys[keys.length-1];
+  const rows=P.tables[S.ps]||[],shown=S.pall?rows:rows.slice(0,20);
+  const chips=keys.map(k=>`<button type="button" class="eq-chip" data-ps="${esc(k)}" aria-pressed="${k===S.ps}">${esc(lbl(k))} <span class="mu">${(P.tables[k]||[]).length}</span></button>`).join('');
+  const best=b=>b?`#${b.rank} ${esc(b.slot)} ${esc(GRADE[b.grade]||b.grade||'')} ${fmt(b.score)}`:'-';
+  const star='<span class="rk gd" title="Jugó al menos el 70% de los mapas de su equipo">★</span>';
+  return `<div class="cd" style="margin-bottom:14px">${hd}<div class="eq-chips">${chips}</div>
+   <div class="tbl"><table><tr><th>#  Jugador</th><th title="Rendimiento relativo a cada mapa, ponderado por los mapas jugados">Pscore</th><th title="Mapas del jugador / mapas de su equipo">Jugados</th><th title="Sin multiplicadores de mod">Score prom.</th><th>Acc.</th><th title="Su mejor puesto entre todos los scores de un mapa de la ronda">Mejor puntaje</th></tr>
+   ${shown.map((p,i)=>`<tr class="plk" data-u="${p.uid}" tabindex="0" aria-label="Ver estadísticas de ${esc(p.name)}"><td>${i+1} &nbsp;${fl(p.cc)}${esc(p.name)}${p.star?star:''}</td><td><span class="cst">${p.ps.toFixed(3)}</span></td><td>${p.maps} / ${p.tmaps}</td><td>${fmt(p.score)}</td><td>${pct(p.acc)}</td><td>${best(p.best)}</td></tr>`).join('')}</table></div>
+   ${rows.length>20?`<button type="button" class="eq-chip" style="margin-top:10px" data-pall="${S.pall?0:1}">${S.pall?'Ver solo el top 20':`Ver los ${rows.length} jugadores`}</button>`:''}
+   <div class="mu" style="font-size:12px;margin-top:8px">★ = al menos 70% de participación · el score promedio no cuenta los multiplicadores de mod · la ronda de cada partida se detecta por sus mapas (se corrige en Mappools).</div></div>`;
+}
 function vTorneo(){
   const el=$('#v-torneo'),D=S.d;if(!D){el.innerHTML=empty();return}
   const T=D.torneo,tn=c=>fl(c)+esc(tname(c));
@@ -610,6 +627,7 @@ function vTorneo(){
    ${T.skipped?`<div class="mu" style="font-size:12px;margin-top:6px">${T.skipped} partida(s) fuera de la tabla: equipos sin país identificado.</div>`:''}</div>
    <div class="cd"><h3>${ci('swords')}Resultados</h3><ul class="tl">${T.results.map(r=>`<li><div><b>${tn(r.red)} <span class="r">${r.red_maps}</span> - <span class="b">${r.blue_maps}</span> ${tn(r.blue)}</b><small>${(m=>m?rchip(m):'')(D.matches.find(x=>x.id===r.match_id))}${esc(r.name)}${r.closed?'':' · sin cierre'}</small></div>
     <span class="w mu">${r.maps?(r.winner?'gana '+esc(tname(r.winner)):'empate'):'sin mapas'}</span></li>`).join('')}</ul></div></div>
+  ${pscoreCard(D)}
   <div class="cd" style="margin-bottom:14px"><h3>${ci('users')}Jugadores <span class="mu">por match cost promedio · mirá "ratio" para el rendimiento real</span></h3><div class="tbl"><table><tr><th>#  Jugador</th><th>Partidas</th><th>Mapas</th><th>MVP</th><th>Cost prom.</th><th>Ratio</th><th>Score prom.</th><th>Acc.</th><th>Miss/mapa</th></tr>
    ${T.top.map((p,i)=>`<tr class="plk" data-u="${p.uid}" tabindex="0" aria-label="Ver estadísticas de ${esc(p.name)}"><td>${i+1} &nbsp;${fl(p.cc)}${esc(p.name)}</td><td>${p.matches}</td><td>${p.maps}</td><td>${p.mvps}</td><td>${f2(p.cost)}</td><td>${f2(p.ratio)}</td><td>${fmt(p.score)}</td><td>${pct(p.acc)}</td><td>${f2(p.miss)}</td></tr>`).join('')}</table></div></div>
   ${POOLS.rounds.length?poolCard():poolCtl()}
@@ -828,6 +846,8 @@ $('#v-torneo').addEventListener('input',e=>{if(e.target.id==='purl')S.purl=e.tar
 $('#v-torneo').addEventListener('toggle',e=>{if(e.target.matches&&e.target.matches('details.rdet'))S.rdOpen=e.target.open},true);
 $('#v-torneo').addEventListener('click',async e=>{
   const pr=e.target.closest('[data-pr]');if(pr){S.pr=pr.dataset.pr;vTorneo();return}
+  const ps=e.target.closest('[data-ps]');if(ps){S.ps=ps.dataset.ps;S.pall=false;vTorneo();return}
+  const pa=e.target.closest('[data-pall]');if(pa){S.pall=pa.dataset.pall==='1';vTorneo();return}
   if(!e.target.closest('#pupd'))return;
   const url=($('#purl').value||'').trim(),msg=$('#pmsg');S.purl=url;msg.className='mu';msg.textContent='Bajando…';
   let r;try{r=await api('/api/pools/update',{url})}catch{r={error:'no se pudo hablar con osu_gui.py'}}
@@ -973,10 +993,19 @@ function plTour(uid){
         if(!e.bs||r.s.score>e.bs.s.score)e.bs={...r,m};
         if(!e.ba||r.s.acc>e.ba.s.acc)e.ba={...r,m}}})});
   const rounds=[...br.values()].sort((a,b)=>rrank(a.rn)-rrank(b.rn));
-  return{t:k<0?null:T.all[k],rank:k<0?null:k+1,of:T.all.length,ms,bs,ba,rounds};
+  // puestos por pscore: en todo el torneo y en la fase actual (la última ronda con datos)
+  const P=S.d.pscore,hasP=!!(P&&P.rounds&&P.rounds.length);
+  const prk=key=>{const rows=(hasP&&P.tables[key])||[],i=rows.findIndex(p=>p.uid===uid);return{rank:i<0?null:i+1,of:rows.length}};
+  const cur=hasP&&P.rounds.length>1?P.rounds[P.rounds.length-1]:null;  // con una sola ronda, fase y torneo serían lo mismo
+  const ps=hasP?{tot:prk('TOTAL'),cur:cur?{name:cur,...prk(cur)}:null}:null;
+  return{t:k<0?null:T.all[k],rank:k<0?null:k+1,of:T.all.length,ms,bs,ba,rounds,ps};
 }
 const plRes=(m,team)=>!m.maps.length||!team?'-':!m.closed?'En juego':m.rm===m.bm?'Empate':((m.rm>m.bm?'red':'blue')===team?'Ganó':'Perdió');
 const plTile=(l,v,sub)=>`<div class="tile"><b>${v}</b><small>${l}</small>${sub?`<em>${sub}</em>`:''}</div>`;
+const plRankTiles=tr=>{const p=tr.ps;
+  if(!p)return plTile('Puesto',`#${tr.rank}`,`de ${tr.of} · por cost`);  // sin mappools no hay pscore: queda el puesto por cost de siempre
+  return plTile('Puesto torneo',p.tot.rank?`#${p.tot.rank}`:'-',`de ${p.tot.of} · por pscore`)
+    +(p.cur?plTile(`Puesto ${esc(p.cur.name)}`,p.cur.rank?`#${p.cur.rank}`:'-',p.cur.rank?`de ${p.cur.of} · por pscore`:'no jugó esta fase'):'')};
 const plRatio=r=>r==null?'-':`<b class="${r>=1?'pl-up':'pl-dn'}">×${r.toFixed(2)}</b>`;
 const plRec=(bs,ba)=>bs||ba?`<div class="pl-rec">${bs?`<div><span>Mayor score</span><b>${fmt(bs.s.score)}</b><span>${plWhere(bs)}</span></div>`:''}${ba?`<div><span>Mejor accuracy</span><b>${pct(ba.s.acc)}</b><span>${plWhere(ba)}</span></div>`:''}</div>`:'';
 const plRecs=tr=>tr.rounds.length>1?tr.rounds.map(e=>`<h4>${esc(e.rn)}</h4>${plRec(e.bs,e.ba)}`).join(''):plRec(tr.bs,tr.ba);
@@ -1023,8 +1052,8 @@ function plRender(anim){
   }else{
     const t=tr.t;
     body=!t?'<div class="mempty">Sin datos de este jugador en el torneo.</div>':`
-     <div class="tiles">${plTile('Puesto',`#${tr.rank}`,`de ${tr.of} · por cost`)}${plTile('Partidas',t.matches)}${plTile('Mapas',t.maps)}${plTile('MVP',t.mvps,'mejor cost de la partida')}
-      ${plTile('Cost prom.',f2(t.cost))}${plTile('Ratio prom.',f2(t.ratio))}${plTile('Score prom.',fmt(t.score),'mapas pasados')}${plTile('Accuracy',pct(t.acc))}${plTile('Misses/mapa',f2(t.miss))}</div>
+     <div class="tiles">${plRankTiles(tr)}${plTile('Partidas',t.matches)}${plTile('Mapas',t.maps)}${plTile('MVP',t.mvps,'mejor cost de la partida')}
+      ${plTile('Score prom.',fmt(t.score),'mapas pasados')}${plTile('Accuracy',pct(t.acc))}${plTile('Misses/mapa',f2(t.miss))}</div>
      ${plRecs(tr)}
      <h4>Partidas que jugó <span class="mu" style="text-transform:none;letter-spacing:0;font-weight:400">· clic en una para ver su detalle</span></h4>
      <div class="tbl"><table><tr><th>Partida</th><th>Resultado</th><th>Cost</th><th>Puesto</th><th>Ratio</th><th>Mapas</th><th>Mapas ganados</th></tr>
