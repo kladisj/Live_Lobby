@@ -440,7 +440,7 @@ def _dash_match(m0, skip):
     h = hard[0] if hard else None
     games = {x.id: x for x in m.games}
     return {
-        "id": m.match_id, "name": m.display_name, "closed": m.closed, "labels": labels,
+        "id": m.match_id, "name": m.display_name, "closed": m.closed, "labels": labels, "start": m.start_time,
         "t0": (m.games[0].start_time if m.games else None),
         "t1": ((m.games[-1].end_time or m.games[-1].start_time) if m.games else None),
         "sources": [str(x) for x in m0.sources],

@@ -103,8 +103,12 @@ background:linear-gradient(180deg,rgba(28,15,66,.9),rgba(13,6,34,.94));border:1.
 /* imagen del mapa */
 .cov{position:relative;flex:none;width:76px;height:48px;border-radius:9px;overflow:hidden;background:linear-gradient(135deg,#2c1f60,#1a1236);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
 .cov img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.cov.big{width:140px;height:96px;border-radius:13px}
-.hrd{display:flex;align-items:center;gap:14px}.hrd>div{min-width:0}
+.cov.big{width:150px;height:106px;border-radius:16px}
+.hrd{display:flex;align-items:center;gap:18px}.hrd>div{min-width:0}
+.cd.hard{display:flex;flex-direction:column}.cd.hard .hrd{flex:1}
+.hrd .hn{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:20px;line-height:1.2}
+.hrd .hst{margin-top:6px}.hrd .st{display:flex;gap:22px;margin-top:10px}.hrd .st div{text-align:left}
+.cd.hard .hrd .cov{align-self:stretch;height:auto;min-height:106px}
 /* popup con el detalle de un mapa */
 ul.tl li[data-g]{cursor:pointer;border-radius:10px;transition:background .15s}
 ul.tl li[data-g]:hover{background:rgba(168,85,247,.09)}ul.tl li[data-g]:focus-visible{outline:2px solid var(--ac);outline-offset:-2px}
@@ -301,6 +305,15 @@ ul.mapl li[data-g]:hover{border-color:rgba(168,85,247,.55)}ul.mapl li[data-g]:ho
 .lv-bar{position:absolute!important;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.12)}.lv-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f0539b,#a855f7);transition:width 1s linear}
 .lvc.idle{min-height:0;padding:12px 22px;justify-content:flex-start;gap:10px;border-color:rgba(240,83,155,.35)}.lvc.idle::after{display:none}
 @media (prefers-reduced-motion:reduce){.ldot,.lv-sp,.od.live,.sidecard.live .sst i,.stat.live i{animation:none!important}}
+.mfbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 14px}
+.mfq{flex:1 1 280px;max-width:460px;display:flex;align-items:center;gap:10px;height:42px;padding:0 8px 0 15px;border-radius:999px;background:rgba(14,6,36,.62);border:1px solid var(--ln);color:var(--mu);transition:border-color .15s,box-shadow .15s}
+.mfq:focus-within{border-color:#8b5cf6;box-shadow:0 0 0 3px rgba(139,92,246,.22)}.mfq svg{width:18px;height:18px;flex:none}
+.mfq input{flex:1;min-width:0;height:100%;background:none;border:0;outline:0;color:var(--tx);font:inherit;font-size:14px}.mfq input::placeholder{color:var(--mu)}
+.mfq input::-webkit-search-cancel-button{display:none}
+.mfx{flex:none;width:28px;height:28px;border-radius:50%;border:0;background:rgba(255,255,255,.08);color:#d9ccff;font-size:17px;line-height:1;cursor:pointer}.mfx:hover{background:rgba(255,255,255,.16)}
+.mfchip{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 17px;border-radius:999px;border:1px solid var(--ln);background:rgba(14,6,36,.62);color:#d9ccff;font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:border-color .15s,background-color .15s}
+.mfchip:hover{border-color:#8b5cf6}.mfchip[aria-pressed=true]{border-color:var(--r);background:rgba(240,83,155,.2);color:#fff}.mfchip b{font-weight:700;opacity:.85}
+.mfcount{margin-left:auto;color:var(--mu);font-size:13px}.mfnone{padding:46px 20px;text-align:center;color:var(--mu)}.mfnone .k{margin-top:14px}
 </style></head><body>
 <aside><div class="logo"><i>osu!</i><span>Lobby Tools</span></div>
 <nav><button data-v="matches"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>Matches</button><button data-v="match" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"></polyline><line x1="13" x2="19" y1="19" y2="13"></line><line x1="16" x2="20" y1="16" y2="20"></line><line x1="19" x2="21" y1="21" y2="19"></line><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"></polyline><line x1="5" x2="9" y1="14" y2="18"></line><line x1="7" x2="4" y1="17" y2="20"></line><line x1="3" x2="5" y1="19" y2="21"></line></svg>Partida</button><button data-v="torneo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>Torneo</button><button data-v="live"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg>En vivo</button></nav>
@@ -333,7 +346,16 @@ ul.mapl li[data-g]:hover{border-color:rgba(168,85,247,.55)}ul.mapl li[data-g]:ho
 <div class="mpop apop" id="apop" hidden><ul id="alb" role="listbox" aria-label="Recarga automática"></ul></div>
 </header>
 
-<section id="v-matches" class="view"></section>
+<section id="v-matches" class="view">
+<div class="mfbar" id="mfbar" hidden>
+ <label class="mfq"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.34-4.34"/></svg>
+  <input id="fq" type="search" placeholder="Buscar país, equipo o jugador" autocomplete="off" aria-label="Buscar partidas"><button type="button" class="mfx" id="fqc" aria-label="Borrar búsqueda" hidden>×</button></label>
+ <button type="button" class="mfchip" id="flive" aria-pressed="false"><i class="ldot"></i>En vivo <b id="flivec">0</b></button>
+ <button type="button" class="mfchip" id="fsort" title="Las partidas en vivo aparecen siempre arriba">↓ Más recientes primero</button>
+ <span class="mfcount" id="fcount" aria-live="polite"></span>
+</div>
+<div id="mfgrid"></div>
+</section>
 <section id="v-match" class="view on"></section>
 <section id="v-torneo" class="view"></section>
 
@@ -423,15 +445,35 @@ function liveCard(m){const w=liveOf(m);if(!w)return '';const g=w.live;
 setInterval(()=>$$('.lvc[data-start]').forEach(c=>{const len=+c.dataset.len,st=c.dataset.start;c.querySelector('.lv-el').textContent=lvText(st,len);
   const b=c.querySelector('.lv-bar i');if(b&&len)b.style.width=Math.min(100,(Date.now()-Date.parse(st))/10/len)+'%'}),1000);
 
+// --- vista Matches: buscador, filtro "en vivo" y orden por inicio (la barra es fija; solo se redibuja la grilla) ---
+const MF={q:'',live:false,asc:false};try{MF.asc=localStorage.osuMfAsc==='1'}catch{}
+const mfHay=m=>nz([m.name,tname(m.labels.red),tname(m.labels.blue),m.labels.red,m.labels.blue,m.id,dirOf(m),...m.players.map(p=>p.name)].join(' '));
+const mfStart=x=>Date.parse(x.m.start)||Date.parse(x.m.t0)||(x.live?Infinity:0);  // sin dato: en vivo = la más nueva, el resto = la más antigua
+const mfCmp=(a,b)=>a<b?-1:a>b?1:0;
 function vMatches(){
-  const el=$('#v-matches'),D=S.d;if(!D){el.innerHTML=empty();return}
-  el.innerHTML=`<div class="mgrid">${D.matches.map((m,i)=>{const L=m.labels,w=WS[m.id],live=w&&w.running,last=m.maps[m.maps.length-1];
+  const D=S.d,g=$('#mfgrid');$('#mfbar').hidden=!D;
+  if(!D){g.innerHTML=empty();return}
+  const all=D.matches.map((m,i)=>({m,i,live:!!liveOf(m)})),nLive=all.filter(x=>x.live).length,toks=nz(MF.q).split(/\s+/).filter(Boolean);
+  const list=all.filter(x=>(!MF.live||x.live)&&toks.every(t=>mfHay(x.m).includes(t)));
+  list.sort(MF.asc?(a,b)=>mfCmp(mfStart(a),mfStart(b))||a.i-b.i:(a,b)=>(b.live-a.live)||mfCmp(mfStart(b),mfStart(a))||a.i-b.i);
+  $('#flivec').textContent=nLive;$('#flive').setAttribute('aria-pressed',String(MF.live));$('#fqc').hidden=!MF.q;
+  $('#fsort').textContent=MF.asc?'↑ Más antiguas primero':'↓ Más recientes primero';
+  $('#fcount').textContent=list.length===all.length?`${all.length} partidas`:`${list.length} de ${all.length} partidas`;
+  if(!list.length){
+    g.innerHTML=`<div class="cd mfnone">${MF.live&&!MF.q?'No hay partidas en vivo ahora.<br><span style="font-size:12px">Sigue partidas desde la pestaña <b>En vivo</b>.</span>':`Ninguna partida coincide${MF.q?' con «'+esc(MF.q)+'»':''}${MF.live?' entre las que están en vivo':''}.`}<br><button class="k" id="mfreset">Borrar filtros</button></div>`;
+    $('#mfreset').onclick=()=>{MF.q='';MF.live=false;$('#fq').value='';vMatches()};return}
+  g.innerHTML=`<div class="mgrid">${list.map(({m,i})=>{const L=m.labels,w=WS[m.id],live=w&&w.running,last=m.maps[m.maps.length-1];
    const t=c=>`<div class="mt">${fl(L[c])}<b>${esc(tname(L[c]))}</b></div>`;
    return `<div class="cd mcard" data-i="${i}"><div class="mtop"><span class="mu">${esc(m.name)}</span><span class="${live?'r':'mu'}">${live?(w.live?'● En progreso':'● En vivo'):m.closed||(w&&w.ended)?'✔ Cerrada':'Sin cierre'}</span></div>
    <div class="mrow">${t('red')}<big><span class="r">${m.rm}</span> - <span class="b">${m.bm}</span></big>${t('blue')}</div>
    <div class="mu mfoot">${w&&w.playing?'● Jugando: '+esc(w.playing):last?`Último: ${esc(last.title)} · ${last.winner?esc(tname(L[last.winner]))+' gana':'empate'}`:'Sin mapas por equipos'}</div></div>`}).join('')}</div>`;
-  el.querySelectorAll('.mcard').forEach(c=>c.onclick=()=>{S.mi=+c.dataset.i;go('match')});
+  g.querySelectorAll('.mcard').forEach(c=>c.onclick=()=>{S.mi=+c.dataset.i;go('match')});
 }
+$('#fq').oninput=e=>{MF.q=e.target.value;vMatches()};
+$('#fq').onkeydown=e=>{if(e.key==='Escape'&&e.target.value){e.preventDefault();e.stopPropagation();e.target.value='';MF.q='';vMatches()}};
+$('#fqc').onclick=()=>{MF.q='';$('#fq').value='';vMatches();$('#fq').focus()};
+$('#flive').onclick=()=>{MF.live=!MF.live;vMatches()};
+$('#fsort').onclick=()=>{MF.asc=!MF.asc;try{localStorage.osuMfAsc=MF.asc?1:0}catch{}vMatches()};
 
 function vMatch(){
   const el=$('#v-match'),D=S.d;if(!D){el.innerHTML=empty();return}
@@ -471,8 +513,9 @@ function vMatch(){
    <div class="cd"><h3>${ci('star','gold')}MVP (match cost)<span class="mu">${m.closed?'Final':'Actual'}</span></h3>${best?`<div class="mvp"><div class="mav">${av(best.uid)}${fl(best.cc)}</div><div><b>${esc(best.name)}</b>
     <div class="mu">Match cost: <b style="color:var(--tx)">${f2(best.cost)}</b></div><div class="st"><div><b>${f2(best.ratio)}</b><small>Ratio prom.</small></div><div><b>${best.maps}/${best.total}</b><small>Mapas</small></div></div></div></div>
     <div class="mu" style="margin-top:10px;font-size:12px">${m.costs.slice(1,4).map((c,i)=>`${i+2}. ${esc(c.name)} (${f2(c.cost)})`).join(' · ')}</div>`:'<span class="mu">Sin datos</span>'}</div>
-   <div class="cd"><h3>${ci('flame','fire')}Mapa más duro</h3>${h?`<div class="hrd">${cov(h.set,1)}<div><b style="font-size:17px">${esc(h.title)}</b><div class="mu">${esc(h.version||'')}</div>
-    <div class="hst">${h.stars?`<span class="sbadge">★ ${h.stars.toFixed(2)}</span>`:''}<span>${pct(h.acc)} acc.</span></div><div class="mu" style="font-size:12px;margin-top:6px">${f1(h.miss)} misses prom.</div></div></div>`:'<span class="mu">Sin datos</span>'}</div>
+   <div class="cd hard"><h3>${ci('flame','fire')}Mapa más duro</h3>${h?`<div class="hrd">${cov(h.set,1)}<div><b class="hn" title="${esc(h.title)}">${esc(h.title)}</b><div class="mu">${esc(h.version||'')}</div>
+    <div class="hst">${h.stars?`<span class="sbadge">★ ${h.stars.toFixed(2)}</span>`:''}</div>
+    <div class="st"><div><b>${pct(h.acc)}</b><small>Acc. prom.</small></div><div><b>${f1(h.miss)}</b><small>Misses prom.</small></div></div></div></div>`:'<span class="mu">Sin datos</span>'}</div>
    <div class="cd"><h3>${ci('trophy','gold')}Resumen del partido</h3>
     <div class="srow">${ic('clock')}<span>Duración</span><b>${dur}</b></div>
     <div class="srow">${ic('layers')}<span>Mapas jugados</span><b>${n}</b></div>
