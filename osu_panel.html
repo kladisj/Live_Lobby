@@ -330,9 +330,39 @@ ul.mapl li[data-g]:hover{border-color:rgba(168,85,247,.55)}ul.mapl li[data-g]:ho
 .mfchip{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 17px;border-radius:999px;border:1px solid var(--ln);background:rgba(14,6,36,.62);color:#d9ccff;font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:border-color .15s,background-color .15s}
 .mfchip:hover{border-color:#8b5cf6}.mfchip[aria-pressed=true]{border-color:var(--r);background:rgba(240,83,155,.2);color:#fff}.mfchip b{font-weight:700;opacity:.85}
 .mfcount{margin-left:auto;color:var(--mu);font-size:13px}.mfnone{padding:46px 20px;text-align:center;color:var(--mu)}.mfnone .k{margin-top:14px}
+
+.eq-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.eq-chip{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--ln);background:rgba(14,6,36,.62);color:#d9ccff;font:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:border-color .15s,background-color .15s}
+.eq-chip .fl{margin:0}.eq-chip:hover{border-color:#8b5cf6}.eq-chip[aria-pressed=true]{border-color:var(--r);background:rgba(240,83,155,.2);color:#fff}
+.eq-hd{display:flex;align-items:center;gap:16px;margin-bottom:14px;flex-wrap:wrap}.eq-hd .fl{width:64px;height:43px;margin:0;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.5)}
+.eq-hd h2{margin:0;font-size:26px}.eq-hd small{display:block;color:var(--mu);font-size:13px}
+.eq-note{width:100%;resize:none;overflow:hidden;min-height:64px;line-height:1.45;display:block}
+.eq-nb{position:relative}.eq-nbh{display:flex;justify-content:flex-end;margin-bottom:4px}
+.eq-pen{display:grid;place-items:center;width:30px;height:30px;border-radius:9px;border:1px solid var(--bd);background:var(--cd2);color:#d3b8ff;cursor:pointer;padding:0}
+.eq-pen:hover{border-color:var(--ac);color:#fff}.eq-pen svg{width:16px;height:16px}.eq-pen.on{background:linear-gradient(90deg,#7c3aed,#c026d3);border-color:transparent;color:#fff}
+.eq-md{font-size:14px;line-height:1.5;overflow-wrap:anywhere}.eq-md.empty{color:var(--mu);font-style:italic}
+.eq-md p{margin:0 0 8px}.eq-md>:last-child{margin-bottom:0}.eq-md b{color:#fff}.eq-md ul,.eq-md ol{margin:0 0 8px;padding-left:20px}.eq-md li{margin:2px 0}
+.eq-md code{background:rgba(255,255,255,.1);padding:1px 5px;border-radius:5px;font-size:12.5px}.eq-md a{color:#b894ff}
+.eq-md blockquote{margin:0 0 8px;padding:2px 10px;border-left:3px solid var(--ac);color:#d9ccff}.eq-md hr{border:0;border-top:1px solid var(--ln);margin:10px 0}
+.eq-md h5{margin:0 0 6px;color:#fff}.eq-md .eq-h1{font-size:17px}.eq-md .eq-h2{font-size:15.5px}.eq-md .eq-h3,.eq-md .eq-h4{font-size:14px}
+
+.eq-st{display:block;min-height:16px;margin-top:4px;font-size:12px;color:var(--mu)}.eq-st.er{color:var(--er)}.eq-st.ok{color:var(--ok)}
+.eq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.eq-pl{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.eq-ph{display:flex;align-items:center;gap:12px;border-radius:10px;padding:4px;margin:-4px}.eq-ph:hover,.eq-ph:focus-visible{background:rgba(255,255,255,.06)}
+.eq-ph img.av{width:46px;height:46px;border-radius:14px;object-fit:cover;border:2px solid #7c4dd8;background:#241a4a;flex:none}
+.eq-ph b{display:block;font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.eq-ph small{color:var(--mu);font-size:12px}
+.eq-rk{margin-left:auto;flex:none;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:rgba(168,85,247,.22);color:#e3d2ff}.eq-rk.top{background:rgba(255,196,64,.2);color:#ffd36a}
+.eq-sts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.eq-sts div{background:rgba(255,255,255,.04);border-radius:8px;padding:5px 4px;text-align:center}.eq-sts b{display:block;font-size:13px}.eq-sts small{color:var(--mu);font-size:11px}
+.eq-bw{display:grid;gap:4px;font-size:12px;color:var(--mu)}.eq-bw span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.eq-bw b{color:var(--tx)}
+.eq-map{display:flex;align-items:center;gap:12px;padding:8px;border-radius:12px;cursor:pointer}.eq-map+.eq-map{margin-top:2px}.eq-map:hover,.eq-map:focus-visible{background:rgba(255,255,255,.05)}
+.eq-map .mt2{min-width:0;flex:1}.eq-map .mt2 b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.eq-map .mt2 small{display:block;color:var(--mu);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.eq-map .rc{text-align:right;flex:none;line-height:1.3}.eq-map .rc b{font-size:15px}.eq-map .rc small{display:block;color:var(--mu);font-size:11px}
+.eq-mr{cursor:pointer}.eq-mr:hover b{color:#fff}
+@media(max-width:760px){.eq-grid{grid-template-columns:1fr}.eq-hd h2{font-size:21px}}
 </style></head><body>
 <aside><div class="logo"><i>osu!</i><span>Lobby Tools</span></div>
-<nav><button data-v="matches"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>Matches</button><button data-v="match" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"></polyline><line x1="13" x2="19" y1="19" y2="13"></line><line x1="16" x2="20" y1="16" y2="20"></line><line x1="19" x2="21" y1="21" y2="19"></line><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"></polyline><line x1="5" x2="9" y1="14" y2="18"></line><line x1="7" x2="4" y1="17" y2="20"></line><line x1="3" x2="5" y1="19" y2="21"></line></svg>Partida</button><button data-v="torneo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>Torneo</button><button data-v="live"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg>En vivo</button></nav>
+<nav><button data-v="matches"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>Matches</button><button data-v="match" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"></polyline><line x1="13" x2="19" y1="19" y2="13"></line><line x1="16" x2="20" y1="16" y2="20"></line><line x1="19" x2="21" y1="21" y2="19"></line><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"></polyline><line x1="5" x2="9" y1="14" y2="18"></line><line x1="7" x2="4" y1="17" y2="20"></line><line x1="3" x2="5" y1="19" y2="21"></line></svg>Partida</button><button data-v="torneo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>Torneo</button><button data-v="equipos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" x2="4" y1="22" y2="15"></line></svg>Equipos</button><button data-v="live"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg>En vivo</button></nav>
 <div class="sidecard" id="sidecard" hidden></div>
 <div class="pill" id="pill">Detenido</div></aside>
 <main>
@@ -374,6 +404,7 @@ ul.mapl li[data-g]:hover{border-color:rgba(168,85,247,.55)}ul.mapl li[data-g]:ho
 </section>
 <section id="v-match" class="view on"></section>
 <section id="v-torneo" class="view"></section>
+<section id="v-equipos" class="view"></section>
 
 <section id="v-live" class="view"><div class="cd">
 <h3>Seguir partidas en vivo <span class="mu" id="lhint"></span></h3>
@@ -421,7 +452,7 @@ const say=(t,c='')=>{$('#msg').className=c;$('#msg').textContent=t;if(c==='er'&&
 const empty=()=>`<div class="cd empty">Elegí una carpeta con tus .jsonl (Examinar) y pulsá <b>Cargar</b>.</div>`;
 const miss=__MISSING__;if(miss.length){$('#warn').style.display='block';$('#warn').textContent='Faltan módulos: '+miss.join(' | ')}
 
-function go(v){$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));S.v=v;if(v==='matches'||v==='match'||v==='torneo')draw();updHdr()}
+function go(v){$$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));$$('.view').forEach(e=>e.classList.toggle('on',e.id==='v-'+v));S.v=v;if(v==='matches'||v==='match'||v==='torneo'||v==='equipos')draw();updHdr()}
 $$('nav button').forEach(b=>b.onclick=()=>go(b.dataset.v));
 
 async function load(){
@@ -436,7 +467,7 @@ async function load(){
   try{localStorage.osuSrc=$('#src').value;localStorage.osuSkip=$('#skip').value}catch{}
   draw();
 }
-const draw=()=>{vMatches();vMatch();vTorneo();updHdr();updSide();if(S.pl)plRender()};
+const draw=()=>{vMatches();vMatch();vTorneo();vEquipos();updHdr();updSide();if(S.pl)plRender()};
 
 function lineChart(ms,wide){
   const W=wide?1100:520,H=wide?250:190,P=wide?60:46,FS=wide?12:10,n=ms.length;if(!n)return '<span class="mu">Sin mapas por equipos.</span>';
@@ -575,6 +606,160 @@ function vTorneo(){
    ${T.maps.map(t=>`<tr><td>${esc(t.title)} <span class="mu">${esc(t.version||'')}</span></td><td>${t.stars?t.stars.toFixed(1):'-'}</td><td>${t.plays}</td><td>${fmt(t.score)}</td><td>${pct(t.acc)}</td><td>${f1(t.miss)}</td></tr>`).join('')}</table></div></div>
    <div class="cd"><h3>${ci('star','gold')}Récords</h3><ul class="tl">${T.records.map(([k,v])=>`<li><div><b>${esc(k)}</b><small>${esc(v)}</small></div></li>`).join('')||'<li class="mu">Sin datos</li>'}</ul></div></div>`;
 }
+
+
+// --- equipos: elegís un país y ves su plantel, sus mejores/peores mapas y tus notas ---
+let NOTES={},eqSig='',eqT={},eqPend={};
+S.eq=null;try{S.eq=localStorage.osuEq||null}catch{}
+api('/api/notes').then(r=>{NOTES=r.notes||{};if(r.ok===false)say('El archivo de notas está dañado: se guardó una copia .bak al escribir la próxima nota','er');eqSig='';vEquipos()}).catch(()=>{});
+const sgn=n=>n>0?'+':'';
+const eqTeams=()=>{  // países identificados como equipo en alguna partida, en el orden de la tabla de posiciones
+  const D=S.d,t=new Set();if(!D)return[];
+  D.matches.forEach(m=>['red','blue'].forEach(s=>{if(isCC(m.labels[s]))t.add(m.labels[s])}));
+  const o=D.torneo.standings.map(x=>x.team);
+  return[...t].sort((a,b)=>{const ia=o.indexOf(a),ib=o.indexOf(b);return(ia<0)-(ib<0)||ia-ib||tname(a).localeCompare(tname(b),'es')});
+};
+function eqData(cc){
+  const D=S.d,T=D.torneo,roster=new Map(),maps=new Map(),games=[];
+  D.matches.forEach((m,mi)=>['red','blue'].forEach(side=>{
+    if(m.labels[side]!==cc)return;
+    const opp=side==='red'?'blue':'red';
+    games.push({m,mi,side,opp:m.labels[opp]});
+    m.players.forEach(p=>{if(p.team!==side)return;const r=roster.get(p.uid)||{uid:p.uid,name:p.name,cc:p.cc};roster.set(p.uid,r)});
+    m.maps.forEach((x,i)=>{
+      const ok=((x.d&&x.d.scores)||[]).filter(z=>z.team===side&&z.passed);
+      const key=(x.set||'')+'|'+x.title+'|'+(x.version||'');
+      const a=maps.get(key)||{key,title:x.title,version:x.version,set:x.set,plays:[]};
+      a.plays.push({mi,x,diff:x[side]-x[opp],win:x.winner===side,lose:x.winner===opp,
+        acc:mean(ok.map(z=>z.acc)),miss:mean(ok.filter(z=>z.st).map(z=>z.st.x)),
+        top:ok.reduce((b,z)=>!b||z.score>b.score?z:b,null)});
+      maps.set(key,a);
+    });
+  }));
+  const ml=[...maps.values()].map(a=>{
+    const p=a.plays,w=p.filter(z=>z.win).length,l=p.filter(z=>z.lose).length;
+    const tops=p.filter(z=>z.top);
+    return{...a,n:p.length,w,l,d:p.length-w-l,diff:mean(p.map(z=>z.diff)),acc:mean(p.map(z=>z.acc)),miss:mean(p.map(z=>z.miss)),
+      best:tops.length?tops.reduce((b,z)=>z.top.score>b.top.score?z:b).top:null,
+      ref:p.reduce((b,z)=>Math.abs(z.diff)>Math.abs(b.diff)?z:b)};
+  });
+  const good=ml.filter(a=>a.w>a.l||(a.w===a.l&&a.diff>0)).sort((a,b)=>(b.w-b.l)-(a.w-a.l)||b.diff-a.diff).slice(0,5);
+  const bad=ml.filter(a=>a.l>a.w||(a.w===a.l&&a.diff<0)).sort((a,b)=>(b.l-b.w)-(a.l-a.w)||a.diff-b.diff).slice(0,5);
+  const players=[...roster.values()].map(r=>{
+    const t=T.all.find(x=>x.uid===r.uid),rows=[];
+    games.forEach(g=>{const pm=plMatch(g.m,r.uid);if(pm)pm.rows.forEach(z=>{if(z.ratio!=null)rows.push({...z,m:g.m})})});
+    const okr=rows.filter(z=>z.s.passed);
+    return{...r,t,best:okr.reduce((b,z)=>!b||z.ratio>b.ratio?z:b,null),worst:rows.reduce((b,z)=>!b||z.ratio<b.ratio?z:b,null)};
+  }).sort((a,b)=>(b.t?b.t.cost:-1)-(a.t?a.t.cost:-1)||a.name.localeCompare(b.name));
+  const plays=ml.flatMap(a=>a.plays),pos=T.standings.findIndex(x=>x.team===cc);
+  return{games,players,good,bad,st:pos<0?null:T.standings[pos],pos,
+    mw:plays.filter(z=>z.win).length,ml:plays.filter(z=>z.lose).length,
+    diff:plays.reduce((s,z)=>s+z.diff,0),acc:mean(plays.map(z=>z.acc)),miss:mean(plays.map(z=>z.miss))};
+}
+const eqEdit=new Set(),PEN='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>',OK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>';
+const mdi=s=>{  // formato en línea: **negrita**, *cursiva*, ~~tachado~~, `código`, [texto](https://…)
+  s=esc(s);const code=[];
+  s=s.replace(/`([^`]+)`/g,(_,c)=>{code.push(c);return'\u0000'+(code.length-1)+'\u0000'})
+   .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,'<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+   .replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/__(.+?)__/g,'<b>$1</b>')
+   .replace(/(^|[^*\w])\*(?!\s)(.+?)(?<!\s)\*(?!\*)/g,'$1<i>$2</i>').replace(/(^|[^\w])_(?!\s)(.+?)(?<!\s)_(?!\w)/g,'$1<i>$2</i>')
+   .replace(/~~(.+?)~~/g,'<s>$1</s>');
+  return s.replace(/\u0000(\d+)\u0000/g,(_,i)=>`<code>${code[i]}</code>`);
+};
+function mdr(src){  // markdown básico a HTML (el texto se escapa primero: no se puede inyectar HTML)
+  const out=[];let list=null,para=[],m;
+  const fp=()=>{if(para.length){out.push('<p>'+para.map(mdi).join('<br>')+'</p>');para=[]}},fe=()=>{if(list){out.push(`</${list}>`);list=null}};
+  for(const raw of String(src).replace(/\r/g,'').split('\n')){
+    const l=raw.trimEnd();
+    if(!l.trim()){fp();fe();continue}
+    if(m=l.match(/^\s*(#{1,4})\s+(.*)$/)){fp();fe();out.push(`<h5 class="eq-h${m[1].length}">${mdi(m[2])}</h5>`);continue}
+    if(/^\s*([-*_])(\s*\1){2,}\s*$/.test(l)){fp();fe();out.push('<hr>');continue}
+    if(m=l.match(/^\s*[-*+]\s+(.*)$/)){fp();if(list!=='ul'){fe();out.push('<ul>');list='ul'}out.push('<li>'+mdi(m[1])+'</li>');continue}
+    if(m=l.match(/^\s*\d+[.)]\s+(.*)$/)){fp();if(list!=='ol'){fe();out.push('<ol>');list='ol'}out.push('<li>'+mdi(m[1])+'</li>');continue}
+    if(m=l.match(/^\s*>\s?(.*)$/)){fp();fe();out.push('<blockquote>'+mdi(m[1])+'</blockquote>');continue}
+    fe();para.push(l);
+  }
+  fp();fe();return out.join('');
+}
+const eqFit=t=>{t.style.height='auto';t.style.height=t.scrollHeight+'px'};
+const noteBox=(key,name,ph,rows)=>{const n=NOTES[key],ed=eqEdit.has(key);
+  return`<div class="eq-nb" data-nb="${key}" data-name="${esc(name)}" data-ph="${esc(ph)}"><div class="eq-nbh"><button type="button" class="eq-pen${ed?' on':''}" data-pen="${key}" title="${ed?'Listo (Esc)':'Editar nota'}" aria-label="${ed?'Terminar de editar':'Editar nota'}">${ed?OK:PEN}</button></div>
+  ${ed?`<textarea class="eq-note" data-note="${key}" data-name="${esc(name)}" rows="1" maxlength="20000" placeholder="${esc(ph)}" aria-label="${esc(ph)}">${esc(n?n.text:'')}</textarea>`
+      :`<div class="eq-md${n?'':' empty'}">${n?mdr(n.text):'Sin notas todavía. Tocá el lápiz para escribir (podés usar **negrita**, *cursiva*, listas con - y títulos con #).'}</div>`}
+  <small class="eq-st ${n?'ok':''}" data-st="${key}">${n?'Guardada ✓':''}</small></div>`};
+function eqToggle(key){  // lápiz: entra y sale del modo edición de esa nota
+  const box=$$('#v-equipos [data-nb]').find(b=>b.dataset.nb===key);if(!box)return;
+  if(eqEdit.has(key)){eqEdit.delete(key);eqSave(key)}else eqEdit.add(key);
+  const t=document.createElement('template');t.innerHTML=noteBox(key,box.dataset.name,box.dataset.ph).trim();
+  box.replaceWith(t.content.firstElementChild);
+  const ta=$$('#v-equipos textarea[data-note]').find(x=>x.dataset.note===key);
+  if(ta){eqFit(ta);ta.focus();ta.setSelectionRange(ta.value.length,ta.value.length)}
+  else $$('#v-equipos [data-pen]').find(x=>x.dataset.pen===key)?.focus();
+}
+const eqMapRow=(a,good)=>`<div class="eq-map" data-eg="${a.ref.mi}:${a.ref.x.gid}" tabindex="0" role="button" aria-label="Ver el mapa ${esc(a.title)}">${cov(a.set)||'<span class="cov"></span>'}
+  <div class="mt2"><b>${esc(a.title)}</b><small>${esc(a.version||'')}${a.best?` · mejor: ${esc(a.best.name)} (${fmt(a.best.score)})`:''}</small></div>
+  <div class="rc"><b class="${good?'pl-up':'pl-dn'}">${a.w}-${a.l}${a.d?`-${a.d}`:''}</b><small>${sgn(a.diff)}${fmt(a.diff)} · ${pct(a.acc)}</small></div></div>`;
+function vEquipos(force){
+  const el=$('#v-equipos'),D=S.d;if(S.v!=='equipos')return;
+  if(!D){el.innerHTML=empty();eqSig='';return}
+  const teams=eqTeams();
+  if(!teams.length){el.innerHTML='<div class="cd empty">No se pudieron identificar equipos por país en estas partidas (hace falta que la mayoría de cada equipo tenga la misma bandera).</div>';eqSig='';return}
+  if(!teams.includes(S.eq))S.eq=teams[0];
+  const sig=[S.ver,S.eq].join(':');
+  if(!force&&sig===eqSig)return;
+  const fe=document.activeElement;
+  if(!force&&fe&&fe.matches&&fe.matches('#v-equipos textarea'))return;  // no se redibuja mientras escribís una nota
+  eqSig=sig;
+  const cc=S.eq,E=eqData(cc),T=D.torneo,st=E.st,best=E.players.find(p=>p.t);
+  const nGames=E.games.length,won=E.games.filter(g=>{const a=g.side==='red'?g.m.rm:g.m.bm,b=g.side==='red'?g.m.bm:g.m.rm;return g.m.maps.length&&a>b}).length,
+        lost=E.games.filter(g=>{const a=g.side==='red'?g.m.rm:g.m.bm,b=g.side==='red'?g.m.bm:g.m.rm;return g.m.maps.length&&a<b}).length;
+  el.innerHTML=`<div class="eq-chips" role="group" aria-label="Elegí un país">${teams.map(c=>`<button type="button" class="eq-chip" data-eq="${c}" aria-pressed="${c===cc}">${fl(c)}${esc(tname(c))}</button>`).join('')}</div>
+  <div class="cd" style="margin-bottom:14px"><div class="eq-hd">${fl(cc,true)}<div><h2>${esc(tname(cc))}</h2><small>${st?`Puesto #${E.pos+1} de ${T.standings.length} en la tabla`:'Sin puesto en la tabla (algún rival sin país identificado)'}</small></div></div>
+   <div class="tiles">${plTile('Partidas',nGames,`${won} G · ${lost} P${nGames-won-lost?` · ${nGames-won-lost} sin ganador`:''}`)}${plTile('Mapas',`${E.mw}-${E.ml}`,'ganados-perdidos')}${plTile('Dif. score',sgn(E.diff)+fmt(E.diff),'acumulada')}
+    ${plTile('Acc. prom.',pct(E.acc),'mapas pasados')}${plTile('Misses/mapa',f2(E.miss))}${plTile('Mejor jugador',best?esc(best.name):'-',best?'cost '+f2(best.t.cost):'')}</div></div>
+  <div class="g g2"><div class="cd"><h3>${ci('star','gold')}Notas del equipo <span class="mu">se guardan solas</span></h3>${noteBox('t:'+cc,tname(cc),'Curiosidades, estilo de juego, historia del equipo…',6)}</div>
+   <div class="cd"><h3>${ci('swords')}Partidas</h3><ul class="tl">${E.games.map(g=>{const a=g.side==='red'?g.m.rm:g.m.bm,b=g.side==='red'?g.m.bm:g.m.rm;
+     return`<li class="eq-mr" data-em="${g.mi}" tabindex="0" role="button"><div><b>${fl(cc)}${esc(tname(cc))} <span class="${g.side==='red'?'r':'b'}">${a}</span> - <span class="${g.side==='red'?'b':'r'}">${b}</span> ${fl(g.opp)}${esc(tname(g.opp))}</b><small>${esc(g.m.name)}${g.m.closed?'':' · sin cierre'}</small></div><span class="w mu">${g.m.maps.length?(a>b?'ganó':a<b?'perdió':'empate'):'sin mapas'}</span></li>`}).join('')}</ul></div></div>
+  <div class="cd" style="margin-bottom:14px"><h3>${ci('users')}Jugadores <span class="mu">por match cost promedio · clic en el nombre para ver sus estadísticas</span></h3>
+   <div class="eq-grid">${E.players.map((p,i)=>{const t=p.t,odd=p.cc&&p.cc!==cc;
+    const bw=(r,l,c)=>r?`<span>${l} <b>${esc(r.x.title)}</b> ×${r.ratio.toFixed(2)}</span>`:'';
+    return`<div class="eq-pl"><div class="eq-ph plk" data-u="${p.uid}" tabindex="0" role="button" aria-label="Ver estadísticas de ${esc(p.name)}">${av(p.uid)}<div style="min-width:0"><b>${odd?`<span title="Bandera: ${esc(tname(p.cc))}">${fl(p.cc)}</span>`:''}${esc(p.name)}</b><small>${t?`cost ${f2(t.cost)} · ratio ${f2(t.ratio)}`:'sin datos de cost'}</small></div>${t?`<span class="eq-rk${i<3?' top':''}">#${i+1}</span>`:''}</div>
+     ${t?`<div class="eq-sts"><div><b>${t.matches}</b><small>Partidas</small></div><div><b>${t.mvps}</b><small>MVP</small></div><div><b>${t.maps}</b><small>Mapas</small></div><div><b>${fmt(t.score)}</b><small>Score prom.</small></div><div><b>${pct(t.acc)}</b><small>Acc.</small></div><div><b>${f2(t.miss)}</b><small>Miss/mapa</small></div></div>`:''}
+     <div class="eq-bw">${bw(p.best,'▲ Mejor mapa')}${p.worst&&p.worst!==p.best?bw(p.worst,'▼ Peor mapa'):''}</div>
+     ${noteBox('p:'+p.uid,p.name,'Notas sobre '+p.name+'…',3)}</div>`}).join('')||'<span class="mu">Sin jugadores registrados.</span>'}</div></div>
+  <div class="g g2"><div class="cd"><h3>${ci('trophy','gold')}Mejores mapas <span class="mu">ganados · por diferencia de score</span></h3>${E.good.map(a=>eqMapRow(a,true)).join('')||'<span class="mu">Todavía no ganó ningún mapa.</span>'}</div>
+   <div class="cd"><h3>${ci('layers')}Peores mapas <span class="mu">perdidos · por diferencia de score</span></h3>${E.bad.map(a=>eqMapRow(a,false)).join('')||'<span class="mu">Todavía no perdió ningún mapa.</span>'}</div></div>`;
+  $$('#v-equipos textarea[data-note]').forEach(eqFit);
+}
+const eqStatus=(k,t,c)=>{const e=$$('#v-equipos [data-st]').find(x=>x.dataset.st===k);if(e){e.textContent=t;e.className='eq-st '+(c||'')}};
+async function eqSave(k){
+  const n=eqPend[k];if(!n)return;delete eqPend[k];clearTimeout(eqT[k]);
+  try{const r=await api('/api/notes/set',{key:k,text:n.text,name:n.name});
+    eqStatus(k,r.error?'No se pudo guardar: '+r.error:(n.text.trim()?'Guardada ✓':''),r.error?'er':'ok')}
+  catch{eqStatus(k,'No se pudo guardar (¿sigue abierto osu_gui.py?)','er')}
+}
+$('#v-equipos').addEventListener('input',e=>{
+  const t=e.target.closest('textarea[data-note]');if(!t)return;
+  const k=t.dataset.note;eqFit(t);
+  if(t.value.trim())NOTES[k]={text:t.value,name:t.dataset.name||''};else delete NOTES[k];
+  eqPend[k]={text:t.value,name:t.dataset.name||''};eqStatus(k,'Escribiendo…');
+  clearTimeout(eqT[k]);eqT[k]=setTimeout(()=>eqSave(k),500);
+});
+$('#v-equipos').addEventListener('focusout',e=>{
+  const t=e.target.closest&&e.target.closest('textarea[data-note]');
+  if(t)eqSave(t.dataset.note);
+  setTimeout(()=>vEquipos(),0);  // si en el medio llegaron datos nuevos, se redibuja recién al soltar la nota
+});
+addEventListener('pagehide',()=>{for(const k of Object.keys(eqPend)){const n=eqPend[k];
+  try{fetch('/api/notes/set',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({key:k,text:n.text,name:n.name})})}catch{}}});
+$('#v-equipos').addEventListener('click',e=>{
+  const pen=e.target.closest('[data-pen]');if(pen){eqToggle(pen.dataset.pen);return}
+  const c=e.target.closest('[data-eq]'),g=e.target.closest('[data-eg]'),m=e.target.closest('[data-em]');
+  if(c){S.eq=c.dataset.eq;try{localStorage.osuEq=S.eq}catch{}eqSig='';vEquipos(true);return}
+  if(g){const[mi,gid]=g.dataset.eg.split(':').map(Number);S.mi=mi;vMatch();updHdr();updSide();popOpen(gid);return}
+  if(m){S.mi=+m.dataset.em;go('match')}
+});
+$('#v-equipos').addEventListener('keydown',e=>{if(e.key==='Escape'&&e.target.matches('textarea[data-note]')){e.preventDefault();e.stopPropagation();eqToggle(e.target.dataset.note);return}if((e.key==='Enter'||e.key===' ')&&e.target.matches('.eq-map,.eq-mr')){e.preventDefault();e.target.click()}});
 
 // --- en vivo (varias partidas a la vez) ---
 let WS={},sig='',logId=null,logN=0,LF='';
@@ -770,7 +955,7 @@ const plTrig=e=>{
   const m=el.closest('#v-match')?S.d.matches[S.mi]:null;
   plOpen(+el.dataset.u,m?m.id:null,el);
 };
-['#v-match','#v-torneo'].forEach(q=>{
+['#v-match','#v-torneo','#v-equipos'].forEach(q=>{
   $(q).addEventListener('click',plTrig);
   $(q).addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-u]')){e.preventDefault();plTrig(e)}});
 });

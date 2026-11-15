@@ -563,9 +563,60 @@ def api_dashboard(d):
             "warnings": _relevant(warns, {m.match_id for m in matches})}
 
 
+# --- notas de equipos y jugadores -----------------------------------------------
+# Se guardan en un JSON al lado de este archivo: {"t:CN": {"text": ..., "name": ...}, "p:123": {...}}.
+# "t:" = equipo (código de país), "p:" = jugador (ID de osu!). Una clave por nota: guardar una
+# nota nunca pisa las demás.
+NOTES_FILE = HERE / "notas_equipos.json"
+_NOTES_LOCK = threading.Lock()
+_NOTE_KEY = re.compile(r"^(t:[A-Z]{2}|p:\d{1,12})$")
+
+
+def _notes_read():
+    """(notas, legible). Si el archivo existe pero está roto, legible=False (no se pisa a ciegas)."""
+    try:
+        data = json.loads(NOTES_FILE.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return {}, True
+    except (OSError, ValueError):
+        return {}, False
+    return (data, True) if isinstance(data, dict) else ({}, False)
+
+
+def api_notes_get(_=None):
+    notes, ok = _notes_read()
+    return {"notes": notes, "ok": ok}
+
+
+def api_notes_set(d):
+    key = str(d.get("key") or "").strip()
+    if not _NOTE_KEY.match(key):
+        return {"error": "clave de nota no válida"}
+    text = str(d.get("text") or "")[:20000]
+    with _NOTES_LOCK:
+        notes, ok = _notes_read()
+        if not ok:  # archivo ilegible: se guarda una copia antes de empezar de nuevo
+            try:
+                NOTES_FILE.replace(NOTES_FILE.with_name(NOTES_FILE.name + ".bak"))
+            except OSError:
+                pass
+        if text.strip():
+            notes[key] = {"text": text, "name": str(d.get("name") or "")[:80]}
+        else:
+            notes.pop(key, None)
+        tmp = NOTES_FILE.with_name(NOTES_FILE.name + ".tmp")
+        try:
+            tmp.write_text(json.dumps(notes, ensure_ascii=False, indent=1), encoding="utf-8")
+            os.replace(tmp, NOTES_FILE)
+        except OSError as e:
+            return {"error": str(e)}
+    return {"ok": True}
+
+
 ROUTES_POST = {"/api/watch/start": api_watch_start, "/api/watch/stop": api_watch_stop,
                "/api/stats": api_stats,
-               "/api/mkdir": api_mkdir, "/api/dashboard": api_dashboard}
+               "/api/mkdir": api_mkdir, "/api/dashboard": api_dashboard,
+               "/api/notes/set": api_notes_set}
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -591,6 +642,8 @@ class Handler(BaseHTTPRequestHandler):
             return self._send(200, json.dumps(api_log(parse_qs(u.query))))
         if u.path == "/api/browse":
             return self._send(200, json.dumps(api_browse(parse_qs(u.query)), ensure_ascii=False))
+        if u.path == "/api/notes":
+            return self._send(200, json.dumps(api_notes_get(), ensure_ascii=False))
         if u.path == "/api/files":
             return self._send(200, json.dumps(api_files(None)))
         self._send(404, "{}")

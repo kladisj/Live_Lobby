@@ -6,3 +6,4 @@ game_sample.jsonl
 .pytest_cache/
 *.egg-info/
 grafico.html
+notas_equipos.json
