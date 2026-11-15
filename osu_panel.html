@@ -89,7 +89,7 @@ span.plk{padding:1px 6px;margin:0 -2px;border-radius:7px}span.plk:hover,span.plk
 .pl-tabs{display:flex;gap:8px;padding:12px 18px 0;flex-wrap:wrap}.pl-tabs button{background:#241a4a;color:var(--mu);border:1px solid var(--bd);border-radius:999px;padding:7px 16px;font:inherit;font-weight:600;cursor:pointer}.pl-tabs button small{font-weight:400;margin-left:6px}.pl-tabs button.on{background:#4b2f9a;color:#fff;border-color:#8b5cf6}
 .pl-body{padding:14px 18px 18px;display:grid;gap:14px}.pl-body h4{margin:0;font-size:13px;color:var(--mu);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
 .pl-body .tile em{display:block;font-style:normal;font-size:11px;color:#bfaef5;margin-top:2px}
-.pl-rec{display:grid;gap:6px;font-size:13px}.pl-rec div{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;background:rgba(255,255,255,.04);border-radius:10px;padding:8px 12px}.pl-rec span{color:var(--mu)}.pl-rec b{color:var(--tx)}
+.pl-rec{display:grid;gap:6px;font-size:13px}.pl-rec div{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;background:rgba(255,255,255,.04);border-radius:10px;padding:8px 12px}.pl-rec span{color:var(--mu)}.pl-rec b{color:var(--tx)}.pl-rec .slot{color:#0b0620}
 .pl-maps{display:grid;gap:8px}.pl-map{display:grid;grid-template-columns:28px 64px minmax(0,1.5fr) repeat(5,minmax(0,.7fr)) 50px 28px;gap:12px;align-items:center;padding:8px 12px;border-radius:12px;background:#241a4a;border:1px solid rgba(255,255,255,.06);cursor:pointer}.pl-map:hover,.pl-map:focus-visible{border-color:#8b5cf6;outline:0}.pl-map.fail{opacity:.65}
 .pl-map .cov{width:64px;height:40px;border-radius:8px}.pl-c{text-align:center;line-height:1.25}.pl-c small{display:block;color:var(--mu);font-size:11px}.pl-c b{font-size:13px}.pl-up{color:var(--ok)}.pl-dn{color:var(--er)}
 .pl-w{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;font-size:12px;font-weight:800}.pl-w.win{background:rgba(76,195,138,.2);color:var(--ok)}.pl-w.lose{background:rgba(255,107,122,.18);color:var(--er)}.pl-w.nil{color:var(--mu)}
@@ -360,6 +360,16 @@ ul.mapl li[data-g]:hover{border-color:rgba(168,85,247,.55)}ul.mapl li[data-g]:ho
 .eq-map .rc{text-align:right;flex:none;line-height:1.3}.eq-map .rc b{font-size:15px}.eq-map .rc small{display:block;color:var(--mu);font-size:11px}
 .eq-mr{cursor:pointer}.eq-mr:hover b{color:#fff}
 @media(max-width:760px){.eq-grid{grid-template-columns:1fr}.eq-hd h2{font-size:21px}}
+
+.slot{display:inline-block;min-width:34px;text-align:center;padding:1px 7px;border-radius:7px;font-size:11px;font-weight:700;color:#0b0620;background:#9a8fc0;vertical-align:middle}
+.slot.nm{background:#6ea8ff}.slot.hd{background:#f5c04f}.slot.hr{background:#f26d6d}.slot.dt{background:#b39bff}.slot.fm{background:#52d39a}.slot.tb{background:#62d6e6}.slot.ez{background:#8ee39a}.slot.fl{background:#c9c2dd}
+.ptag{display:inline-block;padding:1px 7px;border-radius:999px;font-size:10.5px;font-weight:700;margin-left:4px;vertical-align:middle;background:rgba(255,255,255,.12);color:#fff}.ptag.original{background:#e0488d}.ptag.new{background:#f08a2c}
+.pool-ctl{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}.pool-ctl input{flex:1;min-width:240px}
+.pool-tbl tr.dim td{opacity:.5}.pool-tbl td.nt{text-align:left;color:#d9ccff}.pool-tbl td.mp small{display:block;color:var(--mu)}
+.rch{display:inline-block;padding:0 7px;margin-right:6px;border-radius:999px;font-size:11px;font-weight:600;background:rgba(168,85,247,.25);color:#e3d2ff}
+.rsel{display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center;margin-top:10px;font-size:13px}.rsel select{min-width:150px}
+details.rdet summary{cursor:pointer;color:var(--mu);font-size:13px}
+.pp-slot{margin-top:6px;font-size:13px;color:#d9ccff}
 </style></head><body>
 <aside><div class="logo"><i>osu!</i><span>Lobby Tools</span></div>
 <nav><button data-v="matches"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>Matches</button><button data-v="match" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"></polyline><line x1="13" x2="19" y1="19" y2="13"></line><line x1="16" x2="20" y1="16" y2="20"></line><line x1="19" x2="21" y1="21" y2="19"></line><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"></polyline><line x1="5" x2="9" y1="14" y2="18"></line><line x1="7" x2="4" y1="17" y2="20"></line><line x1="3" x2="5" y1="19" y2="21"></line></svg>Partida</button><button data-v="torneo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>Torneo</button><button data-v="equipos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" x2="4" y1="22" y2="15"></line></svg>Equipos</button><button data-v="live"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.9 19.1C1 15.2 1 8.8 4.9 4.9"></path><path d="M7.8 16.2c-2.3-2.3-2.3-6.1 0-8.5"></path><circle cx="12" cy="12" r="2"></circle><path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.5"></path><path d="M19.1 4.9C23 8.8 23 15.1 19.1 19"></path></svg>En vivo</button></nav>
@@ -563,7 +573,7 @@ function vMatch(){
    <div class="cd"><h3>${ci('star','gold')}MVP (match cost)<span class="mu">${m.closed?'Final':'Actual'}</span></h3>${best?`<div class="mvp plk" data-u="${best.uid}" tabindex="0" role="button" aria-label="Ver estadísticas de ${esc(best.name)}"><div class="mav">${av(best.uid)}${fl(best.cc)}</div><div><b>${esc(best.name)}</b>
     <div class="mu">Match cost: <b style="color:var(--tx)">${f2(best.cost)}</b></div><div class="st"><div><b>${f2(best.ratio)}</b><small>Ratio prom.</small></div><div><b>${best.maps}/${best.total}</b><small>Mapas</small></div></div></div></div>
     <div class="mu" style="margin-top:10px;font-size:12px">${m.costs.slice(1,4).map((c,i)=>`<span class="plk" data-u="${c.uid}" tabindex="0" role="button">${i+2}. ${esc(c.name)} (${f2(c.cost)})</span>`).join(' · ')}</div>`:'<span class="mu">Sin datos</span>'}</div>
-   <div class="cd hard"><h3>${ci('flame','fire')}Mapa más duro</h3>${h?`<div class="hrd">${cov(h.set,1)}<div><b class="hn" title="${esc(h.title)}">${esc(h.title)}</b><div class="mu">${esc(h.version||'')}</div>
+   <div class="cd hard"><h3>${ci('flame','fire')}Mapa más duro</h3>${h?`<div class="hrd">${cov(h.set,1)}<div><b class="hn" title="${esc(h.title)}">${esc(h.title)}</b><div class="mu">${slotChip(slotOf(h.bid,roundOf(m)))} ${esc(h.version||'')}</div>
     <div class="hst">${h.stars?`<span class="sbadge">★ ${h.stars.toFixed(2)}</span>`:''}</div>
     <div class="st"><div><b>${pct(h.acc)}</b><small>Acc. prom.</small></div><div><b>${f1(h.miss)}</b><small>Misses prom.</small></div></div></div></div>`:'<span class="mu">Sin datos</span>'}</div>
    <div class="cd"><h3>${ci('trophy','gold')}Resumen del partido</h3>
@@ -571,7 +581,7 @@ function vMatch(){
     <div class="srow">${ic('layers')}<span>Mapas jugados</span><b>${n}</b></div>
     <div class="srow">${ic('chart')}<span>Ventaja de score</span>${lead?`<b class="${lead=='red'?'r':'b'}">+${fmt(Math.abs(sumR-sumB))} ${nm(lead)}</b>`:'<b>Empate</b>'}</div></div></div>
   <div class="g gB">
-   <div class="cd"><h3>${ci('layers')}Desglose de mapas</h3><ul class="mapl">${ms.map((x,i)=>`<li data-g="${x.gid}" tabindex="0" role="button" aria-label="Ver el detalle del mapa ${i+1}">${rbg(x)}<span class="mnum">#${i+1}</span>${cov(x.set)||'<span class="cov"></span>'}<div class="mtt"><b>${esc(x.title)}</b><small>${esc(x.version||'')}</small></div>
+   <div class="cd"><h3>${ci('layers')}Desglose de mapas</h3><ul class="mapl">${ms.map((x,i)=>`<li data-g="${x.gid}" tabindex="0" role="button" aria-label="Ver el detalle del mapa ${i+1}">${rbg(x)}<span class="mnum">#${i+1}</span>${cov(x.set)||'<span class="cov"></span>'}<div class="mtt"><b>${esc(x.title)}</b><small>${slotChip(slotOf(x.bid,roundOf(m)))} ${esc(x.version||'')}</small></div>
     <span class="mw">${x.winner?fl(L[x.winner])+`<span class="${x.winner=='red'?'r':'b'}">${nm(x.winner)}</span>`:'<span class="mu">Empate</span>'}</span>
     <span class="mscore"><span class="sv"><b class="r">${fmt(x.red)}</b> - <b class="b">${fmt(x.blue)}</b>${x.red!==x.blue?`<small class="df ${x.red>x.blue?'r':'b'}" title="Diferencia de score">+${fmt(Math.abs(x.red-x.blue))}</small>`:''}</span></span></li>`).join('')||'<li class="mu">Sin mapas por equipos</li>'}</ul></div>
    <div class="cd"><h3>${ci('chart')}Estadísticas clave</h3><div class="kts">${kt('red')}${kt('blue')}</div></div></div>
@@ -598,15 +608,68 @@ function vTorneo(){
   <div class="g g2"><div class="cd"><h3>${ci('trophy','gold')}Posiciones <span class="mu">por país</span></h3><div class="tbl">${T.standings.length?`<table><tr><th>#  Equipo</th><th>PJ</th><th>PG</th><th>PP</th><th>PE</th><th>Mapas</th><th>Dif. mapas</th><th>Dif. score</th></tr>
    ${T.standings.map((t,i)=>`<tr><td>${i+1} &nbsp;${tn(t.team)}</td><td>${t.played}</td><td>${t.won}</td><td>${t.lost}</td><td>${t.drawn}</td><td>${t.maps_for}-${t.maps_against}</td><td>${t.map_diff>0?'+':''}${t.map_diff}</td><td>${t.score_diff>0?'+':''}${fmt(t.score_diff)}</td></tr>`).join('')}</table>`:'<span class="mu">No se pudieron identificar los equipos por país.</span>'}</div>
    ${T.skipped?`<div class="mu" style="font-size:12px;margin-top:6px">${T.skipped} partida(s) fuera de la tabla: equipos sin país identificado.</div>`:''}</div>
-   <div class="cd"><h3>${ci('swords')}Resultados</h3><ul class="tl">${T.results.map(r=>`<li><div><b>${tn(r.red)} <span class="r">${r.red_maps}</span> - <span class="b">${r.blue_maps}</span> ${tn(r.blue)}</b><small>${esc(r.name)}${r.closed?'':' · sin cierre'}</small></div>
+   <div class="cd"><h3>${ci('swords')}Resultados</h3><ul class="tl">${T.results.map(r=>`<li><div><b>${tn(r.red)} <span class="r">${r.red_maps}</span> - <span class="b">${r.blue_maps}</span> ${tn(r.blue)}</b><small>${(m=>m?rchip(m):'')(D.matches.find(x=>x.id===r.match_id))}${esc(r.name)}${r.closed?'':' · sin cierre'}</small></div>
     <span class="w mu">${r.maps?(r.winner?'gana '+esc(tname(r.winner)):'empate'):'sin mapas'}</span></li>`).join('')}</ul></div></div>
   <div class="cd" style="margin-bottom:14px"><h3>${ci('users')}Jugadores <span class="mu">por match cost promedio · mirá "ratio" para el rendimiento real</span></h3><div class="tbl"><table><tr><th>#  Jugador</th><th>Partidas</th><th>Mapas</th><th>MVP</th><th>Cost prom.</th><th>Ratio</th><th>Score prom.</th><th>Acc.</th><th>Miss/mapa</th></tr>
    ${T.top.map((p,i)=>`<tr class="plk" data-u="${p.uid}" tabindex="0" aria-label="Ver estadísticas de ${esc(p.name)}"><td>${i+1} &nbsp;${fl(p.cc)}${esc(p.name)}</td><td>${p.matches}</td><td>${p.maps}</td><td>${p.mvps}</td><td>${f2(p.cost)}</td><td>${f2(p.ratio)}</td><td>${fmt(p.score)}</td><td>${pct(p.acc)}</td><td>${f2(p.miss)}</td></tr>`).join('')}</table></div></div>
-  <div class="g g2"><div class="cd"><h3>${ci('layers')}Mapas del pool</h3><div class="tbl"><table><tr><th>Mapa</th><th>★</th><th>Veces</th><th>Score prom.</th><th>Acc.</th><th>Miss</th></tr>
-   ${T.maps.map(t=>`<tr><td>${esc(t.title)} <span class="mu">${esc(t.version||'')}</span></td><td>${t.stars?t.stars.toFixed(1):'-'}</td><td>${t.plays}</td><td>${fmt(t.score)}</td><td>${pct(t.acc)}</td><td>${f1(t.miss)}</td></tr>`).join('')}</table></div></div>
+  ${POOLS.rounds.length?poolCard():poolCtl()}
+  <div class="g g2">${POOLS.rounds.length?'':`<div class="cd"><h3>${ci('layers')}Mapas del pool</h3><div class="tbl"><table><tr><th>Mapa</th><th>★</th><th>Veces</th><th>Score prom.</th><th>Acc.</th><th>Miss</th></tr>
+   ${T.maps.map(t=>`<tr><td>${esc(t.title)} <span class="mu">${esc(t.version||'')}</span></td><td>${t.stars?t.stars.toFixed(1):'-'}</td><td>${t.plays}</td><td>${fmt(t.score)}</td><td>${pct(t.acc)}</td><td>${f1(t.miss)}</td></tr>`).join('')}</table></div></div>`}
    <div class="cd"><h3>${ci('star','gold')}Récords</h3><ul class="tl">${T.records.map(([k,v])=>`<li><div><b>${esc(k)}</b><small>${esc(v)}</small></div></li>`).join('')||'<li class="mu">Sin datos</li>'}</ul></div></div>`;
 }
 
+
+
+// --- mappools: slots (NM1, HR2…), notes, rondas ---
+let POOLS={rounds:[],url:'',updated:null},PIDX=new Map();
+const RTEST=[/qualif/,/group|grupo/,/32/,/16/,/quarter|cuartos/,/semi/,/^(?!.*grand).*final/,/grand/];
+const rrank=n=>{const i=RTEST.findIndex(r=>r.test(String(n).toLowerCase()));return i<0?99:i};
+function setPools(p){
+  POOLS=p;POOLS.rounds.sort((a,b)=>rrank(a.name)-rrank(b.name));PIDX=new Map();
+  POOLS.rounds.forEach(r=>r.maps.forEach(e=>{const a=PIDX.get(e.bid)||[];a.push({r:r.name,e});PIDX.set(e.bid,a)}));
+  S.pr=null;eqSig='';draw();
+}
+const slotOf=(bid,rn)=>{const a=bid!=null&&PIDX.get(bid);return a?(a.find(z=>z.r===rn)||a[0]).e:null};
+const slotChip=e=>e?`<span class="slot ${(e.slot.slice(0,2)||'x').toLowerCase()}" title="${esc(e.notes||'')}">${esc(e.slot)}</span>`:'';
+const tagsHtml=e=>[...(e.fa?[e.fa]:[]),...(e.tags||[])].map(t=>`<span class="ptag ${esc(String(t).toLowerCase())}">${esc(t)}</span>`).join('');
+const slotInfo=x=>{const e=slotOf(x.bid);return e?`<div class="pp-slot">${slotChip(e)} ${esc(e.notes||'')}${tagsHtml(e)}</div>`:''};
+function roundOf(m){
+  const ov=NOTES['r:'+m.id];if(ov&&POOLS.rounds.some(r=>r.name===ov.text))return ov.text;
+  const c={};m.maps.forEach(x=>(PIDX.get(x.bid)||[]).forEach(z=>c[z.r]=(c[z.r]||0)+1));
+  const b=Object.entries(c).sort((a,b)=>b[1]-a[1]||rrank(a[0])-rrank(b[0]));
+  return b.length?b[0][0]:null;
+}
+const rchip=m=>{const n=POOLS.rounds.length&&roundOf(m);return n?`<span class="rch">${esc(n)}</span>`:''};
+function poolStats(){
+  const st=new Map();
+  S.d.matches.forEach(m=>m.maps.forEach(x=>{if(x.bid==null)return;
+    const a=st.get(x.bid)||{plays:0,passed:0,sc:0,ac:0,ms:0,mn:0};a.plays++;
+    ((x.d&&x.d.scores)||[]).forEach(z=>{if(!z.passed)return;a.passed++;a.sc+=z.score;a.ac+=z.acc;if(z.st){a.ms+=z.st.x;a.mn++}});
+    st.set(x.bid,a)}));
+  return st;
+}
+function poolCard(){
+  const D=S.d,P=POOLS,st=poolStats();
+  if(!S.pr||!P.rounds.some(r=>r.name===S.pr)){
+    const played=P.rounds.filter(r=>r.maps.some(e=>(st.get(e.bid)||{}).plays));
+    S.pr=(played[played.length-1]||P.rounds[0]).name;
+  }
+  const R=P.rounds.find(r=>r.name===S.pr),loose=[...st.keys()].filter(b=>!PIDX.has(b)).length;
+  const tabs=P.rounds.map(r=>{const pl=r.maps.filter(e=>(st.get(e.bid)||{}).plays).length;
+    return`<button type="button" class="eq-chip" data-pr="${esc(r.name)}" aria-pressed="${r.name===S.pr}">${esc(r.name)} <span class="mu">${pl}/${r.maps.length}</span></button>`}).join('');
+  const rows=R.maps.map(e=>{const a=st.get(e.bid),ok=a&&a.passed;
+    return`<tr class="${a?'':'dim'}"><td>${slotChip(e)}</td><td class="mp">${esc(e.title)}<small>${esc(e.mapper||'')}</small></td><td>${e.sr?e.sr.toFixed(1):'-'}</td><td>${a?a.plays:0}</td><td>${ok?fmt(a.sc/a.passed):'-'}</td><td>${ok?pct(a.ac/a.passed):'-'}</td><td>${a&&a.mn?f1(a.ms/a.mn):'-'}</td><td class="nt">${esc(e.notes||'')}${tagsHtml(e)}</td></tr>`}).join('');
+  const open=[...new Set(D.matches.map(m=>roundOf(m)))].length;
+  const rsel=D.matches.map(m=>{const cur=(NOTES['r:'+m.id]||{}).text||'',L=m.labels;
+    return`<span>${rchip(m)}${esc(isCC(L.red)&&isCC(L.blue)?tname(L.red)+' vs '+tname(L.blue):m.name)}</span><select data-rsel="${m.id}" aria-label="Ronda de ${esc(m.name)}"><option value="">Automática${roundOf(m)&&!cur?' ('+esc(roundOf(m))+')':''}</option>${P.rounds.map(r=>`<option value="${esc(r.name)}"${r.name===cur?' selected':''}>${esc(r.name)}</option>`).join('')}</select>`}).join('');
+  return`<div class="cd" style="margin-bottom:14px"><h3>${ci('layers')}Mappools <span class="mu">${P.updated?'hoja bajada el '+esc(P.updated):''}</span></h3>
+   ${poolCtl()}<div class="eq-chips">${tabs}</div>
+   <div class="tbl pool-tbl"><table><tr><th>Slot</th><th>Mapa</th><th>★</th><th>Veces</th><th>Score prom.</th><th>Acc.</th><th>Miss</th><th>Notas</th></tr>${rows}</table></div>
+   ${loose?`<div class="mu" style="font-size:12px;margin-top:8px">${loose} mapa(s) jugados no están en ningún pool (calentamientos, o ids que cambiaron).</div>`:''}
+   <details class="rdet" style="margin-top:10px"${S.rdOpen?' open':''}><summary>Ronda de cada partida (se detecta por los mapas jugados; podés corregirla)</summary><div class="rsel">${rsel}</div></details></div>`;
+}
+const poolCtl=()=>`<div class="pool-ctl"><input id="purl" placeholder="Link de la hoja de Google con los mappools (o ruta de un .csv)" value="${esc(S.purl??POOLS.url??'')}" aria-label="Link de la hoja de mappools"><button class="k pri" id="pupd" type="button">Actualizar pools</button><span id="pmsg" class="mu"></span></div>`;
+api('/api/pools').then(setPools).catch(()=>{});
 
 // --- equipos: elegís un país y ves su plantel, sus mejores/peores mapas y tus notas ---
 let NOTES={},eqSig='',eqT={},eqPend={};
@@ -629,7 +692,7 @@ function eqData(cc){
     m.maps.forEach((x,i)=>{
       const ok=((x.d&&x.d.scores)||[]).filter(z=>z.team===side&&z.passed);
       const key=(x.set||'')+'|'+x.title+'|'+(x.version||'');
-      const a=maps.get(key)||{key,title:x.title,version:x.version,set:x.set,plays:[]};
+      const a=maps.get(key)||{key,bid:x.bid,title:x.title,version:x.version,set:x.set,plays:[]};
       a.plays.push({mi,x,diff:x[side]-x[opp],win:x.winner===side,lose:x.winner===opp,
         acc:mean(ok.map(z=>z.acc)),miss:mean(ok.filter(z=>z.st).map(z=>z.st.x)),
         top:ok.reduce((b,z)=>!b||z.score>b.score?z:b,null)});
@@ -697,7 +760,7 @@ function eqToggle(key){  // lápiz: entra y sale del modo edición de esa nota
   else $$('#v-equipos [data-pen]').find(x=>x.dataset.pen===key)?.focus();
 }
 const eqMapRow=(a,good)=>`<div class="eq-map" data-eg="${a.ref.mi}:${a.ref.x.gid}" tabindex="0" role="button" aria-label="Ver el mapa ${esc(a.title)}">${cov(a.set)||'<span class="cov"></span>'}
-  <div class="mt2"><b>${esc(a.title)}</b><small>${esc(a.version||'')}${a.best?` · mejor: ${esc(a.best.name)} (${fmt(a.best.score)})`:''}</small></div>
+  <div class="mt2"><b>${esc(a.title)}</b><small>${slotChip(slotOf(a.bid))} ${esc(a.version||'')}${a.best?` · mejor: ${esc(a.best.name)} (${fmt(a.best.score)})`:''}</small></div>
   <div class="rc"><b class="${good?'pl-up':'pl-dn'}">${a.w}-${a.l}${a.d?`-${a.d}`:''}</b><small>${sgn(a.diff)}${fmt(a.diff)} · ${pct(a.acc)}</small></div></div>`;
 function vEquipos(force){
   const el=$('#v-equipos'),D=S.d;if(S.v!=='equipos')return;
@@ -760,6 +823,24 @@ $('#v-equipos').addEventListener('click',e=>{
   if(m){S.mi=+m.dataset.em;go('match')}
 });
 $('#v-equipos').addEventListener('keydown',e=>{if(e.key==='Escape'&&e.target.matches('textarea[data-note]')){e.preventDefault();e.stopPropagation();eqToggle(e.target.dataset.note);return}if((e.key==='Enter'||e.key===' ')&&e.target.matches('.eq-map,.eq-mr')){e.preventDefault();e.target.click()}});
+
+$('#v-torneo').addEventListener('input',e=>{if(e.target.id==='purl')S.purl=e.target.value});
+$('#v-torneo').addEventListener('toggle',e=>{if(e.target.matches&&e.target.matches('details.rdet'))S.rdOpen=e.target.open},true);
+$('#v-torneo').addEventListener('click',async e=>{
+  const pr=e.target.closest('[data-pr]');if(pr){S.pr=pr.dataset.pr;vTorneo();return}
+  if(!e.target.closest('#pupd'))return;
+  const url=($('#purl').value||'').trim(),msg=$('#pmsg');S.purl=url;msg.className='mu';msg.textContent='Bajando…';
+  let r;try{r=await api('/api/pools/update',{url})}catch{r={error:'no se pudo hablar con osu_gui.py'}}
+  if(r.error){const m=$('#pmsg');if(m){m.className='er';m.textContent=r.error}return}
+  S.purl=undefined;setPools(r);const m=$('#pmsg');if(m){m.className='ok';m.textContent=`${r.rounds.length} ronda(s) cargadas`}
+});
+$('#v-torneo').addEventListener('change',async e=>{
+  const sel=e.target.closest('[data-rsel]');if(!sel)return;
+  const k='r:'+sel.dataset.rsel,v=sel.value;
+  if(v)NOTES[k]={text:v,name:''};else delete NOTES[k];
+  try{await api('/api/notes/set',{key:k,text:v,name:''})}catch{}
+  eqSig='';draw();
+});
 
 // --- en vivo (varias partidas a la vez) ---
 let WS={},sig='',logId=null,logN=0,LF='';
@@ -827,7 +908,7 @@ function popRender(anim){
   $('#ppbox').innerHTML=`<div class="pp-hd" style="background-image:linear-gradient(180deg,rgba(14,8,32,.3),rgba(14,8,32,.9))${cover}">
     <div class="pp-top"><div class="pp-meta">${esc(meta)}</div><div class="pp-ctl">
       <button id="ppp" type="button" title="Mapa anterior (←)" aria-label="Mapa anterior"${i?'':' disabled'}>‹</button><button id="ppn" type="button" title="Mapa siguiente (→)" aria-label="Mapa siguiente"${i<m.maps.length-1?'':' disabled'}>›</button><button id="ppx" type="button" title="Cerrar (Esc)" aria-label="Cerrar">✕</button></div></div>
-    <div><div class="pp-t">${esc(x.title)}${x.version?` [${esc(x.version)}]`:''}</div>${d.artist?`<div class="pp-a">${esc(d.artist)}</div>`:''}
+    <div><div class="pp-t">${esc(x.title)}${x.version?` [${esc(x.version)}]`:''}</div>${d.artist?`<div class="pp-a">${esc(d.artist)}</div>`:''}${slotInfo(x)}
     ${mods.length?`<div class="pp-chips">${mods.map(k=>`<span class="pp-chip">${esc(k)}</span>`).join('')}</div>`:''}</div></div>
     <div class="pp-list">${rows}</div>
     <div class="pp-ft">${tm('red')}<div class="pp-mid">${win?`<small>${nm(win)} gana</small><b class="${win==='red'?'r':'b'}" data-p="+" data-n="${Math.abs(x.red-x.blue)}">+${fmt(Math.abs(x.red-x.blue))}</b>`:'<small>Empate</small>'}</div>${tm('blue')}
@@ -891,7 +972,7 @@ function plTour(uid){
 const plRes=(m,team)=>!m.maps.length||!team?'-':!m.closed?'En juego':m.rm===m.bm?'Empate':((m.rm>m.bm?'red':'blue')===team?'Ganó':'Perdió');
 const plTile=(l,v,sub)=>`<div class="tile"><b>${v}</b><small>${l}</small>${sub?`<em>${sub}</em>`:''}</div>`;
 const plRatio=r=>r==null?'-':`<b class="${r>=1?'pl-up':'pl-dn'}">×${r.toFixed(2)}</b>`;
-const plWhere=r=>`${esc(r.x.title)}${r.x.version?` [${esc(r.x.version)}]`:''} · ${esc(r.m.name)}`;
+const plWhere=r=>`${slotChip(slotOf(r.x.bid,roundOf(r.m)))} ${esc(r.x.title)}${r.x.version?` [${esc(r.x.version)}]`:''} · ${esc(r.m.name)}`;
 
 let plSig='',plT=null,plFrom=null;
 function plOpen(uid,mid,from){
@@ -920,12 +1001,12 @@ function plRender(anim){
      <div class="tiles">${plTile('Match cost',f2(c&&c.cost),pm.rank?`#${pm.rank} de ${pm.of}`:'')}${plTile('Ratio prom.',f2(c&&c.ratio))}
       ${plTile('Mapas jugados',`${c?c.maps:pm.played}/${c?c.total:m.maps.length}`)}${plTile('Mapas ganados',pm.played?`${pm.won}/${pm.played}`:'-','por su equipo')}
       ${plTile('Score prom.',pm.score==null?'-':fmt(pm.score),'mapas pasados')}${plTile('Accuracy',pct(pm.acc))}${plTile('Misses/mapa',f1(pm.miss))}</div>
-     ${pm.best?`<div class="pl-rec"><div><span>Mejor mapa</span><b>${esc(pm.best.x.title)}${pm.best.x.version?` [${esc(pm.best.x.version)}]`:''}</b><span>${fmt(pm.best.s.score)} · ${pct(pm.best.s.acc)}</span></div></div>`:''}
+     ${pm.best?`<div class="pl-rec"><div><span>Mejor mapa</span><b>${slotChip(slotOf(pm.best.x.bid,roundOf(m)))} ${esc(pm.best.x.title)}${pm.best.x.version?` [${esc(pm.best.x.version)}]`:''}</b><span>${fmt(pm.best.s.score)} · ${pct(pm.best.s.acc)}</span></div></div>`:''}
      <h4>Mapa por mapa <span class="mu" style="text-transform:none;letter-spacing:0;font-weight:400">· "vs prom." = su score contra el promedio de todos en ese mapa · clic para ver el mapa</span></h4>
      <div class="pl-maps">${pm.rows.map(r=>{const s=r.s,rk=RKP[s.rank]||s.rank||'-';
       return `<div class="pl-map${s.passed?'':' fail'}" data-g="${r.x.gid}" tabindex="0" role="button" aria-label="Ver el mapa ${r.i+1}">
        <span class="mnum">#${r.i+1}</span>${cov(r.x.set)||'<span class="cov"></span>'}
-       <div class="mtt"><b>${esc(r.x.title)}</b><small>${esc(r.x.version||'')}</small></div>
+       <div class="mtt"><b>${esc(r.x.title)}</b><small>${slotChip(slotOf(r.x.bid))} ${esc(r.x.version||'')}</small></div>
        <div class="pl-c"><small>Score</small><b>${fmt(s.score)}</b></div><div class="pl-c"><small>Accuracy</small><b>${pct(s.acc)}</b></div>
        <div class="pl-c hm"><small>Combo</small><b>${s.combo==null?'-':s.combo+'x'}</b></div><div class="pl-c hm"><small>Misses</small><b>${s.st?s.st.x:'-'}</b></div>
        <div class="pl-c"><small>vs prom.</small>${plRatio(r.ratio)}</div>

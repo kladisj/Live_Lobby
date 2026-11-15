@@ -7,6 +7,8 @@ Pone este archivo en una carpeta que contenga las dos carpetas de los repos
 Necesita: requests y python-dotenv (los de livelobby).
 """
 import contextlib
+import csv
+import io
 from dataclasses import asdict
 import json
 import logging
@@ -15,6 +17,8 @@ import re
 import sys
 import threading
 import time
+import urllib.error
+import urllib.request
 import webbrowser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -480,7 +484,7 @@ def _score_row(m, s):
 
 def _map_json(m, g, r):
     """Un mapa de la línea de tiempo (r) con el detalle de sus jugadores (g) para el popup."""
-    out = {"gid": r.game_id, "title": r.title, "version": r.version, "red": r.red, "blue": r.blue,
+    out = {"gid": r.game_id, "bid": (g.beatmap_id if g is not None else None), "title": r.title, "version": r.version, "red": r.red, "blue": r.blue,
            "winner": r.winner, "set": r.beatmapset_id, "flipped": r.flipped}
     if g is not None:
         out["d"] = {"artist": g.artist, "stars": g.stars, "start": g.start_time, "end": g.end_time,
@@ -522,7 +526,7 @@ def _dash_match(m0, skip):
                      "maps": r[0], "score": r[1] / r[0], "acc": r[2] / r[0],
                      "miss": r[3] / r[4] if r[4] else None} for u, r in rows.items()],
         "hard": ({"title": h.title, "version": h.version, "stars": h.stars, "acc": h.avg_accuracy,
-                  "miss": h.avg_misses, "set": h.beatmapset_id} if h else None),
+                  "miss": h.avg_misses, "set": h.beatmapset_id, "bid": h.beatmap_id} if h else None),
     }
 
 
@@ -569,7 +573,7 @@ def api_dashboard(d):
 # nota nunca pisa las demás.
 NOTES_FILE = HERE / "notas_equipos.json"
 _NOTES_LOCK = threading.Lock()
-_NOTE_KEY = re.compile(r"^(t:[A-Z]{2}|p:\d{1,12})$")
+_NOTE_KEY = re.compile(r"^(t:[A-Z]{2}|p:\d{1,12}|r:\d{1,12})$")  # r: = ronda elegida a mano para una partida
 
 
 def _notes_read():
@@ -613,10 +617,147 @@ def api_notes_set(d):
     return {"ok": True}
 
 
+# --- mappools (hoja de cálculo del torneo) -----------------------------------------
+# La hoja trae un bloque por ronda: fila con el nombre ("ROUND OF 16"), fila de encabezados
+# (id, artist - title [difficulty], sr, ..., map id, featured artist, notes) y una fila por mapa
+# (NM1, HD2, TB...). Se baja como CSV, se guarda en pools.json y el panel cruza por "map id".
+# Los badges ORIGINAL / NEW son imágenes en la hoja y no salen en el CSV: se pueden cargar a mano en
+# pools_extra.json  ->  {"5991834": {"tags": ["ORIGINAL", "NEW"]}}
+POOLS_FILE = HERE / "pools.json"
+POOLS_EXTRA = HERE / "pools_extra.json"
+_SLOT = re.compile(r"^[A-Z]{2}\d*$")
+
+
+def _num(txt):
+    m = re.search(r"\d+(?:\.\d+)?", txt or "")
+    return float(m.group()) if m else None
+
+
+_ROUND_ORDER = [r"qualif", r"group|grupo", r"32", r"16", r"quarter|cuartos", r"semi", r"^(?!.*grand).*final", r"grand"]
+
+
+def _round_rank(name):
+    low = str(name).lower()
+    return next((i for i, rx in enumerate(_ROUND_ORDER) if re.search(rx, low)), 99)
+
+
+def dedupe_rounds(rounds):
+    """Saca los bloques que son copia exacta de otro (mismos mapas): suelen ser plantillas de rondas futuras,
+    a veces en filas ocultas de la hoja, que el CSV exporta igual. Se queda con la ronda más temprana del torneo.
+    Cuando publiquen el pool real de una ronda, ya no será igual y aparece sola."""
+    keep = {}
+    for i, r in enumerate(rounds):
+        sig = tuple(sorted(m["bid"] for m in r["maps"]))
+        best = keep.get(sig)
+        if best is None or (_round_rank(r["name"]), i) < (_round_rank(rounds[best]["name"]), best):
+            keep[sig] = i
+    return [r for i, r in enumerate(rounds) if i in keep.values()]
+
+
+def parse_pools_csv(text):
+    """CSV de la pestaña de mappools -> [{"name": "ROUND OF 16", "maps": [{...}]}]. Lee por contenido:
+    encuentra cada fila de encabezados (la que tiene 'id' y 'map id'), así que no depende de las columnas."""
+    rows = [[c.strip() for c in r] for r in csv.reader(io.StringIO(text))]
+    rounds = []
+    for hi, row in enumerate(rows):
+        low = [c.lower() for c in row]
+        if "map id" not in low or "id" not in low:
+            continue
+        col = {}
+        for i, c in enumerate(low):
+            key = ("title" if c.startswith("artist") else c)
+            col.setdefault(key, i)
+        get = lambda r, k: (r[col[k]] if k in col and col[k] < len(r) else "")  # noqa: E731
+        name = ""
+        for j in range(hi - 1, -1, -1):  # el nombre de la ronda: primera fila con texto hacia arriba
+            name = next((c for c in rows[j] if c), "")
+            if name:
+                break
+        maps = []
+        for r in rows[hi + 1:]:
+            if not any(r):
+                if maps:
+                    break
+                continue
+            slot = get(r, "id").upper()
+            bid = _num(get(r, "map id"))
+            if not _SLOT.match(slot) or bid is None:
+                if maps:
+                    break
+                continue
+            maps.append({"slot": slot, "title": get(r, "title"), "sr": _num(get(r, "sr")), "bpm": _num(get(r, "bpm")),
+                         "length": get(r, "length"), "cs": _num(get(r, "cs")), "ar": _num(get(r, "ar")),
+                         "od": _num(get(r, "od")), "mapper": get(r, "mapper"), "bid": int(bid),
+                         "fa": get(r, "featured artist"), "notes": get(r, "notes")})
+        if maps:
+            rounds.append({"name": name or f"Pool {len(rounds) + 1}", "maps": maps})
+    return dedupe_rounds(rounds)
+
+
+def _json_file(path, default):
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+        return data if isinstance(data, type(default)) else default
+    except (OSError, ValueError):
+        return default
+
+
+def api_pools_get(_=None):
+    data = _json_file(POOLS_FILE, {})
+    extra = _json_file(POOLS_EXTRA, {})
+    rounds = dedupe_rounds(data.get("rounds") or [])
+    for r in rounds:
+        for m in r["maps"]:
+            m["tags"] = [str(t) for t in (extra.get(str(m["bid"])) or {}).get("tags", [])]
+    return {"url": data.get("url", ""), "updated": data.get("updated"), "rounds": rounds}
+
+
+def _sheet_text(src):
+    """CSV de una hoja de Google (pública) o de un archivo .csv local."""
+    local = Path(src).expanduser()
+    if len(src) < 400 and local.is_file():
+        return local.read_text(encoding="utf-8-sig")
+    m = re.search(r"/spreadsheets/d/([\w-]+)", src)
+    if not m:
+        raise ValueError("pegá el link de la hoja de Google (o la ruta de un .csv)")
+    gid = re.search(r"[#?&]gid=(\d+)", src)
+    url = f"https://docs.google.com/spreadsheets/d/{m.group(1)}/export?format=csv&gid={gid.group(1) if gid else 0}"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 osu-lobby-tools"})
+        text = urllib.request.urlopen(req, timeout=20).read().decode("utf-8-sig")
+    except urllib.error.HTTPError as e:
+        raise ValueError(f"Google respondió {e.code}: la hoja tiene que estar compartida como «cualquiera con el enlace»") from e
+    except (urllib.error.URLError, OSError) as e:
+        raise ValueError(f"no pude bajar la hoja: {getattr(e, 'reason', e)}") from e
+    if text.lstrip().lower().startswith("<"):  # Google devolvió una página de login en vez del CSV
+        raise ValueError("la hoja no es pública: compartila como «cualquiera con el enlace»")
+    return text
+
+
+def api_pools_update(d):
+    src = str(d.get("url") or "").strip()
+    if not src:
+        return {"error": "pegá el link de la hoja de mappools"}
+    try:
+        rounds = parse_pools_csv(_sheet_text(src))
+    except (ValueError, OSError) as e:
+        return {"error": str(e)}
+    if not rounds:
+        return {"error": "no encontré mappools en esa hoja (¿es la pestaña de Mappools?)"}
+    tmp = POOLS_FILE.with_name(POOLS_FILE.name + ".tmp")
+    try:
+        tmp.write_text(json.dumps({"url": src, "updated": time.strftime("%Y-%m-%d %H:%M"), "rounds": rounds},
+                                  ensure_ascii=False, indent=1), encoding="utf-8")
+        os.replace(tmp, POOLS_FILE)
+    except OSError as e:
+        return {"error": str(e)}
+    return api_pools_get()
+
+
 ROUTES_POST = {"/api/watch/start": api_watch_start, "/api/watch/stop": api_watch_stop,
                "/api/stats": api_stats,
                "/api/mkdir": api_mkdir, "/api/dashboard": api_dashboard,
-               "/api/notes/set": api_notes_set}
+               "/api/notes/set": api_notes_set, "/api/pools/update": api_pools_update}
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -644,6 +785,8 @@ class Handler(BaseHTTPRequestHandler):
             return self._send(200, json.dumps(api_browse(parse_qs(u.query)), ensure_ascii=False))
         if u.path == "/api/notes":
             return self._send(200, json.dumps(api_notes_get(), ensure_ascii=False))
+        if u.path == "/api/pools":
+            return self._send(200, json.dumps(api_pools_get(), ensure_ascii=False))
         if u.path == "/api/files":
             return self._send(200, json.dumps(api_files(None)))
         self._send(404, "{}")

@@ -28,6 +28,11 @@ def test_guardar_leer_y_borrar_una_nota():
     assert list(osu_gui.api_notes_get()["notes"]) == ["p:123"]
 
 
+def test_ronda_manual_de_una_partida():
+    assert osu_gui.api_notes_set({"key": "r:122095688", "text": "GROUPS"}) == {"ok": True}
+    assert osu_gui.api_notes_get()["notes"]["r:122095688"]["text"] == "GROUPS"
+
+
 @pytest.mark.parametrize("key", ["", "t:ar", "t:ARG", "p:abc", "x:1", "../p:1", "p:1234567890123"])
 def test_claves_no_validas(key, notes_file):
     assert "error" in osu_gui.api_notes_set({"key": key, "text": "x"})
