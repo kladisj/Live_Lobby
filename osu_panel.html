@@ -963,15 +963,23 @@ function plMatch(m,uid){  // lo que hizo uid en la partida m (null si no jugó)
 }
 function plTour(uid){
   const T=S.d.torneo,k=T.all.findIndex(p=>p.uid===uid),ms=[];let bs=null,ba=null;
+  const br=new Map();  // ronda -> mejor score y mejor accuracy en esa ronda
   S.d.matches.forEach(m=>{const pm=plMatch(m,uid);if(!pm)return;ms.push({m,pm});
+    const rn=POOLS.rounds.length?roundOf(m):null;
     pm.rows.forEach(r=>{if(!r.s.passed)return;
       if(!bs||r.s.score>bs.s.score)bs={...r,m};
-      if(!ba||r.s.acc>ba.s.acc)ba={...r,m}})});
-  return{t:k<0?null:T.all[k],rank:k<0?null:k+1,of:T.all.length,ms,bs,ba};
+      if(!ba||r.s.acc>ba.s.acc)ba={...r,m};
+      if(rn){const e=br.get(rn)||{rn,bs:null,ba:null};br.set(rn,e);
+        if(!e.bs||r.s.score>e.bs.s.score)e.bs={...r,m};
+        if(!e.ba||r.s.acc>e.ba.s.acc)e.ba={...r,m}}})});
+  const rounds=[...br.values()].sort((a,b)=>rrank(a.rn)-rrank(b.rn));
+  return{t:k<0?null:T.all[k],rank:k<0?null:k+1,of:T.all.length,ms,bs,ba,rounds};
 }
 const plRes=(m,team)=>!m.maps.length||!team?'-':!m.closed?'En juego':m.rm===m.bm?'Empate':((m.rm>m.bm?'red':'blue')===team?'Ganó':'Perdió');
 const plTile=(l,v,sub)=>`<div class="tile"><b>${v}</b><small>${l}</small>${sub?`<em>${sub}</em>`:''}</div>`;
 const plRatio=r=>r==null?'-':`<b class="${r>=1?'pl-up':'pl-dn'}">×${r.toFixed(2)}</b>`;
+const plRec=(bs,ba)=>bs||ba?`<div class="pl-rec">${bs?`<div><span>Mayor score</span><b>${fmt(bs.s.score)}</b><span>${plWhere(bs)}</span></div>`:''}${ba?`<div><span>Mejor accuracy</span><b>${pct(ba.s.acc)}</b><span>${plWhere(ba)}</span></div>`:''}</div>`:'';
+const plRecs=tr=>tr.rounds.length>1?tr.rounds.map(e=>`<h4>${esc(e.rn)}</h4>${plRec(e.bs,e.ba)}`).join(''):plRec(tr.bs,tr.ba);
 const plWhere=r=>`${slotChip(slotOf(r.x.bid,roundOf(r.m)))} ${esc(r.x.title)}${r.x.version?` [${esc(r.x.version)}]`:''} · ${esc(r.m.name)}`;
 
 let plSig='',plT=null,plFrom=null;
@@ -1017,7 +1025,7 @@ function plRender(anim){
     body=!t?'<div class="mempty">Sin datos de este jugador en el torneo.</div>':`
      <div class="tiles">${plTile('Puesto',`#${tr.rank}`,`de ${tr.of} · por cost`)}${plTile('Partidas',t.matches)}${plTile('Mapas',t.maps)}${plTile('MVP',t.mvps,'mejor cost de la partida')}
       ${plTile('Cost prom.',f2(t.cost))}${plTile('Ratio prom.',f2(t.ratio))}${plTile('Score prom.',fmt(t.score),'mapas pasados')}${plTile('Accuracy',pct(t.acc))}${plTile('Misses/mapa',f2(t.miss))}</div>
-     ${tr.bs||tr.ba?`<div class="pl-rec">${tr.bs?`<div><span>Mayor score</span><b>${fmt(tr.bs.s.score)}</b><span>${plWhere(tr.bs)}</span></div>`:''}${tr.ba?`<div><span>Mejor accuracy</span><b>${pct(tr.ba.s.acc)}</b><span>${plWhere(tr.ba)}</span></div>`:''}</div>`:''}
+     ${plRecs(tr)}
      <h4>Partidas que jugó <span class="mu" style="text-transform:none;letter-spacing:0;font-weight:400">· clic en una para ver su detalle</span></h4>
      <div class="tbl"><table><tr><th>Partida</th><th>Resultado</th><th>Cost</th><th>Puesto</th><th>Ratio</th><th>Mapas</th><th>Mapas ganados</th></tr>
      ${tr.ms.map(({m:mm,pm:q})=>{const l=mm.labels,mine=q.team,own=t=>t===mine?' style="font-weight:700;color:#fff"':'';
