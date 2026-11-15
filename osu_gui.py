@@ -526,6 +526,13 @@ def _dash_match(m0, skip):
     }
 
 
+def _ptot(p):
+    """Los totales de un jugador en el torneo (para la tabla y para su popup de estadísticas)."""
+    return {"uid": p.user_id, "name": p.username, "cc": p.country, "matches": p.matches, "maps": p.maps,
+            "mvps": p.mvps, "cost": p.avg_cost, "ratio": p.avg_ratio, "score": p.avg_score,
+            "acc": p.avg_acc, "miss": p.misses_per_map if p.miss_n else None}
+
+
 def api_dashboard(d):
     if (r := _falta("osuctools")):
         return r
@@ -546,10 +553,8 @@ def api_dashboard(d):
         "open": s.open_matches, "records": s.records, "skipped": s.skipped_standings,
         "standings": [{**asdict(t), "map_diff": t.map_diff} for t in s.standings],
         "results": [{**asdict(r), "winner": r.winner} for r in s.results],
-        "top": [{"name": p.username, "cc": p.country, "matches": p.matches, "maps": p.maps,
-                 "mvps": p.mvps, "cost": p.avg_cost, "ratio": p.avg_ratio, "score": p.avg_score,
-                 "acc": p.avg_acc, "miss": p.misses_per_map if p.miss_n else None}
-                for p in s.player_totals[:20]],
+        "top": [_ptot(p) for p in s.player_totals[:20]],
+        "all": [_ptot(p) for p in s.player_totals],  # todos, en orden de cost promedio (puesto = posición + 1)
         "maps": [{"title": t.title, "version": t.version, "stars": t.stars, "plays": t.plays,
                   "score": t.avg_score, "acc": t.avg_acc, "miss": t.avg_misses if t.miss_n else None}
                  for t in s.map_totals[:12]],

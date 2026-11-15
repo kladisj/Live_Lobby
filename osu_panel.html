@@ -79,6 +79,22 @@ background:linear-gradient(180deg,rgba(28,15,66,.9),rgba(13,6,34,.94));border:1.
 .tgl:hover{border-color:#8b5cf6}.tgl:focus-visible{outline:2px solid #fff;outline-offset:2px}
 .tgl svg{width:18px;height:18px;transform:rotate(180deg);transition:transform .22s}.hdr.min .tgl svg{transform:none}
 @media(prefers-reduced-motion:reduce){.hdr,.hcol,.tgl svg{transition:none}}
+/* popup de un jugador */
+.plk{cursor:pointer;transition:background .18s,color .18s,box-shadow .18s}.plk:focus-visible{outline:2px solid #a78bfa;outline-offset:2px}
+tr.plk:hover,tr.plk:focus-visible{background:rgba(255,255,255,.05)}tr.plk:focus-visible{outline-offset:-2px}
+span.plk{padding:1px 6px;margin:0 -2px;border-radius:7px}span.plk:hover,span.plk:focus-visible{background:rgba(255,255,255,.08);color:#fff}
+.mvp.plk{padding:10px;margin:-10px;border-radius:18px}.mvp.plk:hover,.mvp.plk:focus-visible{background:rgba(255,255,255,.05)}.mvp.plk .mav img.av{transition:border-color .18s,box-shadow .18s}.mvp.plk:hover .mav img.av,.mvp.plk:focus-visible .mav img.av{border-color:#a78bfa;box-shadow:0 0 0 4px rgba(167,139,250,.18)}
+.pl-hd{min-height:150px}.pl-hd.red{background-image:linear-gradient(110deg,rgba(240,83,155,.38),rgba(26,18,54,.96) 62%)}.pl-hd.blue{background-image:linear-gradient(110deg,rgba(77,163,255,.36),rgba(26,18,54,.96) 62%)}.pl-hd.none{background-image:linear-gradient(110deg,rgba(168,85,247,.30),rgba(26,18,54,.96) 62%)}
+.pl-id{display:flex;align-items:center;gap:16px}.pl-id .mav img.av{width:84px;height:84px}.pl-id .pp-t{font-size:26px}
+.pl-tabs{display:flex;gap:8px;padding:12px 18px 0;flex-wrap:wrap}.pl-tabs button{background:#241a4a;color:var(--mu);border:1px solid var(--bd);border-radius:999px;padding:7px 16px;font:inherit;font-weight:600;cursor:pointer}.pl-tabs button small{font-weight:400;margin-left:6px}.pl-tabs button.on{background:#4b2f9a;color:#fff;border-color:#8b5cf6}
+.pl-body{padding:14px 18px 18px;display:grid;gap:14px}.pl-body h4{margin:0;font-size:13px;color:var(--mu);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.pl-body .tile em{display:block;font-style:normal;font-size:11px;color:#bfaef5;margin-top:2px}
+.pl-rec{display:grid;gap:6px;font-size:13px}.pl-rec div{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;background:rgba(255,255,255,.04);border-radius:10px;padding:8px 12px}.pl-rec span{color:var(--mu)}.pl-rec b{color:var(--tx)}
+.pl-maps{display:grid;gap:8px}.pl-map{display:grid;grid-template-columns:28px 64px minmax(0,1.5fr) repeat(5,minmax(0,.7fr)) 50px 28px;gap:12px;align-items:center;padding:8px 12px;border-radius:12px;background:#241a4a;border:1px solid rgba(255,255,255,.06);cursor:pointer}.pl-map:hover,.pl-map:focus-visible{border-color:#8b5cf6;outline:0}.pl-map.fail{opacity:.65}
+.pl-map .cov{width:64px;height:40px;border-radius:8px}.pl-c{text-align:center;line-height:1.25}.pl-c small{display:block;color:var(--mu);font-size:11px}.pl-c b{font-size:13px}.pl-up{color:var(--ok)}.pl-dn{color:var(--er)}
+.pl-w{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;font-size:12px;font-weight:800}.pl-w.win{background:rgba(76,195,138,.2);color:var(--ok)}.pl-w.lose{background:rgba(255,107,122,.18);color:var(--er)}.pl-w.nil{color:var(--mu)}
+.pl-body table td,.pl-body table th{white-space:nowrap}.pl-body tr[data-m]{cursor:pointer}.pl-body tr[data-m]:hover,.pl-body tr[data-m]:focus-visible{background:rgba(255,255,255,.05);outline:0}
+@media(max-width:760px){.pl-map{grid-template-columns:26px minmax(0,1fr) repeat(3,auto) 26px}.pl-map .cov,.pl-map .pl-c.hm{display:none}.pl-id .pp-t{font-size:21px}}
 /* selector de partida */
 .msel-btn{display:block;background:transparent;border:0;color:inherit;font:inherit;font-weight:500;padding:0 26px 0 0;cursor:pointer;min-width:0;max-width:min(54ch,64vw);text-align:left;outline:0;overflow:hidden}
 #mseltxt{display:inline-grid;grid-template-columns:auto auto auto;align-items:center;gap:10px;white-space:nowrap}
@@ -112,8 +128,8 @@ background:linear-gradient(180deg,rgba(28,15,66,.9),rgba(13,6,34,.94));border:1.
 /* popup con el detalle de un mapa */
 ul.tl li[data-g]{cursor:pointer;border-radius:10px;transition:background .15s}
 ul.tl li[data-g]:hover{background:rgba(168,85,247,.09)}ul.tl li[data-g]:focus-visible{outline:2px solid var(--ac);outline-offset:-2px}
-#mapop{position:fixed;inset:0;z-index:40;display:flex;justify-content:center;padding:4vh 16px;background:rgba(6,3,16,.74);backdrop-filter:blur(3px);overflow:auto;overscroll-behavior:contain}
-#mapop[hidden]{display:none}
+#mapop,#plpop{position:fixed;inset:0;z-index:40;display:flex;justify-content:center;padding:4vh 16px;background:rgba(6,3,16,.74);backdrop-filter:blur(3px);overflow:auto;overscroll-behavior:contain}
+#mapop[hidden],#plpop[hidden]{display:none}
 .pp-box{width:min(980px,100%);margin:auto 0;background:#1a1236;border:1px solid #4a3792;border-radius:18px;box-shadow:0 24px 60px rgba(0,0,0,.65);overflow:hidden}
 .pp-hd{min-height:176px;padding:14px 18px 16px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;background:#241a4a center/cover}
 .pp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
@@ -154,8 +170,8 @@ ul.tl li[data-g]:hover{background:rgba(168,85,247,.09)}ul.tl li[data-g]:focus-vi
 @keyframes ppRowF{from{opacity:0;transform:translateY(12px)}to{opacity:.6;transform:none}}
 @keyframes ppSN{from{opacity:0;transform:translateX(38px)}to{opacity:1;transform:none}}
 @keyframes ppSP{from{opacity:0;transform:translateX(-38px)}to{opacity:1;transform:none}}
-#mapop{animation:ppFade .2s ease}.pp-box{animation:ppIn .3s cubic-bezier(.2,.8,.2,1)}
-#mapop.out{animation:ppFadeOut .17s ease forwards}#mapop.out .pp-box{animation:ppOut .17s ease forwards}
+#mapop,#plpop{animation:ppFade .2s ease}.pp-box{animation:ppIn .3s cubic-bezier(.2,.8,.2,1)}
+#mapop.out,#plpop.out{animation:ppFadeOut .17s ease forwards}#mapop.out .pp-box,#plpop.out .pp-box{animation:ppOut .17s ease forwards}
 #ppbox.ppgo .pp-row{animation:ppRow .4s cubic-bezier(.2,.8,.2,1) backwards;animation-delay:calc(var(--i,0)*45ms + 90ms)}
 #ppbox.ppgo .pp-row.fail{animation-name:ppRowF}
 #ppbox.ppgo[data-dir="n"]>*{animation:ppSN .32s cubic-bezier(.2,.8,.2,1)}
@@ -377,6 +393,8 @@ ul.mapl li[data-g]:hover{border-color:rgba(168,85,247,.55)}ul.mapl li[data-g]:ho
 <div id="modal" hidden><div class="box"><div class="mh"><select id="msc"></select><input id="mpath"><button class="k" id="mgo">Ir</button></div>
 <ul id="mlist"></ul><div class="mf"><button class="k" id="mup">↑ Subir</button><button class="k pri" id="muse">Usar esta carpeta</button><button class="k" id="mx">Cerrar</button></div></div></div>
 
+<div id="plpop" hidden><div class="pp-box" id="plbox" role="dialog" aria-modal="true" aria-label="Estadísticas del jugador"></div></div>
+
 <div id="mapop" hidden><div class="pp-box" id="ppbox" role="dialog" aria-modal="true" aria-label="Detalle del mapa"></div></div>
 
 <script>
@@ -386,7 +404,7 @@ const api=async(p,b)=>(await fetch(p,b?{method:'POST',headers:{'Content-Type':'a
 const isCC=s=>/^[A-Z]{2}$/.test(s||''),RN=new Intl.DisplayNames(['es'],{type:'region'});
 const NOMBRES={HK:'Hong Kong',MO:'Macao'};
 const tname=c=>{if(!isCC(c))return c||'';if(NOMBRES[c])return NOMBRES[c];try{return RN.of(c)}catch{return c}};
-const fl=c=>isCC(c)?`<img class="fl" src="https://flagcdn.com/w40/${c.toLowerCase()}.png" alt="" onerror="this.remove()">`:'';
+const fl=(c,hi)=>isCC(c)?`<img class="fl" src="https://flagcdn.com/${hi?c.toLowerCase()+'.svg':'w80/'+c.toLowerCase()+'.png'}" alt="" onerror="this.remove()">`:'';  // hi = bandera grande: SVG (nítida a cualquier tamaño); chica: PNG al doble de resolución para pantallas retina
 const rbgOk=new Set();
 function rbgLoaded(img){img.classList.add('ld');rbgOk.add(+img.dataset.s)}
 const rbg=x=>{const s=+x.set;return s?`<img class="rbg${rbgOk.has(s)?' ld nofade':''}" src="https://assets.ppy.sh/beatmaps/${s}/covers/cover.jpg" alt="" data-s="${s}" onload="rbgLoaded(this)" onerror="this.nextElementSibling.remove();this.remove()"><i class="rtint ${x.winner==='red'?'r':x.winner==='blue'?'b':''}"></i>`:''};
@@ -412,13 +430,13 @@ async function load(){
   say('Cargando…','mu');
   const r=await api('/api/dashboard',{paths,skip:+$('#skip').value||0});
   if(r.error){say(r.error,'er');return}
-  S.d=r;if(S.mi>=r.matches.length)S.mi=0;
+  S.d=r;S.ver=(S.ver||0)+1;if(S.mi>=r.matches.length)S.mi=0;
   say(`${r.matches.length} partida(s) · ${new Date().toLocaleTimeString()}`,'ok');
   const w=$('#warn');w.style.display=r.warnings.length?'block':'none';w.textContent=r.warnings.join('\n');
   try{localStorage.osuSrc=$('#src').value;localStorage.osuSkip=$('#skip').value}catch{}
   draw();
 }
-const draw=()=>{vMatches();vMatch();vTorneo();updHdr();updSide()};
+const draw=()=>{vMatches();vMatch();vTorneo();updHdr();updSide();if(S.pl)plRender()};
 
 function lineChart(ms,wide){
   const W=wide?1100:520,H=wide?250:190,P=wide?60:46,FS=wide?12:10,n=ms.length;if(!n)return '<span class="mu">Sin mapas por equipos.</span>';
@@ -487,13 +505,13 @@ function vMatch(){
   const tp=t=>rows.filter(r=>r.team==t).sort((a,b)=>(b.cost??-1)-(a.cost??-1));
   const rkc=r=>r.rank==null?'':`<span class="rk${r.rank<=3?' gd':''}" title="Puesto en el match cost de toda la partida">#${r.rank}</span>`;
   const tbl=t=>`<div class="cd"><h3><span>${fl(L[t])}${nm(t)}</span></h3><div class="tbl"><table><tr><th>Jugador</th><th>Mapas</th><th title="Match cost de la partida">Cost</th><th title="Ratio promedio de score contra el promedio de cada mapa">Ratio</th><th>Score prom.</th><th>Accuracy</th><th>Misses</th></tr>
-   ${tp(t).map(p=>`<tr class="t-${t}"><td>${av(p.uid)}${esc(p.name)}</td><td>${p.maps}</td><td class="cc"><span class="cst">${f2(p.cost)}</span>${rkc(p)}</td><td>${f2(p.ratio)}</td><td>${p.score==null?'-':fmt(p.score)}</td><td>${pct(p.acc)}</td><td>${f1(p.miss)}</td></tr>`).join('')||'<tr><td colspan=7 class="mu">Sin datos</td></tr>'}</table></div></div>`;
+   ${tp(t).map(p=>`<tr class="t-${t} plk" data-u="${p.uid}" tabindex="0" aria-label="Ver estadísticas de ${esc(p.name)}"><td>${av(p.uid)}${esc(p.name)}</td><td>${p.maps}</td><td class="cc"><span class="cst">${f2(p.cost)}</span>${rkc(p)}</td><td>${f2(p.ratio)}</td><td>${p.score==null?'-':fmt(p.score)}</td><td>${pct(p.acc)}</td><td>${f1(p.miss)}</td></tr>`).join('')||'<tr><td colspan=7 class="mu">Sin datos</td></tr>'}</table></div></div>`;
   const ms=m.maps,n=ms.length,heroS=ms.length&&+ms[ms.length-1].set||0,sumR=ms.reduce((a,x)=>a+x.red,0),sumB=ms.reduce((a,x)=>a+x.blue,0);
   const h=m.hard,lead=sumR>sumB?'red':sumB>sumR?'blue':null,w=m.rm>m.bm?'red':m.bm>m.rm?'blue':null,lo=w==='red'?'blue':'red';
   const tour=m.name.includes(':')?m.name.split(':')[0].trim():'Partida';
   const when=m.t0?new Date(m.t0).toLocaleString('es',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}):'';
   const dur=(()=>{if(!m.t0||!m.t1)return '-';const t=Math.round(Math.max(0,new Date(m.t1)-new Date(m.t0))/60000),hh=Math.floor(t/60),mm=t%60;return hh?`${hh}h ${mm}m`:`${mm}m`})();
-  const hf=t=>fl(L[t]).replace('class="fl"','class="hf"');
+  const hf=t=>fl(L[t],1).replace('class="fl"','class="hf"');
   const ring=(v,t)=>{const R=40,C=2*Math.PI*R,f=Math.max(0,Math.min(1,v||0));return `<div class="ring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="${R}" fill="none" stroke="rgba(255,255,255,.09)" stroke-width="10"/><circle cx="50" cy="50" r="${R}" fill="none" stroke="var(--${t=='red'?'r':'b'})" stroke-width="10" stroke-linecap="round" stroke-dasharray="${(C*f).toFixed(1)} ${C.toFixed(1)}"/></svg><b>${pct(v)}</b></div>`};
   const kt=t=>{const a=mean(tp(t).map(p=>p.acc)),ms_=mean(tp(t).map(p=>p.miss)),sc=mean(tp(t).map(p=>p.score));
     return `<div class="kt2 ${t}"><h4>${fl(L[t])}${nm(t)}</h4>${ring(a,t)}<small>Precisión promedio</small><div class="pair"><div><b>${f1(ms_)}</b><small>Misses prom.</small></div><div><b>${sc==null?'-':fmt(sc)}</b><small>Score prom.</small></div></div></div>`};
@@ -511,9 +529,9 @@ function vMatch(){
     <div class="ht blue">${hf('blue')}<div><b>${nm('blue')}</b><small>${col('blue')}</small></div></div></div></div>
   ${liveCard(m)}
   <div class="g g3" style="margin-top:14px">
-   <div class="cd"><h3>${ci('star','gold')}MVP (match cost)<span class="mu">${m.closed?'Final':'Actual'}</span></h3>${best?`<div class="mvp"><div class="mav">${av(best.uid)}${fl(best.cc)}</div><div><b>${esc(best.name)}</b>
+   <div class="cd"><h3>${ci('star','gold')}MVP (match cost)<span class="mu">${m.closed?'Final':'Actual'}</span></h3>${best?`<div class="mvp plk" data-u="${best.uid}" tabindex="0" role="button" aria-label="Ver estadísticas de ${esc(best.name)}"><div class="mav">${av(best.uid)}${fl(best.cc)}</div><div><b>${esc(best.name)}</b>
     <div class="mu">Match cost: <b style="color:var(--tx)">${f2(best.cost)}</b></div><div class="st"><div><b>${f2(best.ratio)}</b><small>Ratio prom.</small></div><div><b>${best.maps}/${best.total}</b><small>Mapas</small></div></div></div></div>
-    <div class="mu" style="margin-top:10px;font-size:12px">${m.costs.slice(1,4).map((c,i)=>`${i+2}. ${esc(c.name)} (${f2(c.cost)})`).join(' · ')}</div>`:'<span class="mu">Sin datos</span>'}</div>
+    <div class="mu" style="margin-top:10px;font-size:12px">${m.costs.slice(1,4).map((c,i)=>`<span class="plk" data-u="${c.uid}" tabindex="0" role="button">${i+2}. ${esc(c.name)} (${f2(c.cost)})</span>`).join(' · ')}</div>`:'<span class="mu">Sin datos</span>'}</div>
    <div class="cd hard"><h3>${ci('flame','fire')}Mapa más duro</h3>${h?`<div class="hrd">${cov(h.set,1)}<div><b class="hn" title="${esc(h.title)}">${esc(h.title)}</b><div class="mu">${esc(h.version||'')}</div>
     <div class="hst">${h.stars?`<span class="sbadge">★ ${h.stars.toFixed(2)}</span>`:''}</div>
     <div class="st"><div><b>${pct(h.acc)}</b><small>Acc. prom.</small></div><div><b>${f1(h.miss)}</b><small>Misses prom.</small></div></div></div></div>`:'<span class="mu">Sin datos</span>'}</div>
@@ -552,7 +570,7 @@ function vTorneo(){
    <div class="cd"><h3>${ci('swords')}Resultados</h3><ul class="tl">${T.results.map(r=>`<li><div><b>${tn(r.red)} <span class="r">${r.red_maps}</span> - <span class="b">${r.blue_maps}</span> ${tn(r.blue)}</b><small>${esc(r.name)}${r.closed?'':' · sin cierre'}</small></div>
     <span class="w mu">${r.maps?(r.winner?'gana '+esc(tname(r.winner)):'empate'):'sin mapas'}</span></li>`).join('')}</ul></div></div>
   <div class="cd" style="margin-bottom:14px"><h3>${ci('users')}Jugadores <span class="mu">por match cost promedio · mirá "ratio" para el rendimiento real</span></h3><div class="tbl"><table><tr><th>#  Jugador</th><th>Partidas</th><th>Mapas</th><th>MVP</th><th>Cost prom.</th><th>Ratio</th><th>Score prom.</th><th>Acc.</th><th>Miss/mapa</th></tr>
-   ${T.top.map((p,i)=>`<tr><td>${i+1} &nbsp;${fl(p.cc)}${esc(p.name)}</td><td>${p.matches}</td><td>${p.maps}</td><td>${p.mvps}</td><td>${f2(p.cost)}</td><td>${f2(p.ratio)}</td><td>${fmt(p.score)}</td><td>${pct(p.acc)}</td><td>${f2(p.miss)}</td></tr>`).join('')}</table></div></div>
+   ${T.top.map((p,i)=>`<tr class="plk" data-u="${p.uid}" tabindex="0" aria-label="Ver estadísticas de ${esc(p.name)}"><td>${i+1} &nbsp;${fl(p.cc)}${esc(p.name)}</td><td>${p.matches}</td><td>${p.maps}</td><td>${p.mvps}</td><td>${f2(p.cost)}</td><td>${f2(p.ratio)}</td><td>${fmt(p.score)}</td><td>${pct(p.acc)}</td><td>${f2(p.miss)}</td></tr>`).join('')}</table></div></div>
   <div class="g g2"><div class="cd"><h3>${ci('layers')}Mapas del pool</h3><div class="tbl"><table><tr><th>Mapa</th><th>★</th><th>Veces</th><th>Score prom.</th><th>Acc.</th><th>Miss</th></tr>
    ${T.maps.map(t=>`<tr><td>${esc(t.title)} <span class="mu">${esc(t.version||'')}</span></td><td>${t.stars?t.stars.toFixed(1):'-'}</td><td>${t.plays}</td><td>${fmt(t.score)}</td><td>${pct(t.acc)}</td><td>${f1(t.miss)}</td></tr>`).join('')}</table></div></div>
    <div class="cd"><h3>${ci('star','gold')}Récords</h3><ul class="tl">${T.records.map(([k,v])=>`<li><div><b>${esc(k)}</b><small>${esc(v)}</small></div></li>`).join('')||'<li class="mu">Sin datos</li>'}</ul></div></div>`;
@@ -650,6 +668,130 @@ document.addEventListener('keydown',e=>{
   else if(e.key==='ArrowLeft'){e.preventDefault();popStep(-1)}
   else if(e.key==='ArrowRight'){e.preventDefault();popStep(1)}
   else if(e.key==='Tab'){const bs=$$('#ppbox button:not(:disabled)');if(!bs.length)return;const f=bs[0],l=bs[bs.length-1];
+    if(e.shiftKey&&document.activeElement===f){e.preventDefault();l.focus()}else if(!e.shiftKey&&document.activeElement===l){e.preventDefault();f.focus()}}
+},true);
+
+// --- popup de un jugador: su rendimiento en la partida y en el torneo ---
+// Todo se calcula con los scores que ya vienen en cada mapa (no hace falta pedirle nada más al servidor).
+function plInfo(uid){
+  const t=S.d.torneo.all.find(p=>p.uid===uid);if(t)return{name:t.name,cc:t.cc};
+  for(const m of S.d.matches){const c=m.costs.find(x=>x.uid===uid)||m.players.find(x=>x.uid===uid);if(c)return{name:c.name,cc:c.cc}}
+  return{name:String(uid),cc:null};
+}
+function plMatch(m,uid){  // lo que hizo uid en la partida m (null si no jugó)
+  const ci=m.costs.findIndex(c=>c.uid===uid),c=ci<0?null:m.costs[ci],rows=[];
+  let won=0,passed=0,ss=0,sa=0,ms=0,mn=0;
+  m.maps.forEach((x,i)=>{
+    const sc=(x.d&&x.d.scores)||[],s=sc.find(z=>z.uid===uid);if(!s)return;
+    const avg=mean(sc.map(z=>z.score)),w=x.winner&&s.team?x.winner===s.team:null;
+    if(w)won++;
+    if(s.passed){passed++;ss+=s.score;sa+=s.acc;if(s.st){ms+=s.st.x;mn++}}
+    rows.push({i,x,s,w,ratio:avg?s.score/avg:null});
+  });
+  if(!c&&!rows.length)return null;
+  const pr=m.players.find(p=>p.uid===uid),ok=rows.filter(r=>r.s.passed);
+  return{c,rank:c?ci+1:null,of:m.costs.length,rows,won,played:rows.length,
+    team:(pr&&pr.team)||(c&&c.team)||(rows[0]&&rows[0].s.team)||null,
+    score:passed?ss/passed:null,acc:passed?sa/passed:null,miss:mn?ms/mn:null,
+    best:ok.reduce((b,r)=>!b||r.s.score>b.s.score?r:b,null)};
+}
+function plTour(uid){
+  const T=S.d.torneo,k=T.all.findIndex(p=>p.uid===uid),ms=[];let bs=null,ba=null;
+  S.d.matches.forEach(m=>{const pm=plMatch(m,uid);if(!pm)return;ms.push({m,pm});
+    pm.rows.forEach(r=>{if(!r.s.passed)return;
+      if(!bs||r.s.score>bs.s.score)bs={...r,m};
+      if(!ba||r.s.acc>ba.s.acc)ba={...r,m}})});
+  return{t:k<0?null:T.all[k],rank:k<0?null:k+1,of:T.all.length,ms,bs,ba};
+}
+const plRes=(m,team)=>!m.maps.length||!team?'-':!m.closed?'En juego':m.rm===m.bm?'Empate':((m.rm>m.bm?'red':'blue')===team?'Ganó':'Perdió');
+const plTile=(l,v,sub)=>`<div class="tile"><b>${v}</b><small>${l}</small>${sub?`<em>${sub}</em>`:''}</div>`;
+const plRatio=r=>r==null?'-':`<b class="${r>=1?'pl-up':'pl-dn'}">×${r.toFixed(2)}</b>`;
+const plWhere=r=>`${esc(r.x.title)}${r.x.version?` [${esc(r.x.version)}]`:''} · ${esc(r.m.name)}`;
+
+let plSig='',plT=null,plFrom=null;
+function plOpen(uid,mid,from){
+  if(!S.d)return;clearTimeout(plT);plFrom=from||null;
+  const o=$('#plpop');o.classList.remove('out');
+  S.pl={uid,mid:mid||null,tab:mid?'match':'tour'};plSig='';o.hidden=false;plRender(true);$('#plx').focus();
+}
+function plClose(noFocus){
+  S.pl=null;plSig='';
+  const o=$('#plpop');o.classList.add('out');clearTimeout(plT);plT=setTimeout(()=>{o.hidden=true;o.classList.remove('out')},170);
+  if(!noFocus&&plFrom&&plFrom.isConnected)plFrom.focus();
+}
+function plRender(anim){
+  const p=S.pl,D=S.d;if(!p||!D)return;
+  const m=p.mid?D.matches.find(x=>x.id===p.mid):null,tab=m&&p.tab==='match'?'match':'tour';
+  const sig=[p.uid,p.mid,tab,S.ver].join(':');
+  if(sig===plSig&&!$('#plpop').hidden)return;  // nada cambió: no se redibuja (así no se pierde el foco)
+  plSig=sig;$('#plbox').classList.toggle('ppgo',!!anim);
+  const info=plInfo(p.uid),pm=m?plMatch(m,p.uid):null,tr=plTour(p.uid);
+  const team=pm&&pm.team||null,L=m?m.labels:{};
+  const sub=tab==='match'&&m?m.name:`Torneo · ${D.torneo.n} partida${D.torneo.n==1?'':'s'}`;
+  let body='';
+  if(tab==='match'){
+    const c=pm&&pm.c;
+    body=!pm?'<div class="mempty">No jugó en esta partida.</div>':`
+     <div class="tiles">${plTile('Match cost',f2(c&&c.cost),pm.rank?`#${pm.rank} de ${pm.of}`:'')}${plTile('Ratio prom.',f2(c&&c.ratio))}
+      ${plTile('Mapas jugados',`${c?c.maps:pm.played}/${c?c.total:m.maps.length}`)}${plTile('Mapas ganados',pm.played?`${pm.won}/${pm.played}`:'-','por su equipo')}
+      ${plTile('Score prom.',pm.score==null?'-':fmt(pm.score),'mapas pasados')}${plTile('Accuracy',pct(pm.acc))}${plTile('Misses/mapa',f1(pm.miss))}</div>
+     ${pm.best?`<div class="pl-rec"><div><span>Mejor mapa</span><b>${esc(pm.best.x.title)}${pm.best.x.version?` [${esc(pm.best.x.version)}]`:''}</b><span>${fmt(pm.best.s.score)} · ${pct(pm.best.s.acc)}</span></div></div>`:''}
+     <h4>Mapa por mapa <span class="mu" style="text-transform:none;letter-spacing:0;font-weight:400">· "vs prom." = su score contra el promedio de todos en ese mapa · clic para ver el mapa</span></h4>
+     <div class="pl-maps">${pm.rows.map(r=>{const s=r.s,rk=RKP[s.rank]||s.rank||'-';
+      return `<div class="pl-map${s.passed?'':' fail'}" data-g="${r.x.gid}" tabindex="0" role="button" aria-label="Ver el mapa ${r.i+1}">
+       <span class="mnum">#${r.i+1}</span>${cov(r.x.set)||'<span class="cov"></span>'}
+       <div class="mtt"><b>${esc(r.x.title)}</b><small>${esc(r.x.version||'')}</small></div>
+       <div class="pl-c"><small>Score</small><b>${fmt(s.score)}</b></div><div class="pl-c"><small>Accuracy</small><b>${pct(s.acc)}</b></div>
+       <div class="pl-c hm"><small>Combo</small><b>${s.combo==null?'-':s.combo+'x'}</b></div><div class="pl-c hm"><small>Misses</small><b>${s.st?s.st.x:'-'}</b></div>
+       <div class="pl-c"><small>vs prom.</small>${plRatio(r.ratio)}</div>
+       <span class="pp-rank ${s.passed?'pk-'+String(rk).toLowerCase():'pk-f'}" title="${s.passed?'Rango':'No pasó el mapa'}">${s.passed?esc(rk):'Falló'}</span>
+       <span class="pl-w ${r.w==null?'nil':r.w?'win':'lose'}" title="${r.w==null?'':r.w?'Su equipo ganó el mapa':'Su equipo perdió el mapa'}">${r.w==null?'-':r.w?'G':'P'}</span></div>`}).join('')}</div>`;
+  }else{
+    const t=tr.t;
+    body=!t?'<div class="mempty">Sin datos de este jugador en el torneo.</div>':`
+     <div class="tiles">${plTile('Puesto',`#${tr.rank}`,`de ${tr.of} · por cost`)}${plTile('Partidas',t.matches)}${plTile('Mapas',t.maps)}${plTile('MVP',t.mvps,'mejor cost de la partida')}
+      ${plTile('Cost prom.',f2(t.cost))}${plTile('Ratio prom.',f2(t.ratio))}${plTile('Score prom.',fmt(t.score),'mapas pasados')}${plTile('Accuracy',pct(t.acc))}${plTile('Misses/mapa',f2(t.miss))}</div>
+     ${tr.bs||tr.ba?`<div class="pl-rec">${tr.bs?`<div><span>Mayor score</span><b>${fmt(tr.bs.s.score)}</b><span>${plWhere(tr.bs)}</span></div>`:''}${tr.ba?`<div><span>Mejor accuracy</span><b>${pct(tr.ba.s.acc)}</b><span>${plWhere(tr.ba)}</span></div>`:''}</div>`:''}
+     <h4>Partidas que jugó <span class="mu" style="text-transform:none;letter-spacing:0;font-weight:400">· clic en una para ver su detalle</span></h4>
+     <div class="tbl"><table><tr><th>Partida</th><th>Resultado</th><th>Cost</th><th>Puesto</th><th>Ratio</th><th>Mapas</th><th>Mapas ganados</th></tr>
+     ${tr.ms.map(({m:mm,pm:q})=>{const l=mm.labels,mine=q.team,own=t=>t===mine?' style="font-weight:700;color:#fff"':'';
+      return `<tr data-m="${mm.id}" tabindex="0" role="button"><td><span${own('red')}>${fl(l.red)}${esc(tname(l.red))}</span> <span class="mu">vs</span> <span${own('blue')}>${fl(l.blue)}${esc(tname(l.blue))}</span></td>
+       <td>${plRes(mm,mine)}</td><td>${f2(q.c&&q.c.cost)}</td><td>${q.rank?`#${q.rank}/${q.of}`:'-'}</td><td>${f2(q.c&&q.c.ratio)}</td><td>${q.c?q.c.maps:q.played}/${q.c?q.c.total:mm.maps.length}</td><td>${q.played?`${q.won}/${q.played}`:'-'}</td></tr>`}).join('')}</table></div>`;
+  }
+  const tabs=`<div class="pl-tabs">${m?`<button type="button" data-tab="match" class="${tab==='match'?'on':''}">Esta partida<small>${esc(m.name)}</small></button>`:''}<button type="button" data-tab="tour" class="${tab==='tour'?'on':''}">Torneo</button></div>`;
+  $('#plbox').innerHTML=`<div class="pp-hd pl-hd ${tab==='match'&&team==='red'?'red':tab==='match'&&team==='blue'?'blue':'none'}">
+    <div class="pp-top"><div class="pp-meta">${esc(sub)}</div><div class="pp-ctl"><button id="plx" type="button" title="Cerrar (Esc)" aria-label="Cerrar">✕</button></div></div>
+    <div class="pl-id"><div class="mav">${av(p.uid)}${fl(info.cc)}</div><div><div class="pp-t">${esc(info.name)}</div>
+     <div class="pp-a">${info.cc?esc(tname(info.cc)):''}${tab==='match'&&team&&L[team]?` · ${esc(team==='red'?'Equipo rojo':'Equipo azul')} en esta partida`:''}</div></div></div></div>
+    ${tabs}<div class="pl-body">${body}</div>`;
+}
+const plTrig=e=>{
+  const el=e.target.closest('[data-u]');if(!el||!S.d)return;
+  const m=el.closest('#v-match')?S.d.matches[S.mi]:null;
+  plOpen(+el.dataset.u,m?m.id:null,el);
+};
+['#v-match','#v-torneo'].forEach(q=>{
+  $(q).addEventListener('click',plTrig);
+  $(q).addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-u]')){e.preventDefault();plTrig(e)}});
+});
+$('#plbox').addEventListener('click',e=>{
+  const t=e.target.closest('#plx,[data-tab],[data-m],[data-g]');if(!t||!S.pl)return;
+  if(t.id==='plx')return plClose();
+  if(t.dataset.tab){S.pl.tab=t.dataset.tab;plSig='';plRender(false)}
+  else if(t.dataset.m){S.pl.mid=+t.dataset.m;S.pl.tab='match';plSig='';plRender(true);$('#plpop').scrollTop=0}
+  else if(t.dataset.g){  // abre el popup de ese mapa (en la partida que se está viendo en el popup)
+    const i=S.d.matches.findIndex(x=>x.id===S.pl.mid);if(i<0)return;
+    const gid=+t.dataset.g;plClose(true);
+    if(S.mi!==i){S.mi=i;vMatch();updHdr();updSide()}
+    popOpen(gid);
+  }
+});
+$('#plbox').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-m],[data-g]')){e.preventDefault();e.target.click()}});
+$('#plpop').addEventListener('mousedown',e=>{if(e.target.id==='plpop')plClose()});
+document.addEventListener('keydown',e=>{
+  if(!S.pl)return;
+  if(e.key==='Escape'){e.preventDefault();e.stopPropagation();plClose()}
+  else if(e.key==='Tab'){const bs=$$('#plbox button:not(:disabled),#plbox [tabindex="0"]');if(!bs.length)return;const f=bs[0],l=bs[bs.length-1];
     if(e.shiftKey&&document.activeElement===f){e.preventDefault();l.focus()}else if(!e.shiftKey&&document.activeElement===l){e.preventDefault();f.focus()}}
 },true);
 
