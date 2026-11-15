@@ -33,7 +33,7 @@ pre{background:#0b0620;border:1px solid var(--bd);border-radius:8px;padding:12px
 
 /* --- cabecera --- */
 [hidden]{display:none!important}
-.hdr{position:relative;display:flex;flex-direction:column;gap:0;padding:14px;transition:padding .22s ease;margin-bottom:16px;border-radius:22px;border:1px solid #3d2c78;
+.hdr{position:relative;z-index:8;display:flex;flex-direction:column;gap:0;padding:14px;transition:padding .22s ease;margin-bottom:16px;border-radius:22px;border:1px solid #3d2c78;
 background:radial-gradient(640px 230px at 100% 0,rgba(168,85,247,.34),transparent 70%),radial-gradient(420px 200px at 0 100%,rgba(240,83,155,.13),transparent 70%),linear-gradient(135deg,#1d1049,#130a30 60%,#1a0d3a);
 box-shadow:0 12px 36px rgba(8,3,24,.55),inset 0 1px 0 rgba(255,255,255,.06)}
 .hdr-bg{position:absolute;inset:0;border-radius:inherit;overflow:hidden;pointer-events:none}
@@ -361,10 +361,11 @@ ul.mapl li[data-g]:hover{border-color:rgba(168,85,247,.55)}ul.mapl li[data-g]:ho
 
 <section id="v-live" class="view"><div class="cd">
 <h3>Seguir partidas en vivo <span class="mu" id="lhint"></span></h3>
-<div class="row"><div style="grid-column:1/-1"><label>IDs o links de las partidas (una por línea; podés seguir varias a la vez)</label>
-<textarea id="lmatch" rows="4" style="width:100%" placeholder="122095688&#10;https://osu.ppy.sh/community/matches/122095999"></textarea></div>
+<div class="row"><div style="grid-column:1/-1"><label>IDs o links de las partidas (una por línea; podés seguir varias a la vez). Para elegir el nombre del archivo: <code>ID | nombre</code></label>
+<textarea id="lmatch" rows="4" style="width:100%" placeholder="122095688&#10;https://osu.ppy.sh/community/matches/122095999&#10;122096100 | final china vs francia"></textarea></div>
 <div><label>Carpeta donde guardar (un .jsonl por partida)</label><div style="display:flex;gap:6px"><input id="lfolder" value="partidas" style="flex:1"><button class="k" id="lbro">📂</button></div></div>
-<div><label>Segundos entre consultas (por partida)</label><input id="lint" type="number" min="1" value="5"></div></div>
+<div><label>Segundos entre consultas (por partida)</label><input id="lint" type="number" min="1" value="5"></div>
+<div><label>Nombre del archivo (si no ponés uno con "|")</label><select id="lname" style="width:100%"><option value="id">Solo el ID</option><option value="lobby">Nombre del lobby</option></select></div></div>
 <details class="mu" style="margin-bottom:12px"><summary>Credenciales de la API (vacío = usa tu archivo .env)</summary>
 <div class="row" style="margin-top:8px"><div><label>OSU_CLIENT_ID</label><input id="lcid"></div><div><label>OSU_CLIENT_SECRET</label><input id="lsec" type="password"></div></div>Solo se envían al programa local y no se guardan.</details>
 <div class="top"><button class="k pri" id="go">▶ Seguir estas partidas</button><button class="k" id="stop">■ Detener todas</button><button class="k" id="lview">Ver todas en el panel →</button><span id="lerr" class="er"></span></div>
@@ -575,7 +576,7 @@ $('#wl').onclick=async e=>{const b=e.target.closest('button');if(!b)return;
   if(b.dataset.stop){await api('/api/watch/stop',{id:+b.dataset.stop});sig='';tick()}
   if(b.dataset.log){logId=+b.dataset.log;logN=0;$('#log').textContent='';$('#logt').textContent='#'+logId;tick()}};
 $('#go').onclick=async()=>{
-  const r=await api('/api/watch/start',{match:$('#lmatch').value,folder:$('#lfolder').value,interval:$('#lint').value,cid:$('#lcid').value,secret:$('#lsec').value});
+  const r=await api('/api/watch/start',{match:$('#lmatch').value,folder:$('#lfolder').value,name_mode:$('#lname').value,interval:$('#lint').value,cid:$('#lcid').value,secret:$('#lsec').value});
   $('#lerr').textContent=r.error||(r.errors||[]).join(' · ');LF=r.folder||LF;
   if(r.started&&r.started.length){logId=r.started[0];logN=0;$('#log').textContent='';$('#logt').textContent='#'+logId}sig='';tick()};
 $('#stop').onclick=async()=>{await api('/api/watch/stop',{});sig='';tick()};

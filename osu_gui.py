@@ -171,13 +171,74 @@ def _fresh_live(st):
     return lv if age < STALE_GAME_SECONDS else None
 
 
-def watch_job(mid, out, interval, cid, secret):
+_RESERVED = {"CON", "PRN", "AUX", "NUL", *(f"COM{i}" for i in range(1, 10)), *(f"LPT{i}" for i in range(1, 10))}
+
+
+def _safe_filename(name, limit=120):
+    """Deja un texto usable como nombre de archivo en Windows, Mac y Linux (sin la extensión)."""
+    name = re.sub(r"\.jsonl$", "", str(name or "").strip(), flags=re.I)
+    name = re.sub(r'[<>:"/\\|?*\x00-\x1f]+', "-", name)
+    name = re.sub(r"\s+", " ", name).strip(" .-")
+    name = name[:limit].rstrip(" .-")
+    if name.upper() in _RESERVED:
+        name += "_"
+    return name
+
+
+def _jsonl_match_id(path):
+    """El match_id que dice la primera línea de un .jsonl (None si no se puede leer)."""
+    try:
+        with open(path, encoding="utf-8", errors="replace") as f:
+            for line in f:
+                if line.strip():
+                    rec = json.loads(line)
+                    return rec.get("match_id") if isinstance(rec, dict) else None
+    except (OSError, ValueError):
+        pass
+    return None
+
+
+def _existing_file(folder, mid):
+    """Un .jsonl de esta partida que ya esté en la carpeta (con el nombre que tenga), para seguir en él."""
+    try:
+        for p in sorted(folder.glob("*.jsonl")):
+            if _jsonl_match_id(p) == mid:
+                return p
+    except OSError:
+        pass
+    return None
+
+
+def _out_path(folder, mid, mode, custom, lobby_name):
+    """Dónde guardar la partida. Si ya hay un archivo de esa partida en la carpeta se sigue usando
+    (así no se duplica). Si no: el nombre elegido, el nombre del lobby o, sin nada, el ID solo."""
+    if (old := _existing_file(folder, mid)):
+        return old
+    base = ""
+    if custom:
+        base = _safe_filename(custom)
+    elif mode == "lobby":
+        base = _safe_filename(lobby_name)
+    base = base or str(mid)
+    path = folder / f"{base}.jsonl"
+    other = _jsonl_match_id(path) if path.exists() else None
+    if path.exists() and other != mid:  # otro lobby con el mismo nombre: se distingue con el ID
+        path = folder / f"{base} ({mid}).jsonl"
+    return path
+
+
+def watch_job(mid, folder, mode, custom, interval, cid, secret):
     st = WATCH[mid]
     L = lambda m: log(m, mid)  # noqa: E731
     _THREAD_MID[threading.get_ident()] = mid
     try:
         w = MatchWatcher(OsuClient(cid or None, secret or None), mid)
-        Path(out).parent.mkdir(parents=True, exist_ok=True)
+        # el historial se baja primero (no avisa a nadie todavía): de ahí sale el nombre del lobby
+        m = w.backfill()
+        existing = _existing_file(folder, mid)
+        out = _out_path(folder, mid, mode, custom, getattr(m, "name", None))
+        st["out"] = str(out)
+        out.parent.mkdir(parents=True, exist_ok=True)
         JsonlWriter(out, w)
         name_of = lambda uid: w.players[uid].username if uid in w.players else str(uid)  # noqa: E731
 
@@ -203,8 +264,9 @@ def watch_job(mid, out, interval, cid, secret):
         w.on("backfill", backfilled)
         w.on("game_started", started)
         w.on("game_finished", finished)
+        if existing:
+            L(f"ya había un archivo de esta partida, sigo en {out.name}")
         L(f"siguiendo la partida {mid} -> {out}")
-        m = w.backfill()
         cur = next((e.game for e in m.events if e.type == "game" and e.game.id == m.current_game_id
                     and not e.game.is_finished), None)  # si ya había un mapa en juego al empezar a seguir
         if cur:
@@ -239,15 +301,22 @@ def api_watch_start(d):
     """Empieza a seguir una o varias partidas (una por línea): un hilo y un .jsonl cada una."""
     if (r := _falta("livelobby")):
         return r
-    ids, errors = [], []
-    for raw in re.split(r"[\n,;]+", str(d.get("match", ""))):
-        if raw.strip():
-            try:
-                ids.append(parse_match(raw.strip()))
-            except Exception as e:  # noqa: BLE001
-                errors.append(f"{raw.strip()}: {e}")
+    ids, errors, names = [], [], {}
+    for line in str(d.get("match", "")).splitlines():
+        ref, _, custom = line.partition("|")  # "ID_O_LINK | nombre del archivo" (el nombre es opcional)
+        for raw in re.split(r"[,;]+", ref):
+            if raw.strip():
+                try:
+                    mid = parse_match(raw.strip())
+                except Exception as e:  # noqa: BLE001
+                    errors.append(f"{raw.strip()}: {e}")
+                    continue
+                ids.append(mid)
+                if custom.strip():
+                    names[mid] = custom.strip()
     if not ids and not errors:
         errors.append("pegá el ID o el link de al menos una partida")
+    mode = "lobby" if d.get("name_mode") == "lobby" else "id"
     interval = max(1.0, float(d.get("interval") or 5))
     folder = Path((d.get("folder") or "partidas").strip()).expanduser()
     started = []
@@ -258,9 +327,9 @@ def api_watch_start(d):
             continue
         WATCH[mid] = {"id": mid, "stop": threading.Event(), "log": [], "name": None, "playing": None, "live": None,
                       "games": 0, "ended": False, "error": None, "interval": interval,
-                      "out": str(folder / f"{mid}.jsonl")}
+                      "out": str(folder / f"{_safe_filename(names.get(mid)) or mid}.jsonl")}  # provisorio; se ajusta al arrancar
         t = threading.Thread(target=watch_job, daemon=True, args=(
-            mid, WATCH[mid]["out"], interval, (d.get("cid") or "").strip(), (d.get("secret") or "").strip()))
+            mid, folder, mode, names.get(mid), interval, (d.get("cid") or "").strip(), (d.get("secret") or "").strip()))
         WATCH[mid]["thread"] = t
         t.start()
         started.append(mid)
