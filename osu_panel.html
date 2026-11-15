@@ -87,6 +87,7 @@ span.plk{padding:1px 6px;margin:0 -2px;border-radius:7px}span.plk:hover,span.plk
 .pl-hd{min-height:150px}.pl-hd.red{background-image:linear-gradient(110deg,rgba(240,83,155,.38),rgba(26,18,54,.96) 62%)}.pl-hd.blue{background-image:linear-gradient(110deg,rgba(77,163,255,.36),rgba(26,18,54,.96) 62%)}.pl-hd.none{background-image:linear-gradient(110deg,rgba(168,85,247,.30),rgba(26,18,54,.96) 62%)}
 .pl-id{display:flex;align-items:center;gap:16px}.pl-id .mav img.av{width:84px;height:84px}.pl-id .pp-t{font-size:26px}
 .pl-tabs{display:flex;gap:8px;padding:12px 18px 0;flex-wrap:wrap}.pl-tabs button{background:#241a4a;color:var(--mu);border:1px solid var(--bd);border-radius:999px;padding:7px 16px;font:inherit;font-weight:600;cursor:pointer}.pl-tabs button small{font-weight:400;margin-left:6px}.pl-tabs button.on{background:#4b2f9a;color:#fff;border-color:#8b5cf6}
+.pl-sort{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:-4px}.pl-sort:before{content:"Ordenar por";color:var(--mu);font-size:12px;margin-right:2px}.pl-sort button{background:#241a4a;color:var(--mu);border:1px solid var(--bd);border-radius:999px;padding:4px 12px;font:inherit;font-size:12px;font-weight:600;cursor:pointer}.pl-sort button:hover{border-color:#8b5cf6}.pl-sort button:focus-visible{outline:2px solid #a78bfa;outline-offset:2px}.pl-sort button[aria-pressed=true]{background:#4b2f9a;color:#fff;border-color:#8b5cf6}.pl-sort i{font-style:normal;margin-left:5px}
 .pl-body{padding:14px 18px 18px;display:grid;gap:14px}.pl-body h4{margin:0;font-size:13px;color:var(--mu);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
 .pl-body .tile em{display:block;font-style:normal;font-size:11px;color:#bfaef5;margin-top:2px}
 .pl-rec{display:grid;gap:6px;font-size:13px}.pl-rec div{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;background:rgba(255,255,255,.04);border-radius:10px;padding:8px 12px}.pl-rec span{color:var(--mu)}.pl-rec b{color:var(--tx)}.pl-rec .slot{color:#0b0620}
@@ -332,6 +333,13 @@ ul.mapl li[data-g]:hover{border-color:rgba(168,85,247,.55)}ul.mapl li[data-g]:ho
 .mfcount{margin-left:auto;color:var(--mu);font-size:13px}.mfnone{padding:46px 20px;text-align:center;color:var(--mu)}.mfnone .k{margin-top:14px}
 
 .eq-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.lc-col{outline:0}.lc-col .lc-hv{opacity:0;pointer-events:none;transition:opacity .18s ease}.lc-col:hover .lc-hv,.lc-col:focus-visible .lc-hv{opacity:1}
+.lc-col :is(.lc-band,.lc-gl,.lc-halo,.lc-dot,.lc-tip){transform-box:fill-box;transform-origin:center}
+.lc-col .lc-band{transform:scaleX(.7);transition:transform .35s cubic-bezier(.2,.8,.2,1)}.lc-col .lc-gl{transform:scaleY(.15);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.lc-col .lc-halo{transform:scale(.3);transition:transform .4s cubic-bezier(.2,.8,.2,1)}.lc-col .lc-dot{transform:scale(.4);transition:transform .32s cubic-bezier(.34,1.56,.64,1)}
+.lc-col .lc-tip{transform:translateY(var(--dy,-9px)) scale(.9);transition:transform .32s cubic-bezier(.34,1.45,.64,1)}
+.lc-col:hover :is(.lc-band,.lc-gl,.lc-halo,.lc-dot,.lc-tip),.lc-col:focus-visible :is(.lc-band,.lc-gl,.lc-halo,.lc-dot,.lc-tip){transform:none}
+@media(prefers-reduced-motion:reduce){.lc-col .lc-hv,.lc-col .lc-hv *{transition:none!important;transform:none!important}}
 .eq-chip{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--ln);background:rgba(14,6,36,.62);color:#d9ccff;font:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:border-color .15s,background-color .15s}
 .eq-chip .fl{margin:0}.eq-chip:hover{border-color:#8b5cf6}.eq-chip[aria-pressed=true]{border-color:var(--r);background:rgba(240,83,155,.2);color:#fff}
 .eq-hd{display:flex;align-items:center;gap:16px;margin-bottom:14px;flex-wrap:wrap}.eq-hd .fl{width:64px;height:43px;margin:0;border-radius:6px;box-shadow:0 2px 10px rgba(0,0,0,.5)}
@@ -479,14 +487,35 @@ async function load(){
 }
 const draw=()=>{vMatches();vMatch();vTorneo();vEquipos();updHdr();updSide();if(S.pl)plRender()};
 
-function lineChart(ms,wide){
+function lineChart(ms,wide,nms){  // nms: nombres de los equipos (ya escapados) para el cuadro al pasar el mouse
   const W=wide?1100:520,H=wide?250:190,P=wide?60:46,FS=wide?12:10,n=ms.length;if(!n)return '<span class="mu">Sin mapas por equipos.</span>';
   const all=ms.flatMap(x=>[x.red,x.blue]),hi=Math.max(...all),lo=Math.min(...all),sp=hi-lo||hi||1,mn=Math.max(0,lo-sp*.3),mx=hi+sp*.15;
   const X=i=>P+(n==1?(W-2*P)/2:i*(W-2*P)/(n-1)),Y=v=>H-26-(v-mn)/(mx-mn)*(H-48),cf=new Intl.NumberFormat('es',{notation:'compact',maximumFractionDigits:1}).format;
   const pl=k=>ms.map((x,i)=>X(i)+','+Y(x[k])).join(' '),grid=[mn,(mn+mx)/2,mx].map(v=>`<line x1="${P}" x2="${W-P+10}" y1="${Y(v)}" y2="${Y(v)}" stroke="#33265e"/><text x="${P-8}" y="${Y(v)+4}" text-anchor="end" fill="#9a8fc0" font-size="${FS}">${cf(v)}</text>`).join('');
   const dots=k=>ms.map((x,i)=>`<circle cx="${X(i)}" cy="${Y(x[k])}" r="4" fill="var(--${k=='red'?'r':'b'})"/>`).join('');
+  // al pasar el mouse por un mapa: cómo iba la serie al terminar ese mapa y por cuánto se ganó (score de un equipo menos el del otro)
+  let ra=0,ba=0;
+  const cols=wide?ms.map((x,i)=>{
+    const wk=x.winner==='red'||x.winner==='blue'?x.winner:null,d=Math.abs(x.red-x.blue);
+    if(wk==='red')ra++;else if(wk==='blue')ba++;
+    const wn=wk?(nms?nms[wk]:wk==='red'?'Rojo':'Azul'):'',l3=wk?`${wn} ganó por ${fmt(d)}`:'Empate',
+      cw=n==1?W-2*P:(W-2*P)/(n-1),cx=X(i),y1=Y(x.red),y2=Y(x.blue),top=Math.min(y1,y2)-9,bot=Math.max(y1,y2)+9,
+      bw=Math.max(116,Math.round(l3.replace(/&[a-z#0-9]+;/gi,'x').length*FS*.62)+26),bh=64,
+      sT=4,sB=H-30-bh,ov=t=>Math.max(0,Math.min(t+bh,bot)-Math.max(t,top)),
+      ty=ov(sT)<=ov(sB)?sT:sB,  // el cuadro va arriba o abajo, donde menos tape las líneas
+      tx=Math.min(Math.max(cx-bw/2,4),W-bw-4),mid=tx+bw/2;
+    return `<g class="lc-col" role="img" tabindex="0" aria-label="Mapa ${i+1}: serie ${ra}-${ba}, ${l3}">
+    <rect x="${cx-cw/2}" y="0" width="${cw}" height="${H-20}" fill="#fff" fill-opacity="0"/>
+    <g class="lc-hv"><rect class="lc-band" x="${cx-cw/2+3}" y="14" width="${Math.max(0,cw-6)}" height="${H-40}" rx="10" fill="#8b5cf6" fill-opacity=".09"/>
+    <line class="lc-gl" x1="${cx}" x2="${cx}" y1="14" y2="${H-26}" stroke="#8b5cf6" stroke-opacity=".55" stroke-dasharray="3 3"/>
+    <circle class="lc-halo" cx="${cx}" cy="${y2}" r="13" fill="var(--b)" fill-opacity=".25"/><circle class="lc-halo" cx="${cx}" cy="${y1}" r="13" fill="var(--r)" fill-opacity=".25"/>
+    <circle class="lc-dot" cx="${cx}" cy="${y2}" r="6" fill="var(--b)" stroke="#fff" stroke-width="2"/><circle class="lc-dot" cx="${cx}" cy="${y1}" r="6" fill="var(--r)" stroke="#fff" stroke-width="2"/>
+    <g class="lc-tip" style="--dy:${ty===sT?-9:9}px"><rect x="${tx}" y="${ty}" width="${bw}" height="${bh}" rx="10" fill="#241a4a" stroke="#8b5cf6" stroke-opacity=".8"/>
+    <text x="${mid}" y="${ty+18}" text-anchor="middle" font-size="${FS}" fill="#9a8fc0">Mapa ${i+1}</text>
+    <text x="${mid}" y="${ty+40}" text-anchor="middle" font-size="${FS+7}" font-weight="700"><tspan fill="var(--r)">${ra}</tspan><tspan fill="#9a8fc0"> - </tspan><tspan fill="var(--b)">${ba}</tspan></text>
+    <text x="${mid}" y="${ty+57}" text-anchor="middle" font-size="${FS}" fill="${wk?`var(--${wk==='red'?'r':'b'})`:'#9a8fc0'}">${l3}</text></g></g></g>`}).join(''):'';
   return `<svg viewBox="0 0 ${W} ${H}" width="100%">${grid}${ms.map((_,i)=>`<text x="${X(i)}" y="${H-6}" text-anchor="middle" fill="#9a8fc0" font-size="${FS}">Mapa ${i+1}</text>`).join('')}
-  <polyline points="${pl('blue')}" fill="none" stroke="var(--b)" stroke-width="2.5"/><polyline points="${pl('red')}" fill="none" stroke="var(--r)" stroke-width="2.5"/>${dots('blue')}${dots('red')}</svg>`;
+  <polyline points="${pl('blue')}" fill="none" stroke="var(--b)" stroke-width="2.5"/><polyline points="${pl('red')}" fill="none" stroke="var(--r)" stroke-width="2.5"/>${dots('blue')}${dots('red')}${cols}</svg>`;
 }
 
 // --- partida en progreso: solo se sabe de las que se siguen desde "En vivo" (el .jsonl no guarda el mapa en juego) ---
@@ -585,7 +614,7 @@ function vMatch(){
     <span class="mw">${x.winner?fl(L[x.winner])+`<span class="${x.winner=='red'?'r':'b'}">${nm(x.winner)}</span>`:'<span class="mu">Empate</span>'}</span>
     <span class="mscore"><span class="sv"><b class="r">${fmt(x.red)}</b> - <b class="b">${fmt(x.blue)}</b>${x.red!==x.blue?`<small class="df ${x.red>x.blue?'r':'b'}" title="Diferencia de score">+${fmt(Math.abs(x.red-x.blue))}</small>`:''}</span></span></li>`).join('')||'<li class="mu">Sin mapas por equipos</li>'}</ul></div>
    <div class="cd"><h3>${ci('chart')}Estadísticas clave</h3><div class="kts">${kt('red')}${kt('blue')}</div></div></div>
-  <div class="cd" style="margin-bottom:14px"><h3>${ci('chart')}Rendimiento en la serie<span class="lgd"><span class="r">● ${nm('red')}</span> &nbsp;<span class="b">● ${nm('blue')}</span></span></h3>${lineChart(ms,1)}</div>
+  <div class="cd" style="margin-bottom:14px"><h3>${ci('chart')}Rendimiento en la serie<span class="lgd"><span class="r">● ${nm('red')}</span> &nbsp;<span class="b">● ${nm('blue')}</span></span></h3>${lineChart(ms,1,{red:nm('red'),blue:nm('blue')})}</div>
   <div class="g g2">${tbl('red')}${tbl('blue')}</div>
   <div class="vic"><span class="tro">${ic('trophy')}</span><div><b>${esc(vic[0])}</b><span class="tx">${esc(vic[1])}</span></div></div>`;
   if(S.pop)popRender();  // si hay un mapa abierto, se refresca con los datos nuevos
@@ -1001,6 +1030,18 @@ function plTour(uid){
   return{t:k<0?null:T.all[k],rank:k<0?null:k+1,of:T.all.length,ms,bs,ba,rounds,ps};
 }
 const plRes=(m,team)=>!m.maps.length||!team?'-':!m.closed?'En juego':m.rm===m.bm?'Empate':((m.rm>m.bm?'red':'blue')===team?'Ganó':'Perdió');
+// orden de los mapas en la ficha del jugador: el que se juegan (por defecto), score, accuracy o misses.
+// "asc" = sentido por defecto de cada criterio; volver a pulsar el activo lo invierte. Los mapas sin dato (misses) van al final.
+const plSortDefs={order:{l:'Orden de juego',v:r=>r.i,asc:true},score:{l:'Score',v:r=>r.s.score,asc:false},acc:{l:'Accuracy',v:r=>r.s.acc,asc:false},miss:{l:'Misses',v:r=>r.s.st?r.s.st.x:null,asc:true}};
+const plAsc=k=>plSortDefs[k].asc!==!!S.plRev;
+function plSorted(rows){
+  const k=plSortDefs[S.plSort]?S.plSort:'order',d=plSortDefs[k],dir=plAsc(k)?1:-1;
+  return rows.slice().sort((a,b)=>{const x=d.v(a),y=d.v(b);
+    if(x==null||y==null)return x==null&&y==null?a.i-b.i:x==null?1:-1;
+    return (x-y)*dir||a.i-b.i});  // empate: por orden de juego
+}
+const plSortBar=()=>`<div class="pl-sort" role="group" aria-label="Ordenar los mapas">${Object.entries(plSortDefs).map(([k,d])=>{const on=(S.plSort||'order')===k;
+  return `<button type="button" data-sort="${k}" aria-pressed="${on}" title="${on?'Clic de nuevo para invertir el orden':'Ordenar por '+d.l.toLowerCase()}">${d.l}${on?`<i>${plAsc(k)?'↑':'↓'}</i>`:''}</button>`}).join('')}</div>`;
 const plTile=(l,v,sub)=>`<div class="tile"><b>${v}</b><small>${l}</small>${sub?`<em>${sub}</em>`:''}</div>`;
 const plRankTiles=tr=>{const p=tr.ps;
   if(!p)return plTile('Puesto',`#${tr.rank}`,`de ${tr.of} · por cost`);  // sin mappools no hay pscore: queda el puesto por cost de siempre
@@ -1025,7 +1066,7 @@ function plClose(noFocus){
 function plRender(anim){
   const p=S.pl,D=S.d;if(!p||!D)return;
   const m=p.mid?D.matches.find(x=>x.id===p.mid):null,tab=m&&p.tab==='match'?'match':'tour';
-  const sig=[p.uid,p.mid,tab,S.ver].join(':');
+  const sig=[p.uid,p.mid,tab,S.ver,S.plSort,S.plRev].join(':');
   if(sig===plSig&&!$('#plpop').hidden)return;  // nada cambió: no se redibuja (así no se pierde el foco)
   plSig=sig;$('#plbox').classList.toggle('ppgo',!!anim);
   const info=plInfo(p.uid),pm=m?plMatch(m,p.uid):null,tr=plTour(p.uid);
@@ -1035,12 +1076,12 @@ function plRender(anim){
   if(tab==='match'){
     const c=pm&&pm.c;
     body=!pm?'<div class="mempty">No jugó en esta partida.</div>':`
-     <div class="tiles">${plTile('Match cost',f2(c&&c.cost),pm.rank?`#${pm.rank} de ${pm.of}`:'')}${plTile('Ratio prom.',f2(c&&c.ratio))}
+     <div class="tiles">${plTile('Puesto en la partida',pm.rank?(pm.rank===1?'MVP':`#${pm.rank}`):'-',pm.rank?`de ${pm.of} · por match cost${m.closed?'':' (parcial)'}`:'')}
       ${plTile('Mapas jugados',`${c?c.maps:pm.played}/${c?c.total:m.maps.length}`)}${plTile('Mapas ganados',pm.played?`${pm.won}/${pm.played}`:'-','por su equipo')}
       ${plTile('Score prom.',pm.score==null?'-':fmt(pm.score),'mapas pasados')}${plTile('Accuracy',pct(pm.acc))}${plTile('Misses/mapa',f1(pm.miss))}</div>
      ${pm.best?`<div class="pl-rec"><div><span>Mejor mapa</span><b>${slotChip(slotOf(pm.best.x.bid,roundOf(m)))} ${esc(pm.best.x.title)}${pm.best.x.version?` [${esc(pm.best.x.version)}]`:''}</b><span>${fmt(pm.best.s.score)} · ${pct(pm.best.s.acc)}</span></div></div>`:''}
      <h4>Mapa por mapa <span class="mu" style="text-transform:none;letter-spacing:0;font-weight:400">· "vs prom." = su score contra el promedio de todos en ese mapa · clic para ver el mapa</span></h4>
-     <div class="pl-maps">${pm.rows.map(r=>{const s=r.s,rk=RKP[s.rank]||s.rank||'-';
+     ${plSortBar()}<div class="pl-maps">${plSorted(pm.rows).map(r=>{const s=r.s,rk=RKP[s.rank]||s.rank||'-';
       return `<div class="pl-map${s.passed?'':' fail'}" data-g="${r.x.gid}" tabindex="0" role="button" aria-label="Ver el mapa ${r.i+1}">
        <span class="mnum">#${r.i+1}</span>${cov(r.x.set)||'<span class="cov"></span>'}
        <div class="mtt"><b>${esc(r.x.title)}</b><small>${slotChip(slotOf(r.x.bid))} ${esc(r.x.version||'')}</small></div>
@@ -1078,9 +1119,11 @@ const plTrig=e=>{
   $(q).addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-u]')){e.preventDefault();plTrig(e)}});
 });
 $('#plbox').addEventListener('click',e=>{
-  const t=e.target.closest('#plx,[data-tab],[data-m],[data-g]');if(!t||!S.pl)return;
+  const t=e.target.closest('#plx,[data-tab],[data-m],[data-g],[data-sort]');if(!t||!S.pl)return;
   if(t.id==='plx')return plClose();
   if(t.dataset.tab){S.pl.tab=t.dataset.tab;plSig='';plRender(false)}
+  else if(t.dataset.sort){const k=t.dataset.sort;if((S.plSort||'order')===k)S.plRev=!S.plRev;else{S.plSort=k;S.plRev=false}
+    plSig='';plRender(false);const b=$('#plbox [data-sort="'+k+'"]');if(b)b.focus()}  // se redibuja: se devuelve el foco al botón
   else if(t.dataset.m){S.pl.mid=+t.dataset.m;S.pl.tab='match';plSig='';plRender(true);$('#plpop').scrollTop=0}
   else if(t.dataset.g){  // abre el popup de ese mapa (en la partida que se está viendo en el popup)
     const i=S.d.matches.findIndex(x=>x.id===S.pl.mid);if(i<0)return;
